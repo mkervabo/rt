@@ -1,0 +1,56 @@
+name = "Big scene"
+width = 1080
+height = 800
+
+[camera]
+	position = { x = 1, y = 1, z = 1 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+#[[objects]]
+#	type = "SPHERE"
+#	light = "PHONG"
+#	radius = 0.15
+#	color = { r = 255, g = 192, b = 203 }
+#	position = { x = 1, y = 1.3, z = -3 }
+#	rotation = { x = 0, y = 90, z = 0 }
+
+#[[objects]]
+#	type = "CYLINDER"
+#	light = "PHONG"
+#	radius = 0.15
+#	color = { r = 128, g = 128, b = 0 }
+#	position = { x = 1, y = 1.2, z = 0 }
+#	rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+	type = "CONE"
+	light = "PHONG"
+	angle = 60
+	revolution = true
+	color = { r = 199, g = 21, b = 133 }
+	position = { x = 1, y = 1.2, z = 0 }
+	rotation = { x = 0, y = 90, z = 0 }
+
+#[[objects]]
+#	type = "PLANE"
+#	light = "DIFFUSE"
+#	color = { r = 100, g = 149, b = 237 }
+#	position = { x = 1, y = 0, z = 0 }
+
+[[lights]]
+	position = { x = -9, y = 1, z = 0 }
+	color = { r = 255, g = 255, b = 255 }
+	intensity = 0.2
+	expose = 21
+
+[[lights]]
+	position = {x = 0.1, y = 4.3, z = 0 }
+	color = { r = 255, g = 255, b = 255 }
+	intensity = 0.2
+	expose = 21
+
+[[lights]]
+	position = {x = 1, y = 1, z = 1 }
+	color = { r = 255, g = 255, b = 255 }
+	intensity = 0.2
+	expose = 21

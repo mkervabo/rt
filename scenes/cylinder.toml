@@ -1,0 +1,80 @@
+name = "Cylinder"
+width = 1280
+height = 800
+
+[camera]
+	position = { x = 0, y = 100, z = 0}
+	rotation = { x = -90, y = 0, z = 0 }
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = 20, y = 0, z = 0 }
+
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = 14, y = 0, z = -13 }
+
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = 0, y = 0, z = -20 }
+
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = -14, y = 0, z = -13 }
+
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = -20, y = 0, z = 0 }
+
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = -13, y = 0, z = 14 }
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = 0, y = 0, z = 20 }
+
+[[objects]]
+	type = "CYLINDER"
+	light = "PHONG"
+	radius = 1
+	color = { r = 128, g = 128, b = 0 }
+	position = { x = 13, y = 0, z = 14 }
+
+[[objects]]
+	type = "PLANE"
+	light = "PHONG"
+	color = { r = 135, g = 206, b = 235 }
+	position = { x = 0, y = -10, z = 0 }
+
+[[lights]]
+	position = {x = 0, y = 0, z = 0 }
+	color = { r = 255, g = 255, b = 0 }
+	intensity = 0.5
+	expose = 50

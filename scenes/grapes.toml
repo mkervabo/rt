@@ -1,0 +1,48 @@
+name = "Grapes"
+width = 2560
+height = 1440
+
+[camera]
+	position = { x = 0, y = 0, z = 0 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	light = "PHONG"
+	radius = 0.1
+	color = { r = 92, g = 40, b = 57}
+	position = { x = 0, y = 0, z = -3 }
+
+[[objects]]
+	type = "SPHERE"
+	light = "PHONG"
+	radius = 0.1
+	color = { r = 92, g = 40, b = 57}
+	position = { x = 0.13, y = 0.13, z = -3 }
+
+	[[objects]]
+	type = "SPHERE"
+	light = "PHONG"
+	radius = 0.1
+	color = { r = 92, g = 40, b = 57}
+	position = { x = 0.16, y = -0.05, z = -3 }
+	
+[[objects]]
+	type = "SPHERE"
+	light = "PHONG"
+	radius = 0.1
+	color = { r = 92, g = 40, b = 57}
+	position = { x = 0.3, y = 0.05, z = -3.01 }	
+
+[[objects]]
+	type = "SPHERE"
+	light = "PHONG"
+	radius = 0.1
+	color = { r = 92, g = 40, b = 57}
+	position = { x = 0.33, y = -0.14, z = -3.01 }
+
+[[lights]]
+	position = {x = 0, y = 0, z = 0}
+	color = { r = 255, g = 255, b = 255 }
+	intensity = 0.2
+	expose = 21
