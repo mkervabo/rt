@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:32 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/19 14:51:17 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/06/20 13:08:34 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct	s_object
 	t_vec3				pos;
 	t_color				color;
 	t_vec3				rot;
+	float				n;
 }				t_object;
 
 typedef struct	s_sphere
