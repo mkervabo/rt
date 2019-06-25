@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:32 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/20 13:08:34 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/06/24 23:05:50 by adimose          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct	s_hit_info
 {
 	double		t;
 	t_vec3		n;
+	t_colot		color;
 }				t_hit_info;
 
 typedef struct	s_who
@@ -94,6 +95,7 @@ typedef struct	s_object
 	t_color				color;
 	t_vec3				rot;
 	float				n;
+	bool				ref;
 }				t_object;
 
 typedef struct	s_sphere
