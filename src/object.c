@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 11:45:29 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/25 11:23:41 by adimose          ###   ########.fr       */
+/*   Updated: 2019/06/26 13:34:30 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ float		solve_quadratic_min(t_polynome poly)
 		return (-1.0);
 }
 
-static void	object_type(t_object *object, t_ray *ray, t_hit_info *hit)
+void		object_type(t_object *object, t_ray *ray, t_hit_info *hit)
 {
-	t_ray 
 	if (object->type == Type_Sphere)	
 		*hit = in_sphere((t_sphere *)object, ray);
 	else if (object->type == Type_Cylinder)
@@ -86,7 +85,12 @@ t_who		in_objects(t_ray *ray, t_object *objects[], size_t size)
 	}
 	if (t_max.hit.t == INFINITY)
 		t_max.hit.t = -1.0;
-	if (object->n != INFINITY)
-		t->hit.color = apply_reflection_and_tansparency(ray, object, size);
+	else
+	{
+		if (objects[t_max.i]->n != INFINITY)
+			t_max.hit.color = apply_reflection_and_tansparency(ray, objects, size, &t_max.hit);
+		else
+			t_max.hit.color = objects[t_max.i]->color;
+	}
 	return (t_max);
 }

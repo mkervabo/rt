@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:32 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/24 23:05:50 by adimose          ###   ########.fr       */
+/*   Updated: 2019/06/26 11:44:01 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct	s_hit_info
 {
 	double		t;
 	t_vec3		n;
-	t_colot		color;
+	t_color		color;
 }				t_hit_info;
 
 typedef struct	s_who
@@ -94,7 +94,7 @@ typedef struct	s_object
 	t_vec3				pos;
 	t_color				color;
 	t_vec3				rot;
-	float				n;
+	double				n;
 	bool				ref;
 }				t_object;
 
@@ -205,5 +205,9 @@ bool			apply_light(t_color *clr_light, t_ray *ray, t_who t,
 void			free_scene(t_scene *scene);
 void			*free_ptr_array(void **array, size_t size);
 size_t			ft_strlen(const char *s);
+
+void			read_transparency(t_toml_table *toml, double *n);
+t_color			apply_reflection_and_tansparency(t_ray *ray, t_object *object[], size_t size, t_hit_info *hitt);
+void			object_type(t_object *object, t_ray *ray, t_hit_info *hit);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 11:20:15 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/25 10:17:48 by adimose          ###   ########.fr       */
+/*   Updated: 2019/06/25 13:29:49 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void	hit_neg(uint32_t *pixel, t_ray *ray, t_scene *scn,
 	};
 	mod = apply_light(&color_light, ray, t, scn);
 	*pixel =
-		to_rgb(mod ? clamp_rgb(scn->objects[t.i]->color.r - color_light.r) : 0,
-		mod ? clamp_rgb(scn->objects[t.i]->color.g - color_light.g) : 0,
-		mod ? clamp_rgb(scn->objects[t.i]->color.b - color_light.b) : 0);
+		to_rgb(mod ? clamp_rgb(t.hit.color.r - color_light.r) : 0,
+		mod ? clamp_rgb(t.hit.color.g - color_light.g) : 0,
+		mod ? clamp_rgb(t.hit.color.b - color_light.b) : 0);
 }
 
 static void	raytrace(t_scene *scene, t_cam camera, t_win *window)

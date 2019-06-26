@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 14:05:01 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/19 14:21:25 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/06/25 15:38:34 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_object		*read_plane(t_toml_table *toml)
 	if (!read_super(toml, plane))
 		return (nfree(plane));
 	plane->type = Type_Plane;
+	read_transparency(toml, &plane->n);
 	return (plane);
 }
 
@@ -48,6 +49,7 @@ static t_cone		*read_cone(t_toml_table *toml)
 		cone->revolution = true;
 	cone->angle *= M_PI / 180;
 	cone->super.type = Type_Cone;
+	read_transparency(toml, &cone->super.n);
 	return (cone);
 }
 
@@ -65,6 +67,7 @@ static t_cylinder	*read_cylinder(t_toml_table *toml)
 	if (read_digit(radius, &cylinder->r) == false)
 		return (nfree(cylinder));
 	cylinder->super.type = Type_Cylinder;
+	read_transparency(toml, &cylinder->super.n);
 	return (cylinder);
 }
 
@@ -82,6 +85,7 @@ static t_sphere		*read_sphere(t_toml_table *toml)
 	if (read_digit(radius, &sphere->r) == false)
 		return (nfree(sphere));
 	sphere->super.type = Type_Sphere;
+	read_transparency(toml, &sphere->super.n);
 	return (sphere);
 }
 
