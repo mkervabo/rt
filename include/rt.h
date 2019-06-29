@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:32 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/26 11:44:01 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/06/29 12:12:56 by adimose          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void			*free_ptr_array(void **array, size_t size);
 size_t			ft_strlen(const char *s);
 
 void			read_transparency(t_toml_table *toml, double *n);
-t_color			apply_reflection_and_tansparency(t_ray *ray, t_object *object[], size_t size, t_hit_info *hitt);
+t_who			apply_reflection_and_tansparency(t_ray *ray, t_object *object[], size_t size, t_hit_info *hitt, size_t deep);
 void			object_type(t_object *object, t_ray *ray, t_hit_info *hit);
 
 #endif

@@ -16,3 +16,5 @@ SRCS += src/rgb.c
 SRCS += src/render.c
 SRCS += src/window.c
 SRCS += src/free.c
+SRCS += src/read_transparency.c
+SRCS += src/reflection.c

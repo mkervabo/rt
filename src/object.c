@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 11:45:29 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/26 13:34:30 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/06/29 12:13:42 by adimose          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_who		in_objects(t_ray *ray, t_object *objects[], size_t size)
 	else
 	{
 		if (objects[t_max.i]->n != INFINITY)
-			t_max.hit.color = apply_reflection_and_tansparency(ray, objects, size, &t_max.hit);
+			t_max = apply_reflection_and_tansparency(ray, objects, size, &t_max.hit, 0);
 		else
 			t_max.hit.color = objects[t_max.i]->color;
 	}

@@ -23,8 +23,9 @@ t_vec3	refraction(double n, t_vec3 direction, t_vec3 normal)
 	return (ref);
 }
 
+#define REFLECTION_BIAS 1e-4
 
-t_color	apply_reflection_and_tansparency(t_ray *ray, t_object *objects[], size_t size, t_hit_info *hitt)
+t_who	apply_reflection_and_tansparency(t_ray *ray, t_object *objects[], size_t size, t_hit_info *hitt, size_t deep)
 {
 	t_hit_info	hit;
 	t_ray		r;
@@ -32,9 +33,11 @@ t_color	apply_reflection_and_tansparency(t_ray *ray, t_object *objects[], size_t
 	t_who		t_max;
 
 	i = 0;
+	t_max.hit.t = INFINITY;
 	while (i < size)
 	{
-		r.origin = vec3_add(ray->origin, vec3_multv(ray->direction, hitt->t));
+		r.origin = vec3_add(ray->origin, vec3_multv(ray->direction, hitt->t + REFLECTION_BIAS));
+		//r.direction = ray->direction;
 		r.direction = refraction(objects[i]->n, ray->direction, hitt->n);
 		r.origin = vec3_sub(r.origin, objects[i]->pos);
 		r.origin = vec3_rotate(r.origin, vec3_multv(objects[i]->rot, -1));
@@ -49,13 +52,19 @@ t_color	apply_reflection_and_tansparency(t_ray *ray, t_object *objects[], size_t
 		i++;
 	}
 	if (t_max.hit.t == INFINITY)
-		hitt->t = -1.0;
+		t_max.hit.t = -1.0;
 	else
 	{
-		if (objects[t_max.i]->n != INFINITY)
-			return (apply_reflection_and_tansparency(ray, objects, size, &t_max.hit));
+		if (objects[t_max.i]->n != INFINITY && deep < 300)
+		{
+			r.origin = vec3_add(ray->origin, vec3_multv(ray->direction, hitt->t + REFLECTION_BIAS));
+			r.direction = refraction(objects[t_max.i]->n, ray->direction, hitt->n);
+			t_max = apply_reflection_and_tansparency(&r, objects, size, &t_max.hit, deep + 1);
+			if (t_max.hit.t >= 0)
+				t_max.hit.t += hitt->t + REFLECTION_BIAS;
+		}
 		else
-			return (objects[t_max.i]->color);
+			t_max.hit.color = objects[t_max.i]->color;
 	}
-	return ((t_color) {0,0,0});
+	return (t_max);
 }
