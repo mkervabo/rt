@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:32 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/29 12:12:56 by adimose          ###   ########.fr       */
+/*   Updated: 2019/07/02 10:09:01 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,8 @@ double			vec3_length(t_vec3 v);
 t_vec3			vec3_rotate(t_vec3 v, t_vec3 rot);
 
 t_color			color_add(t_color a, t_color b);
+t_color			color_sub(t_color a, t_color b);
+t_color			color_multv(t_color color, double v);
 uint8_t			clamp_rgb(double value);
 uint32_t		to_rgb(uint8_t r, uint8_t g, uint8_t b);
 

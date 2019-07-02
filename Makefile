@@ -6,13 +6,13 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/19 11:46:19 by mkervabo          #+#    #+#              #
-#    Updated: 2019/06/19 14:23:07 by mkervabo         ###   ########.fr        #
+#    Updated: 2019/07/02 11:45:25 by mkervabo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = rt
 CC = gcc
-CFLAGS = -Wall -Wextra -I./include -I./libtoml/include $(shell pkg-config --cflags sdl2) -flto -O2 #-fsanitize=address
+CFLAGS = -Wall -Wextra -I./include -I./libtoml/include $(shell pkg-config --cflags sdl2) #-g -fsanitize=address -flto -O2 
 
 include src.mk
 
