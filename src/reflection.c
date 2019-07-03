@@ -39,7 +39,7 @@ t_vec3	refraction(double n, t_vec3 direction, t_vec3 normal)
 	double eta;
 	double k;
 
-	cosi = clamp_cosi(vec3_dot(direction, normal));
+	cosi = clamp_cosi(vec3_dot(direction, normal)); //clamp
 	etai = 1;
 	ref = normal;
 	if (cosi < 0)
@@ -67,7 +67,7 @@ void 	fresnel(double n, t_vec3 direction, t_vec3 normal, double *kr)
 	double Rs;
 	double Rp;
 
-	cosi = clamp_cosi(vec3_dot(direction, normal));
+	cosi = clamp_cosi(vec3_dot(direction, normal)); //clamp
 	etai = 1;
 	etat = n;
 	if (cosi > 0)
@@ -134,6 +134,27 @@ t_color color_add2(t_color a, t_color b)
 	});
 }
 
+t_vec3	r_origin(t_ray *ray, double t, bool outside, bool refl)
+{
+	t_vec3 origin;
+
+	if (refl == true)
+	{
+		if (outside == true)
+			origin = vec3_add(ray->origin, vec3_multv(ray->direction, t + REFLECTION_BIAS));
+		else
+			origin = vec3_add(ray->origin, vec3_multv(ray->direction, t - REFLECTION_BIAS));
+	}
+	else
+	{
+		if (outside == true)
+			origin = vec3_add(ray->origin, vec3_multv(ray->direction, t - REFLECTION_BIAS));
+		else
+			origin = vec3_add(ray->origin, vec3_multv(ray->direction, t + REFLECTION_BIAS));
+	}
+	return (origin);
+}
+
 t_who	apply_reflection_and_tansparency(t_ray *ray, t_object *objects[], size_t size, t_hit_info *hitt, size_t deep)
 {
 	t_ray		r;
@@ -141,36 +162,42 @@ t_who	apply_reflection_and_tansparency(t_ray *ray, t_object *objects[], size_t s
 	t_who		t_max_refl;
 	t_who		t_max_refr;
 	double		kr;
+	bool		outside;
 
 	i = 0;
 	t_max_refl.hit.t = INFINITY;
 	t_max_refr.hit.t = INFINITY;
+	
 	while (i < size)
-	{
+	{	
+		outside = ((vec3_dot(ray->direction, hitt->n) < 0 ? true : false));
 		fresnel(objects[i]->n, ray->direction, hitt->n, &kr);;
-		r.origin = vec3_add(ray->origin, vec3_multv(ray->direction, hitt->t + REFLECTION_BIAS)); //different si dans l'object ou non (a faire)
+		r.origin = r_origin(ray, hitt->t, outside, true); //different si dans l'object ou non (a faire)
 		//r.direction = ray->direction;
 		r.direction = reflection(ray->direction, hitt->n);
 		hit_ray(&r, &t_max_refl, objects[i], i);
+		r.origin = r_origin(ray, hitt->t, outside, true);
 		r.direction = refraction(objects[i]->n, ray->direction, hitt->n);
 		hit_ray(&r, &t_max_refr, objects[i], i);
 		i++;
 	}
 	//r.direction = ray->direction;
+	r.origin = r_origin(ray, hitt->t, outside, true);
 	r.direction = reflection(ray->direction, hitt->n);
 	hit_new_ray(&r, objects, size, &t_max_refl, hitt, deep);
-	//printf("Refl  r:%f, g:%f, b:%f\n", t_max_refl.hit.color.r, t_max_refl.hit.color.g, t_max_refl.hit.color.b);
 	if (kr < 1)
 	{
+		r.origin = r_origin(ray, hitt->t, outside, false);
 		r.direction = refraction(objects[t_max_refr.i]->n, ray->direction, hitt->n);
 		hit_new_ray(&r, objects, size, &t_max_refr, hitt, deep);
 	}
 	else
 		t_max_refr.hit.color = (t_color){0,0,0};
+	//printf("Refl  r:%f, g:%f, b:%f\n", t_max_refl.hit.color.r, t_max_refl.hit.color.g, t_max_refl.hit.color.b);
 	//printf("Refr  r:%f, g:%f, b:%f\n", t_max_refr.hit.color.r, t_max_refr.hit.color.g, t_max_refr.hit.color.b);
 	if (t_max_refl.hit.t == INFINITY || t_max_refr.hit.t == INFINITY)
 		t_max_refr.hit.t = -1.0;
 	else
-		t_max_refr.hit.color = color_add2(t_max_refl.hit.color, t_max_refr.hit.color); 
+		t_max_refr.hit.color = color_add2(t_max_refl.hit.color, t_max_refr.hit.color);
 	return (t_max_refr);
 }
