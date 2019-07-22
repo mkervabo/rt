@@ -18,3 +18,5 @@ SRCS += src/window.c
 SRCS += src/free.c
 SRCS += src/read_transparency.c
 SRCS += src/reflection.c
+SRCS += src/read_union.c
+SRCS += src/union.c

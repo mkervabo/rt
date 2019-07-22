@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 17:11:32 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/07/02 10:09:01 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/07/22 14:36:40 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ enum			e_object_type
 	Type_Sphere,
 	Type_Cylinder,
 	Type_Cone,
-	Type_Plane
+	Type_Plane,
+	Type_Union,
+	Type_Intersection,
+	Type_Minus
 };
 
 enum			e_light_type
@@ -97,6 +100,27 @@ typedef struct	s_object
 	double				n;
 	bool				ref;
 }				t_object;
+
+typedef struct	s_union
+{
+	t_object	super;
+	t_object	*first;
+	t_object	*second;
+}				t_union;
+
+typedef struct	s_intersec
+{
+	t_object	super;
+	t_object	*first;
+	t_object	*second;
+}				t_intersec;
+
+typedef struct	s_minus
+{
+	t_object	super;
+	t_object	*first;
+	t_object	*second;
+}				t_minus;
 
 typedef struct	s_sphere
 {
@@ -159,6 +183,7 @@ bool			read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 bool			read_t_vec3(t_toml_table *toml, t_vec3 *vec);
 t_object		*read_object(t_toml_table *toml);
 bool			read_super(t_toml_table *toml, t_object *object);
+bool			read_super_p_r(t_toml_table *toml, t_object *object);
 t_light			*read_light(t_toml_table *toml);
 bool			read_light_type(char *light, enum e_light_type *type);
 bool			read_color(t_toml_table *toml, t_color *color);
@@ -211,5 +236,13 @@ size_t			ft_strlen(const char *s);
 void			read_transparency(t_toml_table *toml, double *n);
 t_who			apply_reflection_and_tansparency(t_ray *ray, t_object *object[], size_t size, t_hit_info *hitt, size_t deep);
 void			object_type(t_object *object, t_ray *ray, t_hit_info *hit);
+
+t_union			*read_union(t_toml_table *toml);
+t_intersec		*read_intersection(t_toml_table *toml);
+t_minus			*read_minus(t_toml_table *toml);
+
+t_hit_info		in_union(t_union *unions, t_ray *ray);
+t_hit_info		in_intersection(t_intersec *intersection, t_ray *ray);
+t_hit_info		in_minus(t_minus *minus, t_ray *ray);
 
 #endif

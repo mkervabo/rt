@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adimose <adimose@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 11:45:29 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/29 12:13:42 by adimose          ###   ########.fr       */
+/*   Updated: 2019/07/22 12:02:53 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ void		object_type(t_object *object, t_ray *ray, t_hit_info *hit)
 	else if (object->type == Type_Cone)
 		*hit = in_cone((t_cone *)object, ray);
 	else if (object->type == Type_Plane)
-		*hit = in_plane(ray);	
+		*hit = in_plane(ray);
+	else if (object->type == Type_Union)
+		*hit = in_union((t_union *)object, ray);
+	else if (object->type == Type_Intersection)
+		*hit = in_intersection((t_intersec *)object, ray);
+	else if (object->type == Type_Minus)
+		*hit = in_minus((t_minus *)object, ray);
 }
 
 t_who		in_objects(t_ray *ray, t_object *objects[], size_t size)

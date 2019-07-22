@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 14:16:01 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/19 14:21:32 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/07/22 14:36:43 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool		read_t_vec3(t_toml_table *toml, t_vec3 *vec)
 	return (true);
 }
 
-static bool	read_super_p_r(t_toml_table *toml, t_object *object)
+bool		read_super_p_r(t_toml_table *toml, t_object *object)
 {
 	t_toml		*value;
 

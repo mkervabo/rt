@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 14:05:01 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/06/25 15:38:34 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/07/20 17:11:18 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,12 @@ t_object			*read_object(t_toml_table *toml)
 		return ((t_object *)read_plane(toml));
 	if (ft_strcmp(type->value.string_v, "CONE") == 0)
 		return ((t_object *)read_cone(toml));
+	if (ft_strcmp(type->value.string_v, "UNION") == 0)
+		return ((t_object *)read_union(toml));
+	if (ft_strcmp(type->value.string_v, "INTERSECTION") == 0)
+		return ((t_object *)read_intersection(toml));
+	if (ft_strcmp(type->value.string_v, "MINUS") == 0)
+		return ((t_object *)read_minus(toml));
 	else
 		return (NULL);
 }
