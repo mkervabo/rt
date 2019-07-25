@@ -29,9 +29,16 @@ t_hit_info		in_union(t_union *unions, t_ray *ray)
 	l1 = remote(first.t, &unions->super.pos, ray);
 	l2 = remote(second.t, &unions->super.pos, ray);
 	if (l1 > l2)
+	{
 		info = first;
+		unions->super.color = unions->first->color;
+	}
 	else
+	{
 		info = second;
+		unions->super.color = unions->second->color;
+	}
+	 
 	//printf("t: %f", info.t);
 	return(info);
 }
@@ -49,9 +56,15 @@ t_hit_info		in_intersection(t_intersec *intersection, t_ray *ray)
 	l1 = remote(first.t, &intersection->super.pos, ray);
 	l2 = remote(second.t, &intersection->super.pos, ray);
 	if (l1 < l2)
+	{
 		info = first;
+		intersection->super.color = intersection->first->color;
+	}
 	else
+	{
 		info = second;
+		intersection->super.color = intersection->second->color;
+	}
 	return(info);
 }
 
@@ -64,8 +77,14 @@ t_hit_info		in_minus(t_minus *minus, t_ray *ray)
 	object_type(minus->first, ray, &first);
 	object_type(minus->second, ray, &second);
 	if (first.t != -1 && second.t == -1)
+	{
 		info = first;
-	else 
+		minus->super.color = minus->first->color;
+	}
+	else
+	{
 		info.t = -1;
+		minus->super.color = minus->first->color;
+	}
 	return (info);
 }
