@@ -28,13 +28,7 @@ t_hit_info		in_union(t_union *unions, t_ray *ray)
 	object_type(unions->second, ray, &second);
 	l1 = remote(first.t, &unions->super.pos, ray);
 	l2 = remote(second.t, &unions->super.pos, ray);
-	if ((first.t == -1 && second.t == -1))
-		info.t = -1;
-	else if(first.t == -1)
-		info = second;
-	else if(second.t == -1)
-		info = first;
-	else if (l1 > l2)
+	if (l1 > l2)
 		info = first;
 	else
 		info = second;
@@ -54,13 +48,7 @@ t_hit_info		in_intersection(t_intersec *intersection, t_ray *ray)
 	object_type(intersection->second, ray, &second);
 	l1 = remote(first.t, &intersection->super.pos, ray);
 	l2 = remote(second.t, &intersection->super.pos, ray);
-	if ((first.t == -1 && second.t == -1))
-		info.t = -1;
-	else if(first.t == -1)
-		info = second;
-	else if(second.t == -1)
-		info = first;
-	else if (l1 < l2)
+	if (l1 < l2)
 		info = first;
 	else
 		info = second;
@@ -75,14 +63,9 @@ t_hit_info		in_minus(t_minus *minus, t_ray *ray)
 
 	object_type(minus->first, ray, &first);
 	object_type(minus->second, ray, &second);
-	info.t = -1;
-	/*else if(first.t == -1)
-		info = second;
-	else if(second.t == -1)
+	if (first.t != -1 && second.t == -1)
 		info = first;
-	else if (first.t < second.t)
-		info = first;
-	else
-		info = second;*/
+	else 
+		info.t = -1;
 	return (info);
 }
