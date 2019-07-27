@@ -30,5 +30,6 @@ t_vec3			vec3_divv(t_vec3 a, double v);
 double			vec3_dot(t_vec3 a, t_vec3 b);
 double			vec3_length(t_vec3 v);
 t_vec3			vec3_rotate(t_vec3 v, t_vec3 rot);
+t_vec3			vec3_invert(t_vec3 v);
 
 #endif

@@ -1,13 +1,13 @@
 #ifndef SCENE_H
 # define SCENE_H
 
-# include "shapes.h"
-# include "lights.h"
+# include "object.h"
+# include "light.h"
 # include "camera.h"
 
 typedef struct	s_scene
 {
-	t_shape		**objects;
+	struct s_object	*objects;
 	size_t		objects_size;
 	t_light		**lights;
 	size_t		lights_size;

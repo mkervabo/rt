@@ -22,3 +22,12 @@ double	vec3_dot(t_vec3 a, t_vec3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
+
+t_vec3	vec3_invert(t_vec3 v)
+{
+	return (vec3(
+		1 / v.x,
+		1 / v.y,
+		1 / v.z
+	));
+}

@@ -10,17 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHAPES_SPHERE_H
-# define SHAPES_SPHERE_H
+#ifndef MATERIALS_NORMAL_MATERIAL_H
+# define MATERIALS_NORMAL_MATERIAL_H
 
-# include "shape.h"
+# include "material.h"
 
-struct s_sphere {
-	t_shape	super;
-	double	r;
+struct s_normal_material {
+	t_material	super;
 };
 
-struct s_hit	hit_sphere(struct s_ray ray, struct s_sphere *sphere, struct s_intersection **intersections);
-struct s_sphere	*read_sphere(t_toml_table *toml);
+t_color						normal_material_color(struct s_normal_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit);
+struct s_normal_material	*read_normal_material(t_toml_table *toml);
 
 #endif

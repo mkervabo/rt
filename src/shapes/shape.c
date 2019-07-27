@@ -1,7 +1,9 @@
-#include "shapes.h"
+#include "shape.h"
 #include "debug/assert.h"
 #include "shape_types.h"
 #include "sphere.h"
+#include "cylinder.h"
+#include "box.h"
 #include "toml.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
@@ -28,6 +30,10 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection *
 
 	if (shape->type == SHAPE_SPHERE)
 		hit = hit_sphere(ray, (struct s_sphere *)shape, intersections);
+	else if (shape->type == SHAPE_CYLINDER)
+		hit = hit_cylinder(ray, (struct s_cylinder *)shape, intersections);
+	else if (shape->type == SHAPE_BOX)
+		hit = hit_box(ray, (struct s_box *)shape, intersections);
 	else
 		assertf(false, "Unimplemented type: %d", shape->type);
 
@@ -47,9 +53,11 @@ t_shape			*read_shape(t_toml_table *toml)
 		return (NULL);
 	if (ft_strcmp(type->value.string_v, "SPHERE") == 0)
 		return ((t_shape *)read_sphere(toml));
-	/*if (ft_strcmp(type->value.string_v, "CYLINDER") == 0)
+	if (ft_strcmp(type->value.string_v, "CYLINDER") == 0)
 		return ((t_shape *)read_cylinder(toml));
-	if (ft_strcmp(type->value.string_v, "PLANE") == 0)
+	if (ft_strcmp(type->value.string_v, "BOX") == 0)
+		return ((t_shape *)read_box(toml));
+	/*if (ft_strcmp(type->value.string_v, "PLANE") == 0)
 		return ((t_shape *)read_plane(toml));
 	if (ft_strcmp(type->value.string_v, "CONE") == 0)
 		return ((t_shape *)read_cone(toml));*/

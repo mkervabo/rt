@@ -18,6 +18,7 @@
 //# include "math/vec2.h"
 # include "math/vec3.h"
 # include "toml.h"
+# include "object.h"
 # include <stdint.h>
 
 struct s_intersection {
@@ -25,17 +26,18 @@ struct s_intersection {
 	double	to;
 };
 
-struct s_hit {
-	//struct s_vec2			uv;
-	struct s_vec3			normal;
-	double					t;
-};
-
 typedef struct	s_shape {
 	uint8_t			type;
 	struct s_vec3	position;
 	struct s_vec3	rotation;
 }				t_shape;
+
+struct s_hit {
+	//struct s_vec2			uv;
+	struct s_vec3			normal;
+	double					t;
+	struct s_object			*who;
+};
 
 struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection **intersections);
 t_shape			*read_shape(t_toml_table *toml);

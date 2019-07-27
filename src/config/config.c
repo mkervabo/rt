@@ -88,7 +88,7 @@ bool		read_camera(t_toml_table *toml, t_cam *cam)
 
 static t_shape	**read_objects(t_toml_table *toml, size_t *size)
 {
-	t_shape		**objs;
+	t_object		*objs;
 	t_toml			*v;
 	size_t			i;
 
@@ -98,12 +98,12 @@ static t_shape	**read_objects(t_toml_table *toml, size_t *size)
 		|| v->value.array_v->inner[0].type != TOML_Table)
 		return (NULL);
 	*size = v->value.array_v->len;
-	if (!(objs = malloc(sizeof(t_shape *) * *size)))
+	if (!(objs = malloc(sizeof(t_object) * *size)))
 		return (NULL);
 	i = 0;
 	while (i < *size)
 	{
-		if (!(objs[i] = read_shape(v->value.array_v->inner[i].value.table_v)))
+		if (!read_object(objs + i, v->value.array_v->inner[i].value.table_v))
 			//return (free_ptr_array((void **)objs, i));
 			return (NULL);
 		i++;

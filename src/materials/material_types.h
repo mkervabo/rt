@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sphere.h                                           :+:      :+:    :+:   */
+/*   shape_types.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/20 16:23:33 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 17:19:37 by dde-jesu         ###   ########.fr       */
+/*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
+/*   Updated: 2019/07/20 16:21:57 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHAPES_SPHERE_H
-# define SHAPES_SPHERE_H
+#ifndef MATERIALS_TYPE_H
+# define MATERIALS_TYPE_H
 
-# include "shape.h"
-
-struct s_sphere {
-	t_shape	super;
-	double	r;
+enum e_material_type {
+	MATERIAL_NORMAL
 };
-
-struct s_hit	hit_sphere(struct s_ray ray, struct s_sphere *sphere, struct s_intersection **intersections);
-struct s_sphere	*read_sphere(t_toml_table *toml);
 
 #endif

@@ -14,7 +14,9 @@
 # define SHAPE_TYPE_H
 
 enum e_shape_type {
-	SHAPE_SPHERE
+	SHAPE_SPHERE,
+	SHAPE_CYLINDER,
+	SHAPE_BOX
 };
 
 #endif

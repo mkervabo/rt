@@ -30,5 +30,4 @@ bool		read_shape_super(t_toml_table *toml, t_shape *object)
 	else
 		object->rotation = vec3(0, 0, 0);
 	return (true);
-	return (true);
 }
