@@ -18,8 +18,8 @@ LIBS_DIR = $(patsubst %, lib/%/, $(LIBS))
 LIBS_FILES = $(patsubst %, lib%.a, $(LIBS))
 LIBS_FULL_FILES = $(join $(LIBS_DIR), $(LIBS_FILES))
 
-CFLAGS = -Wall -Wextra -I./include $(patsubst %, -I%/include, $(LIBS_DIR)) $(shell pkg-config --cflags sdl2) -g #-fsanitize=address
-LDFLAGS = $(patsubst %, -L%, $(LIBS_DIR)) $(patsubst %, -l%, $(LIBS)) $(shell pkg-config --libs sdl2) -lm
+CFLAGS = -Wall -Wextra -I./include $(patsubst %, -I%/include, $(LIBS_DIR)) $(shell pkg-config --cflags sdl2 SDL2_image) -g
+LDFLAGS = $(patsubst %, -L%, $(LIBS_DIR)) $(patsubst %, -l%, $(LIBS)) $(shell pkg-config --libs sdl2 SDL2_image) -lm
 
 include src.mk
 

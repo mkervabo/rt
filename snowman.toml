@@ -10,7 +10,6 @@ height = 800
 	position = { x = 0, y = 0, z = 1 }
 	rotation = { x = 0, y = 0, z = 0 }
 
-
 #corps
 [[objects]]
 	type = "BOX"
@@ -23,7 +22,8 @@ height = 800
 
 [[objects]]
 	type = "SPHERE"
-	material = "NORMAL"
+	material = "TEXTURE"
+	texture = "./earth_map.jpg"
 	radius = 0.3
 	color = { r = 169, g = 169, b = 169 }
 	position = { x = 0, y = 0.1, z = -3 }
@@ -31,8 +31,8 @@ height = 800
 
 [[objects]]
 	type = "SPHERE"
-	material = "NORMAL"
-	radius = 0.02
+	material = "UV"
+	radius = 0.1
 	color = { r = 255, g = 255, b = 255 }
 	position = { x = 0.1, y = 0.6, z = -3}
 

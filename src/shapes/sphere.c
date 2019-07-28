@@ -16,12 +16,14 @@
 #include "math/quadratic.h"
 #include "config_utils.h"
 #include <stdlib.h>
+#include <math.h>
 
 struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 		struct s_intersection **intersections)
 {
 	struct s_quadratic		fn;
 	struct s_intersection	intersection;
+	t_vec3					n;
 
 	fn.a = vec3_dot(ray.direction, ray.direction);
 	fn.b = 2 * vec3_dot(ray.origin, ray.direction);
@@ -30,9 +32,12 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 	{
 		/*TODO: if (intersections)
 			*intersection = &intersection;*/
+		n = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, intersection.from)));
 		return ((struct s_hit) {
 			.t = intersection.from,
-			.normal = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, intersection.from)))
+			.normal = n,
+			.u = 0.5 + atan2(n.z, n.x) / (2 * M_PI),
+			.v = 0.5 - asin(n.y) / M_PI
 		});
 	}
 	else

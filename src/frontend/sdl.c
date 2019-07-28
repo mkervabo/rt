@@ -90,6 +90,8 @@ static void	poll_events(struct s_sdl_window *window, bool wait)
 		if (wait)
 			break;
 	}
+	SDL_RenderCopy(window->renderer, window->screen, NULL, NULL);
+	SDL_RenderPresent(window->renderer);
 }
 
 static bool	update_render(uint32_t *pixels, void *user)
@@ -97,11 +99,9 @@ static bool	update_render(uint32_t *pixels, void *user)
 	struct s_sdl_window	*window;
 
 	window = user;
-	poll_events(window, false);
 	SDL_UpdateTexture(window->screen, NULL, pixels,
 					window->width * sizeof(uint32_t));
-	SDL_RenderCopy(window->renderer, window->screen, NULL, NULL);
-	SDL_RenderPresent(window->renderer);
+	poll_events(window, false);
 	return (window->quit);
 }
 

@@ -33,9 +33,10 @@ typedef struct	s_shape {
 }				t_shape;
 
 struct s_hit {
-	//struct s_vec2			uv;
 	struct s_vec3			normal;
 	double					t;
+	float					u;
+	float					v;
 	struct s_object			*who;
 };
 

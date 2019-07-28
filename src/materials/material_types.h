@@ -14,7 +14,9 @@
 # define MATERIALS_TYPE_H
 
 enum e_material_type {
-	MATERIAL_NORMAL
+	MATERIAL_NORMAL,
+	MATERIAL_UV,
+	MATERIAL_TEXTURE
 };
 
 #endif

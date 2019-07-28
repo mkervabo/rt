@@ -13,6 +13,7 @@
 #include "config.h"
 #include "frontend/sdl.h"
 #include <unistd.h>
+#include <SDL_image.h>
 
 static size_t ft_strlen(const char *str)
 {
@@ -38,6 +39,8 @@ int	main(int argc, char *argv[])
 		write(STDERR_FILENO, USAGE_POST, sizeof(USAGE_POST) - 1);
 		return (1);
 	}
+	// TODO: move + error
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	if (read_config(argv[1], &config))
 	{
 		sdl_frontend(&config);
