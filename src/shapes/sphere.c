@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:04:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/08/18 17:22:55 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/18 18:42:25 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <math.h>
 
 struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
-		struct s_intersection **intersections)
+		struct s_intersection_tab *intersections)
 {
 	struct s_quadratic		fn;
 	struct s_intersection	intersection;
@@ -30,8 +30,11 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 	fn.c = vec3_dot(ray.origin, ray.origin) - sphere->r * sphere->r;
 	if (solve_quadratic(fn, &intersection.from, &intersection.to))
 	{
-		/*TODO: if (intersections)
-			*intersection = &intersection;*/
+		if (intersections)
+			if ((intersections->inner = malloc(1 * sizeof(struct s_intersection)))) {
+				intersections->len = 1;
+				intersections->inner[0] = intersection;
+			}
 		n = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, intersection.from)));
 		return ((struct s_hit) {
 			.t = intersection.from,

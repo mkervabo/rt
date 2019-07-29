@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shape_types.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/08/18 17:08:45 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/18 18:36:17 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ enum e_shape_type {
 	SHAPE_TRIANGLE,
 	SHAPE_DISK,
 	SHAPE_PLANE,
-	SHAPE_PARABOLOID
+	SHAPE_PARABOLOID,
+	SHAPE_CSG
 };
 
 #endif

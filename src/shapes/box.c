@@ -24,7 +24,9 @@ static t_vec3	box_normal(double t, t_vec3 min, t_vec3 max)
 		return vec3(0, 1, 0);
 }
 
-struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection **intersections)
+ #include "stdio.h"
+
+struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection_tab *intersections)
 {
 	t_vec3	invdir;
 	double	min;
@@ -63,6 +65,15 @@ struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection 
 	if (cmax.z < max) 
 		max = cmax.z; 
 
+	if (intersections)
+		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
+		{
+			intersections->len = 1;
+			intersections->inner[0] = (struct s_intersection) {
+				.from = min, .to = max
+			};
+			
+		}
 	return ((struct s_hit) {
 		.t = min,
 		.normal = box_normal(min, cmin, cmax)

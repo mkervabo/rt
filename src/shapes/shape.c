@@ -10,6 +10,7 @@
 #include "disk.h"
 #include "plane.h"
 #include "paraboloid.h"
+#include "csg.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -21,7 +22,7 @@ static int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection **intersections)
+struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_tab *intersections)
 {
 	struct s_hit	hit;
 
@@ -47,6 +48,8 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection *
 		hit = hit_plane(ray, (struct s_plane *)shape, intersections);
 	else if (shape->type == SHAPE_PARABOLOID)
 		hit = hit_paraboloid(ray, (struct s_paraboloid *)shape, intersections);
+	else if (shape->type == SHAPE_CSG)
+		hit = hit_csg(ray, (struct s_csg *)shape, intersections);
 	else
 		assertf(false, "Unimplemented type: %d", shape->type);
 
@@ -56,6 +59,7 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection *
 	return (hit);
 }
 
+#include <unistd.h>
 t_shape			*read_shape(t_toml_table *toml)
 {
 	t_toml	*type;
@@ -80,6 +84,12 @@ t_shape			*read_shape(t_toml_table *toml)
 		return ((t_shape *)read_paraboloid(toml));
 	/*else if (ft_strcmp(type->value.string_v, "CONE") == 0)
 		return ((t_shape *)read_cone(toml));*/
+	if (ft_strcmp(type->value.string_v, "UNION") == 0)
+		return ((t_shape *)read_csg(toml, CSG_UNION));
+	if (ft_strcmp(type->value.string_v, "INTERSECTION") == 0)
+		return ((t_shape *)read_csg(toml, CSG_INTERSECTION));
+	if (ft_strcmp(type->value.string_v, "DIFFERENCE") == 0)
+		return ((t_shape *)read_csg(toml, CSG_DIFFERENCE));
 	else
 		return (NULL);
 }

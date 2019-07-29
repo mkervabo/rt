@@ -8,7 +8,7 @@ struct s_cylinder {
 	double  r;
 };
 
-struct s_hit		hit_cylinder(struct s_ray ray, struct s_cylinder *cylinder, struct s_intersection **intersections);
+struct s_hit		hit_cylinder(struct s_ray ray, struct s_cylinder *cylinder, struct s_intersection_tab *intersections);
 struct s_cylinder	*read_cylinder(t_toml_table *toml);
 
 #endif

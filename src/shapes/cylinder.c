@@ -5,18 +5,25 @@
 #include "math/quadratic.h"
 #include "config_utils.h"
 #include <stdlib.h>
+#include <math.h>
 
 struct s_hit hit_cylinder(struct s_ray ray, struct s_cylinder *cylinder,
-		struct s_intersection **intersections)
+		struct s_intersection_tab *intersections)
 {
 	struct s_sphere	sphere;
+	struct s_hit	hit;
+	struct s_ray	r;
 
+	r = ray;
 	ray.direction.y = 0;
 	ray.origin.y = 0;
 	sphere = (struct s_sphere) {
 		.r = cylinder->r
 	};
-	return (hit_sphere(ray, &sphere, intersections));
+	hit = hit_sphere(ray, &sphere, intersections);
+	if (hit.t >= 0)
+		hit.v = fmod(fabs(r.direction.y * hit.t + r.origin.y), 1);
+	return (hit);
 }
 
 struct s_cylinder	*read_cylinder(t_toml_table *toml)

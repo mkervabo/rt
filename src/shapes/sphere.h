@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:23:33 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 17:19:37 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/07/30 18:22:28 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ struct s_sphere {
 	double	r;
 };
 
-struct s_hit	hit_sphere(struct s_ray ray, struct s_sphere *sphere, struct s_intersection **intersections);
+struct s_hit	hit_sphere(struct s_ray ray, struct s_sphere *sphere, struct s_intersection_tab *intersections);
 struct s_sphere	*read_sphere(t_toml_table *toml);
 
 #endif

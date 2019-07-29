@@ -9,7 +9,7 @@ struct s_paraboloid {
 	double	h;
 };
 
-struct s_hit	hit_paraboloid(struct s_ray ray, struct s_paraboloid *paraboloid, struct s_intersection **intersections);
+struct s_hit	hit_paraboloid(struct s_ray ray, struct s_paraboloid *paraboloid, struct s_intersection_tab *intersections);
 struct s_paraboloid	*read_paraboloid(t_toml_table *toml);
 
 #endif

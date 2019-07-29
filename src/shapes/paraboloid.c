@@ -7,7 +7,7 @@
 #include <math.h>
 
 struct s_hit	hit_paraboloid(struct s_ray ray, struct s_paraboloid *paraboloid,
-		struct s_intersection **intersections)
+		struct s_intersection_tab *intersections)
 {
 	struct s_quadratic		fn;
 	struct s_intersection	intersection;

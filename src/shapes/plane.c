@@ -7,7 +7,7 @@
 #include <math.h>
 
 struct s_hit hit_plane(struct s_ray ray, struct s_plane *plane,
-		struct s_intersection **intersections)
+		struct s_intersection_tab *intersections)
 {
 	if (fabs(ray.direction.y) < 1e-6)
 		return ((struct s_hit) { .t = -1.0 });

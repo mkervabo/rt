@@ -8,7 +8,7 @@
 # define EPSILON 1e-12
 
 struct s_hit hit_triangle(struct s_ray ray, struct s_triangle *triangle,
-		struct s_intersection **intersections)
+		struct s_intersection_tab *intersections)
 {
 	t_vec3 v0v1 = vec3_sub(triangle->v1, triangle->v0);
 	t_vec3 v0v2 = vec3_sub(triangle->v2, triangle->v0);

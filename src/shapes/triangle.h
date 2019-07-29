@@ -10,7 +10,7 @@ struct s_triangle {
 	t_vec3	v2;
 };
 
-struct s_hit		hit_triangle(struct s_ray ray, struct s_triangle *triangle, struct s_intersection **intersections);
+struct s_hit		hit_triangle(struct s_ray ray, struct s_triangle *triangle, struct s_intersection_tab *intersections);
 struct s_triangle	*read_triangle(t_toml_table *toml);
 
 #endif
