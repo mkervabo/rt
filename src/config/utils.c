@@ -17,15 +17,15 @@ bool	read_vec3(t_toml_table *toml, t_vec3 *vec)
 
 	if (!(value = table_get(toml, "x")))
 		vec->x = 0;
-	if (read_digit(value, &vec->x) == false)
+	else if (read_digit(value, &vec->x) == false)
 		return (false);
 	if (!(value = table_get(toml, "y")))
 		vec->y = 0;
-	if (read_digit(value, &vec->y) == false)
+	else if (read_digit(value, &vec->y) == false)
 		return (false);
 	if (!(value = table_get(toml, "z")))
 		vec->x = 0;
-	if (read_digit(value, &vec->z) == false)
+	else if (read_digit(value, &vec->z) == false)
 		return (false);
 	return (true);
 }
