@@ -3,10 +3,12 @@ width = 1280
 height = 800
 
 #[camera]
+#	type = "PERSPECTIVE"
 #	position = { x = 2, y = 0, z = -3 }
 #	rotation = { x = 0, y = 90, z = 0 }
 
 [camera]
+	type = "PERSPECTIVE"
 	position = { x = 0, y = 0, z = 1 }
 	rotation = { x = 0, y = 0, z = 0 }
 

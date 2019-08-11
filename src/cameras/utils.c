@@ -4,24 +4,24 @@
 #include <stdlib.h>
 #include <math.h>
 
-bool		read_shape_super(t_toml_table *toml, t_shape *object)
+bool	read_camera_super(t_toml_table *toml, t_camera *camera)
 {
 	t_toml		*value;
 
 	if (read_toml_type(toml, &value, "position", TOML_Table))
 	{
-		if (!read_vec3(value->value.table_v, &object->position))
+		if (!read_vec3(value->value.table_v, &camera->position))
 			return (false);
 	}
 	else
-		object->position = vec3(0, 0, 0);
+		camera->position = vec3(0, 0, 0);
 	if (read_toml_type(toml, &value, "rotation", TOML_Table))
 	{
-		if (!read_vec3(value->value.table_v, &object->rotation))
+		if (!read_vec3(value->value.table_v, &camera->rotation))
 			return (false);
-		object->rotation = vec3_multv(object->rotation, M_PI / 180);
+		camera->rotation = vec3_multv(camera->rotation, M_PI / 180);
 	}
 	else
-		object->rotation = vec3(0, 0, 0);
+		camera->rotation = vec3(0, 0, 0);
 	return (true);
 }

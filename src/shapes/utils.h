@@ -4,7 +4,6 @@
 #include "toml.h"
 #include "shape.h"
 
-void	*nfree(void *ptr);
 bool	read_shape_super(t_toml_table *toml, t_shape *shape);
 
 #endif

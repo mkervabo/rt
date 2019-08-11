@@ -40,3 +40,10 @@ bool	read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 		return (false);
 	return (true);
 }
+
+void	*nfree(void	*ptr)
+{
+	free(ptr);
+	return (NULL);
+}
+

@@ -11,7 +11,7 @@ typedef struct	s_scene
 	size_t		objects_size;
 	t_light		**lights;
 	size_t		lights_size;
-	t_camera	camera;
+	t_camera	*camera;
 }				t_scene;
 
 #endif

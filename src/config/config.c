@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/07/20 18:17:06 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/11 15:05:17 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ bool	read_config(const char *file, struct s_config *config)
 	int			fd;
 	t_reader	r;
 	t_toml_table	*toml;
+	t_toml			*camera;
 	t_toml_error	err;
 	char			buffer[4096];
 
@@ -169,6 +170,12 @@ bool	read_config(const char *file, struct s_config *config)
 	if (!(config->scene.objects = read_objects(toml, &config->scene.objects_size)))
 	{
 		write(STDERR_FILENO, "Invalid objects\n", sizeof("Invalid objects\n") - 1);
+		return (false);
+	}
+	if (!read_toml_type(toml, &camera, "camera", TOML_Table)
+			|| !(config->scene.camera = read_camera(camera->value.table_v)))
+	{
+		write(STDERR_FILENO, "Invalid camera\n", sizeof("Invalid camera\n") - 1);
 		return (false);
 	}
 	return (true);

@@ -1,4 +1,6 @@
-SRCS += src/camera.c
+SRCS += src/cameras/camera.c
+SRCS += src/cameras/perspective_camera.c
+SRCS += src/cameras/utils.c
 SRCS += src/color.c
 SRCS += src/config/config.c
 SRCS += src/config/utils.c

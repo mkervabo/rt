@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:40:18 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 17:10:05 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/11 14:38:48 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void 
 		x = 0;
 		while (x < window.width)
 		{
-			ray = camera_create_ray(&scene->camera, x, window.height - y - 1, window);
+			ray = camera_create_ray(scene->camera, x, window.height - y - 1, window);
 			pixels[y * window.width + x] = color_to_rgb(raytrace(scene, ray));
 			x++;
 		}
