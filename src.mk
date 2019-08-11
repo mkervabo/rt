@@ -1,3 +1,4 @@
+SRCS += src/cameras/360_camera.c
 SRCS += src/cameras/camera.c
 SRCS += src/cameras/perspective_camera.c
 SRCS += src/cameras/utils.c

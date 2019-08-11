@@ -3,13 +3,13 @@ width = 1280
 height = 800
 
 #[camera]
-#	type = "PERSPECTIVE"
+#	type = "360"
 #	position = { x = 2, y = 0, z = -3 }
 #	rotation = { x = 0, y = 90, z = 0 }
 
 [camera]
-	type = "PERSPECTIVE"
-	position = { x = 0, y = 0, z = 1 }
+	type = "360"
+	position = { x = 0, y = 0, z = 0 }
 	rotation = { x = 0, y = 0, z = 0 }
 
 #corps
@@ -20,7 +20,16 @@ height = 800
 	min = { x = -0.25, y = -0.25, z = -0.25 }
 	max = { x = 0.25, y = 0.25, z = 0.25 }
 	position = { x = 0, y = -0.5, z = -3 }
-	rotation = { x = 0, y = 45, z = 0 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+	type = "BOX"
+	material = "NORMAL"
+	radius = 0.4
+	min = { x = -0.25, y = -0.25, z = -0.25 }
+	max = { x = 0.25, y = 0.25, z = 0.25 }
+	position = { x = 0, y = -0.5, z = 3 }
+	rotation = { x = 0, y = 0, z = 0 }
 
 [[objects]]
 	type = "SPHERE"
