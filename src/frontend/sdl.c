@@ -6,13 +6,14 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 17:55:57 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/07/30 20:23:14 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frontend/sdl.h"
 #include "render.h"
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdbool.h>
 #include <unistd.h>
 
@@ -108,11 +109,13 @@ static bool	update_render(uint32_t *pixels, void *user)
 void	sdl_frontend(struct s_config *config)
 {
 	struct s_sdl_window	window;
+	uint32_t	*pixels;
 
 	window = (struct s_sdl_window) { .width = config->size.width };
 	if (init_window(config, &window))
 	{
-		render(&config->scene, config->size, update_render, &window);
+		pixels = render(&config->scene, config->size, update_render, &window);
+		IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels, config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), "out.png");
 		while (!window.quit)
 			poll_events(&window, true);
 	}
