@@ -8,6 +8,7 @@
 #include "box.h"
 #include "triangle.h"
 #include "disk.h"
+#include "plane.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -41,6 +42,8 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection *
 		hit = hit_triangle(ray, (struct s_triangle *)shape, intersections);
 	else if (shape->type == SHAPE_DISK)
 		hit = hit_disk(ray, (struct s_disk *)shape, intersections);
+	else if (shape->type == SHAPE_PLANE)
+		hit = hit_plane(ray, (struct s_plane *)shape, intersections);
 	else
 		assertf(false, "Unimplemented type: %d", shape->type);
 
@@ -68,9 +71,9 @@ t_shape			*read_shape(t_toml_table *toml)
 		return ((t_shape *)read_triangle(toml));
 	if (ft_strcmp(type->value.string_v, "DISK") == 0)
 		return ((t_shape *)read_disk(toml));
-	/*if (ft_strcmp(type->value.string_v, "PLANE") == 0)
+	if (ft_strcmp(type->value.string_v, "PLANE") == 0)
 		return ((t_shape *)read_plane(toml));
-	if (ft_strcmp(type->value.string_v, "CONE") == 0)
+	/*if (ft_strcmp(type->value.string_v, "CONE") == 0)
 		return ((t_shape *)read_cone(toml));*/
 	else
 		return (NULL);
