@@ -2,6 +2,7 @@
 #include "material_types.h"
 #include "math/vec2.h"
 #include "math/vec3.h"
+#include "math/utils.h"
 #include "config_utils.h"
 #include <math.h>
 #include <stdlib.h>
@@ -17,16 +18,6 @@ static t_vec3 hash3(t_vec2 p)
 	q = vec3_multv(vec3(sin(q.x), sin(q.y), sin(q.z)), 43758.5453);
 	t_vec3 f = vec3(floor(q.x), floor(q.y), floor(q.z));
 	return vec3_sub(q, f);
-}
-
-static double clamp(double value, double from, double to)
-{
-	if (value > to)
-		return (to);
-	else if (value < from)
-		return (from);
-	else
-		return (value);
 }
 
 static double smoothstep(double edge0, double edge1, double x)

@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:04:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/09/18 20:38:00 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/10/19 14:17:22 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 	struct s_quadratic		fn;
 	struct s_intersection	intersection;
 	t_vec3					n;
+	float					t;
 
 	fn.a = vec3_dot(ray.direction, ray.direction);
 	fn.b = 2 * vec3_dot(ray.origin, ray.direction);
@@ -35,9 +36,10 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 				intersections->len = 1;
 				intersections->inner[0] = intersection;
 			}
-		n = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, intersection.from)));
+		t = intersection.from >= 0 ? intersection.from : intersection.to;
+		n = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, t)));
 		return ((struct s_hit) {
-			.t = intersection.from,
+			.t = t,
 			.normal = n,
 			.u = 0.5 + atan2(n.z, n.x) / (2 * M_PI),
 			.v = 0.5 - asin(n.y) / M_PI

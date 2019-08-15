@@ -44,6 +44,7 @@ uint32_t		*render(t_scene *scene, struct s_size window, t_update_fn update, void
 		while (x < window.width)
 		{
 			ray = camera_create_ray(scene->camera, x, window.height - y - 1, window);
+			ray.n1 = 1.0;
 			pixels[y * window.width + x] = color_to_rgb(raytrace(scene, ray, hits +  y * window.width + x));
 			x++;
 		}

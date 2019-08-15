@@ -4,6 +4,8 @@
 #include "material_types.h"
 #include "normal_material.h"
 #include "uv_material.h"
+#include "color_material.h"
+#include "reflection_material.h"
 #include "texture.h"
 #include "color_material.h"
 #include "checkerboard_material.h"
@@ -42,6 +44,8 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 		return (height_map_color((struct s_height_map *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_CARTOON)
 		return (cartoon_material_color((struct s_cartoon_material *)material, scene, ray, hit));
+	if (material->type == MATERIAL_REFLECTION)
+		return (reflection_material_color((struct s_reflection_material *)material, scene, ray, hit));
 	else
 		assertf(false, "Unimplemented material type: %d", material->type);
 }
@@ -72,6 +76,8 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_height_map(toml));
 	else if (ft_strcmp(type->value.string_v, "CARTOON") == 0)
 		return ((t_material *)read_cartoon_material(toml));
+	else if (ft_strcmp(type->value.string_v, "REFLECTION") == 0)
+		return ((t_material *)read_reflection_material(toml));
 	else
 		return (rt_error(NULL, "Invalid material type"));
 }

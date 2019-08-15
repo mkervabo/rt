@@ -1,4 +1,5 @@
 #include "color.h"
+#include "debug/assert.h"
 
 uint32_t	color_to_rgb(t_color color)
 {
@@ -36,6 +37,8 @@ static uint8_t clamp(double v) {
 
 t_color		color_multv(t_color c, double v)
 {
+	assertf(v >= 0 && v <= 1, "color_multv: v must be between 0 and 1 but got %f", v);
+
 	return ((t_color) {
 		.r = clamp((double)c.r * v),
 		.g = clamp((double)c.g * v),
