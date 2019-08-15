@@ -1,0 +1,25 @@
+name = "Snowman"
+width = 1280
+height = 800
+
+[camera]
+	type = "ORTHOGRAPHIC"
+	position = { x = 0, y = 0, z = 0 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+#corps
+[[objects]]
+	type = "BOX"
+	material.type = "NORMAL"
+	radius = 0.4
+	min = { x = -0.25, y = -0.25, z = -0.25 }
+	max = { x = 0.25, y = 0.25, z = 0.25 }
+	position = { x = -0.5, y = 0, z = -3 }
+
+[[objects]]
+	type = "BOX"
+	material.type = "NORMAL"
+	radius = 0.4
+	min = { x = -0.25, y = -0.25, z = -0.25 }
+	max = { x = 0.25, y = 0.25, z = 0.25 }
+	position = { x = 0.5, y = 0, z = -20 }

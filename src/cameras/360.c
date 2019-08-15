@@ -1,4 +1,4 @@
-#include "360_camera.h"
+#include "360.h"
 #include "camera_types.h"
 #include "utils.h"
 #include <stdlib.h>

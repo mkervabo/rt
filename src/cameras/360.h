@@ -1,5 +1,5 @@
-#ifndef CAMERAS_360_CAMERA_H
-# define CAMERAS_360_CAMERA_H
+#ifndef CAMERAS_360_H
+# define CAMERAS_360_H
 
 # include "camera.h"
 

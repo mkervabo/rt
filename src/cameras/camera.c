@@ -1,9 +1,11 @@
 #include "camera.h"
 #include "debug/assert.h"
 #include "camera_types.h"
-#include "perspective_camera.h"
-#include "360_camera.h"
 #include "toml.h"
+
+#include "perspective.h"
+#include "360.h"
+#include "orthographic.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -24,6 +26,8 @@ struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 		ray = perspective_camera_create_ray((struct s_perspective_camera *)camera, x, y, window);
 	else if (camera->type == CAMERA_360)
 		ray = s_360_camera_create_ray((struct s_360_camera *)camera, x, y, window);
+	else if (camera->type == CAMERA_ORTHOGRAPHIC)
+		ray = orthographic_camera_create_ray((struct s_orthographic_camera *)camera, x, y, window);
 	/*if (camera->type == MATERIAL_UV)
 		return (uv_material_color((struct s_uv_material *)material, scene, ray, hit));
 	if (camera->type == MATERIAL_TEXTURE)
@@ -47,8 +51,8 @@ t_camera			*read_camera(t_toml_table *toml)
 		return ((t_camera *)read_perspective_camera(toml));
 	else if (ft_strcmp(type->value.string_v, "360") == 0)
 		return ((t_camera *)read_360_camera(toml));
-	/*else if (ft_strcmp(type->value.string_v, "ORTHOGRAPHIC") == 0)
-		return ((t_material *)read_uv_material(toml));*/
+	else if (ft_strcmp(type->value.string_v, "ORTHOGRAPHIC") == 0)
+		return ((t_camera *)read_orthographic_camera(toml));
 	else
 		return (NULL);
 }
