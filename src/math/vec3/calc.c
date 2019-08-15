@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:55:08 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 14:55:11 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/15 13:33:49 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,14 @@ t_vec3	vec3_invert(t_vec3 v)
 		1 / v.x,
 		1 / v.y,
 		1 / v.z
+	));
+}
+
+t_vec3		vec3_cross(t_vec3 a, t_vec3 b)
+{
+	return (vec3(
+		(a.y * b.z) - (a.z * b.y),
+		(a.z * b.x) - (a.x * b.z),
+		(a.x * b.y) - (a.y * b.x)
 	));
 }

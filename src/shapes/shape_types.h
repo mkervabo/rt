@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/08/11 14:33:12 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/15 13:24:41 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 enum e_shape_type {
 	SHAPE_SPHERE,
 	SHAPE_CYLINDER,
-	SHAPE_BOX
+	SHAPE_BOX,
+	SHAPE_TRIANGLE
 };
 
 #endif

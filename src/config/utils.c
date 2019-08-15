@@ -24,7 +24,7 @@ bool	read_vec3(t_toml_table *toml, t_vec3 *vec)
 	else if (read_digit(value, &vec->y) == false)
 		return (false);
 	if (!(value = table_get(toml, "z")))
-		vec->x = 0;
+		vec->z = 0;
 	else if (read_digit(value, &vec->z) == false)
 		return (false);
 	return (true);

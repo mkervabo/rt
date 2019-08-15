@@ -7,7 +7,7 @@ t_color						uv_material_color(struct s_uv_material *material, t_scene *scene, s
 	return ((t_color) {
 		.r = hit->u * 255,
 		.g = hit->v * 255,
-		.b = 0
+		.b = (1 - hit->u - hit->v) * 255
 	});
 
 }
