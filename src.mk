@@ -23,6 +23,7 @@ SRCS += src/render.c
 SRCS += src/shapes/box.c
 SRCS += src/shapes/cone.c
 SRCS += src/shapes/cylinder.c
+SRCS += src/shapes/disk.c
 SRCS += src/shapes/plane.c
 SRCS += src/shapes/shape.c
 SRCS += src/shapes/sphere.c
