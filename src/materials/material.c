@@ -39,7 +39,7 @@ t_material			*read_material(t_toml_table *toml)
 {
 	t_toml	*type;
 
-	if (!(type = table_get(toml, "material")))
+	if (!(type = table_get(toml, "type")))
 		return (NULL);
 	if (type->type != TOML_String)
 		return (NULL);
