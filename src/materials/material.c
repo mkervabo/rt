@@ -1,10 +1,12 @@
 #include "material.h"
 #include "debug/assert.h"
+#include "toml.h"
+
 #include "material_types.h"
 #include "normal_material.h"
 #include "uv_material.h"
 #include "texture.h"
-#include "toml.h"
+#include "color_material.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -24,6 +26,8 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 		return (uv_material_color((struct s_uv_material *)material, scene, ray, hit));
 	if (material->type == MATERIAL_TEXTURE)
 		return (texture_color((struct s_texture *)material, scene, ray, hit));
+	if (material->type == MATERIAL_COLOR)
+		return (color_material_color((struct s_color_material *)material, scene, ray, hit));
 	else
 		assertf(false, "Unimplemented material type: %d", material->type);
 }
@@ -42,6 +46,8 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_uv_material(toml));
 	else if (ft_strcmp(type->value.string_v, "TEXTURE") == 0)
 		return ((t_material *)read_texture(toml));
+	else if (ft_strcmp(type->value.string_v, "COLOR") == 0)
+		return ((t_material *)read_color_material(toml));
 	else
 		return (NULL);
 }

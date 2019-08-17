@@ -11,6 +11,7 @@ SRCS += src/materials/material.c
 SRCS += src/materials/normal_material.c
 SRCS += src/materials/texture.c
 SRCS += src/materials/uv_material.c
+SRCS += src/materials/color_material.c
 SRCS += src/math/quadratic.c
 SRCS += src/math/vec3/base.c
 SRCS += src/math/vec3/calc.c
