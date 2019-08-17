@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/08/17 18:02:01 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/17 18:18:51 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ enum e_material_type {
 	MATERIAL_UV,
 	MATERIAL_TEXTURE,
 	MATERIAL_COLOR,
-	MATERIAL_CHECKERBOARD
+	MATERIAL_CHECKERBOARD,
+	MATERIAL_VORONOI
 };
 
 #endif

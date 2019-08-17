@@ -8,6 +8,7 @@
 #include "texture.h"
 #include "color_material.h"
 #include "checkerboard_material.h"
+#include "voronoi_material.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -31,6 +32,8 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 		return (color_material_color((struct s_color_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_CHECKERBOARD)
 		return (checkerboard_material_color((struct s_checkboard_material *)material, scene, ray, hit));
+	else if (material->type == MATERIAL_VORONOI)
+		return (voronoi_material_color((struct s_voronoi_material *)material, scene, ray, hit));
 	else
 		assertf(false, "Unimplemented material type: %d", material->type);
 }
@@ -53,6 +56,8 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_color_material(toml));
 	else if (ft_strcmp(type->value.string_v, "CHECKERBOARD") == 0)
 		return ((t_material *)read_checkerboard_material(toml));	
+	else if (ft_strcmp(type->value.string_v, "VORONOI") == 0)
+		return ((t_material *)read_voronoi_material(toml));
 	else
 		return (NULL);
 }
