@@ -7,6 +7,7 @@
 #include "uv_material.h"
 #include "texture.h"
 #include "color_material.h"
+#include "checkerboard_material.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -22,12 +23,14 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 {
 	if (material->type == MATERIAL_NORMAL)
 		return (normal_material_color((struct s_normal_material *)material, scene, ray, hit));
-	if (material->type == MATERIAL_UV)
+	else if (material->type == MATERIAL_UV)
 		return (uv_material_color((struct s_uv_material *)material, scene, ray, hit));
-	if (material->type == MATERIAL_TEXTURE)
+	else if (material->type == MATERIAL_TEXTURE)
 		return (texture_color((struct s_texture *)material, scene, ray, hit));
-	if (material->type == MATERIAL_COLOR)
+	else if (material->type == MATERIAL_COLOR)
 		return (color_material_color((struct s_color_material *)material, scene, ray, hit));
+	else if (material->type == MATERIAL_CHECKERBOARD)
+		return (checkerboard_material_color((struct s_checkboard_material *)material, scene, ray, hit));
 	else
 		assertf(false, "Unimplemented material type: %d", material->type);
 }
@@ -48,6 +51,8 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_texture(toml));
 	else if (ft_strcmp(type->value.string_v, "COLOR") == 0)
 		return ((t_material *)read_color_material(toml));
+	else if (ft_strcmp(type->value.string_v, "CHECKERBOARD") == 0)
+		return ((t_material *)read_checkerboard_material(toml));	
 	else
 		return (NULL);
 }
