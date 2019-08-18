@@ -1,0 +1,11 @@
+name = "Suzanne"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+type = "OBJ"
+material.type = "NORMAL"
+path = "./scenes/models/suzanne/suzanne.obj"
+position.z = -3

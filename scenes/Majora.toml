@@ -1,0 +1,30 @@
+name = "Majora"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+	type = "OBJ"
+	path = "./scenes/models/Majora/Majora.obj"
+	position.z = -10
+	rotation.x = 90
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.9
+		material.type = "NORMAL"
+		material.color = { r = 0, g = 165, b = 0 }
+
+[[filters]]
+	type = "CARTOON"
+[[filters]]
+	type = "ANTI_ALIASING"
+
+[[lights]]
+	type = "POINT"
+	position = { x = 0, y = 0, z = 0 }
+	intensity = 1.0
+
+[[lights]]
+	type = "AMBIENT"
+	intensity = 0.1

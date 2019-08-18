@@ -1,0 +1,12 @@
+name = "Pine"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+type = "OBJ"
+material.type = "NORMAL"
+path = "./scenes/models/Pine/Pine.obj"
+position.z = -30
+position.y = -7

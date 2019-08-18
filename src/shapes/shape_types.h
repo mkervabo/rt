@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/19 14:54:45 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/10/26 13:10:36 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ enum e_shape_type {
 	SHAPE_DISK,
 	SHAPE_PARABOLOID,
 	SHAPE_CSG,
-	SHAPE_GROUP
+	SHAPE_GROUP,
+	SHAPE_OBJ
 };
 
 #endif

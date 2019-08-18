@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/30 19:55:55 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/01 16:39:31 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	sdl_frontend(struct s_config *config)
 	i = 0;
 	if (init_window(config, &window))
 	{
+		poll_events(&window, false);
 		while (i < (config->video ? config->video->frame : 1) && !window.quit)
 		{
 			video_transform_scene(config, i);

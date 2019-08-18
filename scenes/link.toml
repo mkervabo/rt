@@ -1,0 +1,29 @@
+name = "Zelda's Link"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+	type = "OBJ"
+	path = "./scenes/models/link/link.obj"
+	position.z = -70
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.9
+		material.type = "COLOR"
+		material.color = { r = 0, g = 165, b = 0 }
+
+[[filters]]
+	type = "CARTOON"
+[[filters]]
+	type = "ANTI_ALIASING"
+
+[[lights]]
+	type = "POINT"
+	position = { x = 0, y = 0, z = 0 }
+	intensity = 1.0
+
+[[lights]]
+	type = "AMBIENT"
+	intensity = 0.1

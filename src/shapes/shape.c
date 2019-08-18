@@ -15,6 +15,7 @@
 #include "paraboloid.h"
 #include "csg.h"
 #include "group.h"
+#include "obj_shape.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -57,6 +58,8 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 		hit = hit_csg(ray, (struct s_csg *)shape, intersections);
 	else if (shape->type == SHAPE_GROUP)
 		hit = hit_group(ray, (struct s_group *)shape, intersections);
+	else if (shape->type == SHAPE_OBJ)
+		hit = hit_obj_shape(ray, (struct s_obj_shape *)shape, intersections);
 	else
 		assertf(false, "Unimplemented type: %d", shape->type);
 
@@ -101,6 +104,8 @@ t_shape			*read_shape(t_toml_table *toml)
 		return ((t_shape *)read_csg(toml, CSG_INTERSECTION));
 	else if (ft_strcmp(type->value.string_v, "DIFFERENCE") == 0)
 		return ((t_shape *)read_csg(toml, CSG_DIFFERENCE));
+	else if (ft_strcmp(type->value.string_v, "OBJ") == 0)
+		return ((t_shape *)read_obj_shape(toml));
 	else
 			return (rt_error(NULL, "Invalid shape type"));
 }

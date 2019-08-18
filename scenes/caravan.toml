@@ -1,0 +1,13 @@
+name = "Caravan"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+type = "OBJ"
+material.type = "NORMAL"
+path = "./scenes/models/caravan/caravan.obj"
+position.z = -400
+position.y = -50
+rotation.y = -45

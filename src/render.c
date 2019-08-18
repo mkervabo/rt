@@ -6,7 +6,7 @@
 /*   By: dde-jesu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 12:34:54 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/26 13:04:31 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/10/27 11:57:02 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	render_tile(struct s_thread_arg *ctx)
 				ctx->pixels[pos] = color_to_rgb(raytrace(ctx->scene, ray, ctx->hits + pos));
 				sub_x++;
 			}
+			pthread_cond_signal(&condition);
 			sub_y++;
 		}
 		pthread_mutex_lock(&mutex);
@@ -84,7 +85,7 @@ static void	render_tile(struct s_thread_arg *ctx)
 	}
 }
 
-#define NUM_THREADS 4
+#define NUM_THREADS 5
 
 uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void *user)
 {

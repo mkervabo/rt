@@ -1,0 +1,12 @@
+name = "Cube"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+type = "OBJ"
+material.type = "NORMAL"
+path = "./scenes/models/cube/cube.obj"
+position.z = -2
+rotation = { x = 45, y = 45 }

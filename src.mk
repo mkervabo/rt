@@ -55,6 +55,7 @@ SRCS += src/shapes/csg.c
 SRCS += src/shapes/cylinder.c
 SRCS += src/shapes/disk.c
 SRCS += src/shapes/group.c
+SRCS += src/shapes/obj.c
 SRCS += src/shapes/paraboloid.c
 SRCS += src/shapes/plane.c
 SRCS += src/shapes/shape.c
