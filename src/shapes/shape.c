@@ -9,6 +9,7 @@
 #include "triangle.h"
 #include "disk.h"
 #include "plane.h"
+#include "paraboloid.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -44,6 +45,8 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection *
 		hit = hit_disk(ray, (struct s_disk *)shape, intersections);
 	else if (shape->type == SHAPE_PLANE)
 		hit = hit_plane(ray, (struct s_plane *)shape, intersections);
+	else if (shape->type == SHAPE_PARABOLOID)
+		hit = hit_paraboloid(ray, (struct s_paraboloid *)shape, intersections);
 	else
 		assertf(false, "Unimplemented type: %d", shape->type);
 
@@ -63,17 +66,19 @@ t_shape			*read_shape(t_toml_table *toml)
 		return (NULL);
 	if (ft_strcmp(type->value.string_v, "SPHERE") == 0)
 		return ((t_shape *)read_sphere(toml));
-	if (ft_strcmp(type->value.string_v, "CYLINDER") == 0)
+	else if (ft_strcmp(type->value.string_v, "CYLINDER") == 0)
 		return ((t_shape *)read_cylinder(toml));
-	if (ft_strcmp(type->value.string_v, "BOX") == 0)
+	else if (ft_strcmp(type->value.string_v, "BOX") == 0)
 		return ((t_shape *)read_box(toml));
-	if (ft_strcmp(type->value.string_v, "TRIANGLE") == 0)
+	else if (ft_strcmp(type->value.string_v, "TRIANGLE") == 0)
 		return ((t_shape *)read_triangle(toml));
-	if (ft_strcmp(type->value.string_v, "DISK") == 0)
+	else if (ft_strcmp(type->value.string_v, "DISK") == 0)
 		return ((t_shape *)read_disk(toml));
-	if (ft_strcmp(type->value.string_v, "PLANE") == 0)
+	else if (ft_strcmp(type->value.string_v, "PLANE") == 0)
 		return ((t_shape *)read_plane(toml));
-	/*if (ft_strcmp(type->value.string_v, "CONE") == 0)
+	else if (ft_strcmp(type->value.string_v, "PARABOLOID") == 0)
+		return ((t_shape *)read_paraboloid(toml));
+	/*else if (ft_strcmp(type->value.string_v, "CONE") == 0)
 		return ((t_shape *)read_cone(toml));*/
 	else
 		return (NULL);

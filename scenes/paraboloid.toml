@@ -1,0 +1,13 @@
+name = "Snowman"
+width = 1280
+height = 800
+
+camera.type = "PERSPECTIVE"
+
+[[objects]]
+	type = "PARABOLOID"
+	material.type = "UV"
+	radius = 0.2
+	height = 0.8
+	position.z = -3
+	rotation.z = 180

@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:04:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 17:27:12 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/18 17:22:55 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 			.t = intersection.from,
 			.normal = n,
 			.u = 0.5 + atan2(n.z, n.x) / (2 * M_PI),
-			.v = 0.5 - asin(n.y) / M_PI
+			.v = fmod(n.y, 1)
 		});
 	}
 	else
