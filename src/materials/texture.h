@@ -10,6 +10,7 @@ struct s_texture {
 };
 
 t_color						texture_color(struct s_texture *material, t_scene *scene, struct s_ray ray, struct s_hit *hit);
-struct s_texture	*read_texture(t_toml_table *toml);
+struct s_texture			*read_texture(t_toml_table *toml);
+uint32_t					getpixel(SDL_Surface *surface, int x, int y);
 
 #endif

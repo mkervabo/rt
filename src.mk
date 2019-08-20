@@ -21,6 +21,7 @@ SRCS += src/materials/normal_material.c
 SRCS += src/materials/texture.c
 SRCS += src/materials/uv_material.c
 SRCS += src/materials/voronoi_material.c
+SRCS += src/materials/height_map.c
 SRCS += src/math/quadratic.c
 SRCS += src/math/vec2/base.c
 SRCS += src/math/vec2/calc.c

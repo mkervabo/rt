@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <SDL_image.h>
 
-static uint32_t	getpixel(SDL_Surface *surface, int x, int y)
+uint32_t					getpixel(SDL_Surface *surface, int x, int y)
 {
 	return (*(uint32_t *)(surface->pixels + y * surface->pitch + x * 4));
 }
