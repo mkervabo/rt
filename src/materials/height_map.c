@@ -51,14 +51,15 @@ struct s_height_map	*read_height_map(t_toml_table *toml)
 	if (!(material = malloc(sizeof(*material))))
 		return (NULL);
 	if (!(read_toml_type(toml, &value, "texture", TOML_String)))
-		return (NULL);
-	material->surface = IMG_Load(value->value.string_v);
-	material->surface = SDL_ConvertSurfaceFormat(material->surface,
-		SDL_PIXELFORMAT_ARGB8888, 0);
+		return (nfree(material));
+	if (!(material->surface = IMG_Load(value->value.string_v)))
+		return (nfree(material));
+	if (!(material->surface = SDL_ConvertSurfaceFormat(material->surface,
+		SDL_PIXELFORMAT_ARGB8888, 0)))
+		return (nfree(material));
 	if (read_toml_type(toml, &value, "material", TOML_Table) == false)
 		return (nfree(material));
 	else if (!(material->material = read_material(value->value.table_v)))
-		return (nfree(material));
 	material->super.type = MATERIAL_HEIGHT_MAP;
 	return (material);
 }

@@ -34,9 +34,11 @@ struct s_texture	*read_texture(t_toml_table *toml)
 		return (NULL);
 	if (!(read_toml_type(toml, &value, "texture", TOML_String)))
 		return (nfree(material));
-	material->surface = IMG_Load(value->value.string_v);
-	material->surface = SDL_ConvertSurfaceFormat(material->surface,
-		SDL_PIXELFORMAT_ARGB8888, 0);
+	if (!(material->surface = IMG_Load(value->value.string_v)))
+		return (nfree(material));
+	if (!(material->surface = SDL_ConvertSurfaceFormat(material->surface,
+		SDL_PIXELFORMAT_ARGB8888, 0)))
+		return (nfree(material));
 	material->super.type = MATERIAL_TEXTURE;
 	return (material);
 }
