@@ -39,5 +39,7 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 		light->color = (t_color) { 255, 255, 255 };
 	else if (!read_color(value->value.table_v, &light->color))
 		return ((bool)rt_error(NULL, "Invalid color in read light super"));
+	if (!read_video_light(toml, &light->video))
+		light->video.frame_len = 0;
 	return (true);
 }

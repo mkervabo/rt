@@ -6,8 +6,6 @@
 # include "camera.h"
 # include "filter.h"
 
-
-
 typedef struct	s_scene
 {
 	struct s_object	*objects;

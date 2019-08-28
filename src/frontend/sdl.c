@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   sdl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/30 20:23:14 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/10/30 19:55:55 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "frontend/sdl.h"
 #include "render.h"
+#include "video.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 # define WINDOW_ERR "RT: Could not create SDL window: "
 
@@ -109,15 +111,38 @@ static bool	update_render(uint32_t *pixels, void *user)
 void	sdl_frontend(struct s_config *config)
 {
 	struct s_sdl_window	window;
-	uint32_t	*pixels;
+	uint32_t	**pixels;
+	size_t		i;
+	char		name[25];
 
 	window = (struct s_sdl_window) { .width = config->size.width };
+	if (!(pixels = malloc(sizeof(*pixels) * (config->video ? config->video->frame : 1))))
+		return ;
+	i = 0;
 	if (init_window(config, &window))
 	{
-		pixels = render(&config->scene, config->size, update_render, &window);
-		IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels, config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), "out.png");
+		while (i < (config->video ? config->video->frame : 1) && !window.quit)
+		{
+			video_transform_scene(config, i);
+			pixels[i] = render(&config->scene, config->size, update_render, &window);
+			mkdir("./video", 0700);
+			snprintf(name, sizeof name, "./video/frame_%05zu.png", i + 1);
+			IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), name);
+			i++;
+		}
 		while (!window.quit)
-			poll_events(&window, true);
+		{
+			i = 0;
+			while (i < (config->video ? config->video->frame : 1) && !window.quit)
+			{
+				SDL_UpdateTexture(window.screen, NULL, pixels[i],
+					window.width * sizeof(uint32_t));
+				poll_events(&window, false);
+				if (config->video)
+					SDL_Delay(1000 / config->video->frame_sec);
+				i++;
+			}
+		}
 	}
 	destroy_window(&window);
 }

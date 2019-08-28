@@ -40,7 +40,7 @@ struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 	return (ray);
 }
 
-t_camera			*read_camera(t_toml_table *toml)
+struct s_camera			*read_camera(t_toml_table *toml)
 {
 	t_toml	*type;
 
@@ -49,11 +49,11 @@ t_camera			*read_camera(t_toml_table *toml)
 	if (type->type != TOML_String)
 		return (NULL);
 	if (ft_strcmp(type->value.string_v, "PERSPECTIVE") == 0)
-		return ((t_camera *)read_perspective_camera(toml));
+		return ((struct s_camera *)read_perspective_camera(toml));
 	else if (ft_strcmp(type->value.string_v, "360") == 0)
-		return ((t_camera *)read_360_camera(toml));
+		return ((struct s_camera *)read_360_camera(toml));
 	else if (ft_strcmp(type->value.string_v, "ORTHOGRAPHIC") == 0)
-		return ((t_camera *)read_orthographic_camera(toml));
+		return ((struct s_camera *)read_orthographic_camera(toml));
 	else
 		return (rt_error(NULL, "Invalid camera type"));
 }

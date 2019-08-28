@@ -4,7 +4,7 @@
 # include "camera.h"
 
 struct s_360_camera {
-	t_camera	super;
+	struct s_camera	super;
 };
 
 struct s_ray	s_360_camera_create_ray(struct s_360_camera *camera, size_t x, size_t y,

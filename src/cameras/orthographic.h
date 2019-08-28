@@ -4,7 +4,7 @@
 # include "camera.h"
 
 struct s_orthographic_camera {
-	t_camera	super;
+	struct s_camera	super;
 };
 
 struct s_ray	orthographic_camera_create_ray(struct s_orthographic_camera *camera, size_t x, size_t y,

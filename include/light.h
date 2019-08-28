@@ -5,13 +5,15 @@
 #include "math/vec3.h"
 #include "ray.h"
 #include "color.h"
+#include "video.h"
 
 #include <stdint.h>
 
 typedef struct	s_light {
-	uint8_t	type;
-	t_color	color;
-	double	intensity;
+	uint8_t				type;
+	t_color				color;
+	double				intensity;
+	struct s_video_light video;
 }				t_light;
 
 t_light			*read_light(t_toml_table *toml);

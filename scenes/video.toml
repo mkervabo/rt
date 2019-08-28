@@ -1,0 +1,134 @@
+name = "video"
+width = 1000
+height = 700
+
+[video]
+	frame_sec = 60
+	secondes = 4
+
+#[camera]
+#	type = "360"
+#	position = { x = 2, y = 0, z = -3 }
+#	rotation = { x = 0, y = 90, z = 0 }
+
+[camera]
+	type = "PERSPECTIVE"
+	position = { x = 0, y = 0, z = 1.5 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+#corps
+[[objects]]
+	type = "SPHERE"
+	radius = 0.125
+	min = { x = -0.125, y = -0.125, z = -0.125 }
+	max = { x = 0.125, y = 0.125, z = 0.125 }
+	position = { x = -0.5, y = 0, z = 0 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		[objects.material.material]
+			type = "VORONOI"
+			material.type = "UV"
+	[[objects.video]]
+		seconde = { from = 0, to = 4 }
+		position.x = +1
+		rotation.y = 1440
+	[[objects.video]]
+		seconde = { from = 2, to = 4 }
+		rotation.x = 420
+	[[objects.video_frame]]
+		second  = 1
+		[objects.video_frame.material]
+			type = "DIFFUSE"
+			albedo = 0.9
+			material.type = "COLOR"
+			material.color = { r = 240, g = 240, b = 240 }
+	[[objects.video_frame]]
+		second  = 2
+		type = "BOX"
+		min = { x = -0.125, y = -0.125, z = -0.125 }
+		max = { x = 0.125, y = 0.125, z = 0.125 }
+	[[objects.video_frame]]
+		second  = 3
+		[objects.video_frame.material]
+			type = "DIFFUSE"
+			albedo = 0.9
+			material.type = "NORMAL"
+
+[[objects]]
+	type = "PLANE"
+	position = { x = 0, y = 0, z = -4 }
+	rotation = { x = 90, y = 0, z = 0 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		material.type = "COLOR"
+		material.color = { r = 200, g = 200, b = 200 }
+
+[[lights]]
+	type = "DIRECTIONAL"
+	position.z = 2
+	direction.z = -1
+	position.x = -100
+	direction.x = 1
+	intensity = 2
+	[[lights.video_frame]]
+		second = 0.5
+		position.x = -100
+		direction.x = 1
+		intensity = 3
+		type = "POINT"
+		color = {r = 255, g = 0, b = 0}
+	[[lights.video_frame]]
+		second = 1
+		type = "DIRECTIONAL"
+		position = {x = 0, y = 100}
+		direction = {x = 0, y = -1}
+		intensity = 3
+		color = {r = 255, g = 255, b = 0}
+	[[lights.video_frame]]
+		second = 1.5
+		type = "POINT"
+		position = {x = 0, y = 100}
+		direction = {x = 0, y = -1}
+		intensity = 2
+		color = {r = 0, g = 255, b = 0}
+	[[lights.video_frame]]
+		second = 2
+		type = "DIRECTIONAL"
+		position = {x = 100, y = 0}
+		direction = {x = -1, y = 0}
+		intensity = 2
+		color = {r = 0, g = 255, b = 255}
+	[[lights.video_frame]]
+		second = 2.5
+		type = "POINT"
+		position = {x = 100, y = 0}
+		direction = {x = -1, y = 0}
+		intensity = 3
+		color = {r = 0, g = 0, b = 255}
+	[[lights.video_frame]]
+		second = 3
+		type = "DIRECTIONAL"
+		position = {x = 0, y = -100}
+		direction = {x = 0, y = 1}
+		intensity = 3
+		color = {r = 255, g = 0, b = 255}
+	[[lights.video_frame]]
+		second = 3.5
+		type = "POINT"
+		position = {x = 0, y = -100}
+		direction = {x = 0, y = 1}
+		intensity = 2
+		color = {r = 255, g = 255, b = 255}
+
+
+# [[lights]]
+# 	type = "DIRECTIONAL"
+# 	position.y = 100
+# 	direction.y = -1
+# 	intensity = 1.5
+
+[[lights]]
+	type = "AMBIENT"
+	intensity = 0.2

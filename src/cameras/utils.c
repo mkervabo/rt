@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-bool	read_camera_super(t_toml_table *toml, t_camera *camera)
+bool	read_camera_super(t_toml_table *toml, struct s_camera *camera)
 {
 	t_toml		*value;
 
@@ -23,5 +23,7 @@ bool	read_camera_super(t_toml_table *toml, t_camera *camera)
 	}
 	else
 		camera->rotation = vec3(0, 0, 0);
+	if (!read_video_shape(toml, &camera->video))
+		camera->video.video_len = 0;
 	return (true);
 }

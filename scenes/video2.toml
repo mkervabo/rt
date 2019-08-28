@@ -1,0 +1,120 @@
+name = "Snowman"
+width = 1280
+height = 800
+
+[video]
+	frame_sec = 60
+	secondes = 4
+
+#[camera]
+#	type = "360"
+#	position = { x = 2, y = 0, z = -3 }
+#	rotation = { x = 0, y = 90, z = 0 }
+
+[camera]
+	type = "PERSPECTIVE"
+	position = { x = 0, y = 0, z = 1.5 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+#corps
+[[objects]]
+	type = "SPHERE"
+
+	material.type = "VORONOI"
+	material.material.type = "NORMAL"
+	radius = 0.125
+	min = { x = -0.125, y = -0.125, z = -0.125 }
+	max = { x = 0.125, y = 0.125, z = 0.125 }
+	position = { x = -0.5, y = 0, z = 0 }
+	[[objects.video]]
+		seconde = { from = 0, to = 1 }
+		position.x = +0.5
+		position.y = +0.5
+		rotation.y = 360
+		rotation.x = 360
+	[[objects.video]]
+		seconde = { from = 1, to = 2 }
+		position.x = +0.5
+		position.y = -0.5
+		rotation.y = 360
+		rotation.x = 360
+	[[objects.video]]
+		seconde = { from = 2, to = 3 }
+		position.x = -0.5
+		position.y = -0.5
+		rotation.y = 360
+		rotation.x = 360
+	[[objects.video]]
+		seconde = { from = 3, to = 4 }
+		position.x = -0.5
+		position.y = +0.5
+		rotation.y = 360
+		rotation.x = 360
+
+[[objects]]
+	type = "SPHERE"
+	material.type = "VORONOI"
+	material.material.type = "NORMAL"
+	radius = 0.125
+	min = { x = -0.125, y = -0.125, z = -0.125 }
+	max = { x = 0.125, y = 0.125, z = 0.125 }
+	position = { x = 0.5, y = 0, z = 0 }
+	[[objects.video]]
+		seconde = { from = 2, to = 3 }
+		position.x = +0.5
+		position.y = +0.5
+		rotation.y = 360
+		rotation.x = 360
+	[[objects.video]]
+		seconde = { from = 3, to = 4 }
+		position.x = +0.5
+		position.y = -0.5
+		rotation.y = 360
+		rotation.x = 360
+	[[objects.video]]
+		seconde = { from = 0, to = 1 }
+		position.x = -0.5
+		position.y = -0.5
+		rotation.y = 360
+		rotation.x = 360
+	[[objects.video]]
+		seconde = { from = 1, to = 2 }
+		position.x = -0.5
+		position.y = +0.5
+		rotation.y = 360
+		rotation.x = 360
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.125
+	position = { x = 0, y = 0, z = 0 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		material.type = "COLOR"
+		material.color = { r = 169, g = 169, b = 169 }
+	[[objects.video]]
+		seconde = { from = 0, to = 4 }
+		rotation.y = 1440
+
+[[lights]]
+	type = "DIRECTIONAL"
+	position.y = 100
+	direction.y = -1
+	intensity = 2
+	[[lights.video_frame]]
+		second = 2
+		type = "DIRECTIONAL"
+		position.y = -100
+		direction.y = 1
+		intensity = 2
+
+# [[lights]]
+# 	type = "DIRECTIONAL"
+# 	position.y = 100
+# 	direction.y = -1
+# 	intensity = 1.5
+
+# [[lights]]
+# 	type = "AMBIENT"
+# 	intensity = 0.2

@@ -60,3 +60,6 @@ SRCS += src/shapes/shape.c
 SRCS += src/shapes/sphere.c
 SRCS += src/shapes/triangle.c
 SRCS += src/shapes/utils.c
+SRCS += src/video/transform.c
+SRCS += src/video/utils.c
+SRCS += src/video/video.c

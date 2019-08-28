@@ -4,6 +4,6 @@
 #include "toml.h"
 #include "camera.h"
 
-bool	read_camera_super(t_toml_table *toml, t_camera *camera);
+bool	read_camera_super(t_toml_table *toml, struct s_camera *camera);
 
 #endif

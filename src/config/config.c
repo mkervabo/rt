@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/09/18 10:35:22 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:15:16 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,13 @@ static bool		print_toml_error(t_reader *r, t_toml_error err, const char *file)
 
 bool	read_config(const char *file, struct s_config *config)
 {
-	int			fd;
-	t_reader	r;
+	int				fd;
+	t_reader		r;
 	t_toml_table	*toml;
 	t_toml			*camera;
 	t_toml_error	err;
 	char			buffer[4096];
+	t_toml			*video;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 	{
@@ -168,6 +169,13 @@ bool	read_config(const char *file, struct s_config *config)
 	if (!(config->scene.filters = read_filters(toml, &config->scene.filters_size)))
 	{
 		write(STDERR_FILENO, "Invalid filters\n", sizeof("Invalid filters\n") - 1);
+		return (false);
+	}
+	config->video = NULL;
+	if (read_toml_type(toml, &video, "video", TOML_Table)
+			&& !(config->video = read_video(video->value.table_v)))
+	{
+		write(STDERR_FILENO, "Invalid video\n", sizeof("Invalid video\n") - 1);
 		return (false);
 	}
 	free_toml_table(toml);

@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:07:46 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/30 18:26:38 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/10/27 15:57:17 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@
 # include "math/vec3.h"
 # include "toml.h"
 # include "object.h"
+# include "video.h"
 # include <stdint.h>
 
-struct s_intersection {
+struct s_video_shape;
+
+struct s_intersection
+{
 	double	from;
 	double	to;
 };
@@ -32,12 +36,14 @@ struct s_intersection_tab {
 };
 
 typedef struct	s_shape {
-	uint8_t			type;
-	struct s_vec3	position;
-	struct s_vec3	rotation;
+	uint8_t					type;
+	struct s_vec3			position;
+	struct s_vec3			rotation;
+	struct s_video_shape	video;
 }				t_shape;
 
-struct s_hit {
+struct s_hit
+{
 	struct s_vec3			normal;
 	double					t;
 	float					u;
