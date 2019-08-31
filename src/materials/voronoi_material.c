@@ -35,11 +35,6 @@ static double smoothstep(double edge0, double edge1, double x)
     return (x * x * (3 - 2 * x));
 }
 
-static double min(double i, double j)
-{
-	return (i < j ? i : j);
-}
-
 double voronoi(t_vec2 x, double u, double v)
 {
 	t_vec2 p = vec2(floor(x.x), floor(x.y));

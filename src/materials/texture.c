@@ -1,5 +1,7 @@
 #include "texture.h"
 #include "material_types.h"
+#include "config_utils.h"
+
 #include <stdlib.h>
 #include <SDL_image.h>
 
@@ -12,8 +14,9 @@ t_color						texture_color(struct s_texture *material, t_scene *scene, struct s_
 {
 	uint32_t	pixel;
 	
+	(void)scene;
+	(void)ray;
 	pixel = getpixel(material->surface, material->surface->w * hit->u, material->surface->h * hit->v);
-
 	return ((t_color) {
 		.r = (pixel >> 16) & 0xFF,
 		.g = (pixel >> 8) & 0xFF,
@@ -30,7 +33,7 @@ struct s_texture	*read_texture(t_toml_table *toml)
 	if (!(material = malloc(sizeof(*material))))
 		return (NULL);
 	if (!(read_toml_type(toml, &value, "texture", TOML_String)))
-		return (NULL);
+		return (nfree(material));
 	material->surface = IMG_Load(value->value.string_v);
 	material->surface = SDL_ConvertSurfaceFormat(material->surface,
 		SDL_PIXELFORMAT_ARGB8888, 0);

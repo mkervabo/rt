@@ -10,17 +10,18 @@ static t_vec3	box_normal(double t, t_vec3 min, t_vec3 max)
 	// TODO
 	if (t == min.x)
 		return (vec3(1, 0, 0));
-	if (t == min.y)
+	else if (t == min.y)
 		return (vec3(0, 1, 0));
-	if (t == min.z)
+	else if (t == min.z)
 		return (vec3(0, 0, 1));
-	if (t == max.x)
+	else if (t == max.x)
 		return (vec3(-1, 0, 0));
-	if (t == max.y)
+	else if (t == max.y)
 		return (vec3(0, -1, 0));
-	if (t == max.z)
+	else if (t == max.z)
 		return (vec3(0, 0, -1));
-	
+	else
+		return vec3(0, 1, 0);
 }
 
 struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection **intersections)
@@ -30,7 +31,6 @@ struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection 
 	double	max;
 	t_vec3	cmin;
 	t_vec3	cmax;
-
 
 	invdir = vec3_invert(ray.direction);
 	cmin = vec3(

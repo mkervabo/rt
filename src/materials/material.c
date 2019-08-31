@@ -31,7 +31,7 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 	else if (material->type == MATERIAL_COLOR)
 		return (color_material_color((struct s_color_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_CHECKERBOARD)
-		return (checkerboard_material_color((struct s_checkboard_material *)material, scene, ray, hit));
+		return (checkerboard_material_color((struct s_checkerboard_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_VORONOI)
 		return (voronoi_material_color((struct s_voronoi_material *)material, scene, ray, hit));
 	else

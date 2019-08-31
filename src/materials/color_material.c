@@ -5,6 +5,9 @@
 
 t_color		color_material_color(struct s_color_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
+	(void)scene;
+	(void)ray;
+	(void)hit;
 	return (material->color);
 }
 

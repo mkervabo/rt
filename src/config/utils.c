@@ -1,4 +1,5 @@
 #include "config_utils.h"
+#include <stdlib.h>
 
 bool	read_digit(t_toml *toml, double *digit)
 {

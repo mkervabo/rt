@@ -6,11 +6,14 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/08/11 15:05:17 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/31 10:55:22 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "toml.h"
+#include "config_utils.h"
+
+#include <stdlib.h>
 
 /*bool		read_window(t_toml_table *toml, t_win *win)
 {
@@ -86,7 +89,7 @@ bool		read_camera(t_toml_table *toml, t_cam *cam)
 #include <string.h>
 #include <unistd.h>
 
-static t_shape	**read_objects(t_toml_table *toml, size_t *size)
+static t_object	*read_objects(t_toml_table *toml, size_t *size)
 {
 	t_object		*objs;
 	t_toml			*v;
@@ -129,7 +132,7 @@ static void		putnbr_fd(int fd, size_t n)
 	write(fd, buf + i, sizeof(buf) - i);
 }
 
-static bool		print_toml_error(t_reader *r, t_toml_error err, char *file)
+static bool		print_toml_error(t_reader *r, t_toml_error err, const char *file)
 {
 	char	*msg;
 
@@ -183,5 +186,6 @@ bool	read_config(const char *file, struct s_config *config)
 
 void	free_config(struct s_config *config)
 {
+	(void)config;
 	// TODO
 }

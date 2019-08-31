@@ -1,6 +1,7 @@
 #include "360.h"
 #include "camera_types.h"
 #include "utils.h"
+#include "config_utils.h"
 #include <stdlib.h>
 #include <math.h>
 

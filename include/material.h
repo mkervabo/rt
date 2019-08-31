@@ -7,6 +7,9 @@
 # include "scene.h"
 # include "ray.h"
 
+struct s_scene;
+struct s_hit;
+
 typedef struct	s_material {
 	uint8_t	type;
 }				t_material;
