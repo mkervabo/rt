@@ -6,5 +6,6 @@
 # include "ray.h"
 
 t_color raytrace(t_scene *scene, struct s_ray ray);
+struct s_hit	hit_scene(t_scene *scene, struct s_ray ray);
 
 #endif

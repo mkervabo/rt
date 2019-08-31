@@ -28,7 +28,7 @@ static bool	read_color(t_toml_table *toml, t_color *color)
 	else
 		color->g = value->value.integer_v;
 	if (!(value = table_get(toml, "b")))
-		color->r = 0;
+		color->b = 0;
 	else if (value->type != TOML_Integer)
 		return (false);
 	else

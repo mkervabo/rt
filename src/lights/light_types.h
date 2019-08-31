@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   light_types.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-jesu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/20 14:29:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/08/15 13:20:02 by dde-jesu         ###   ########.fr       */
+/*   Created: 2019/08/31 14:14:44 by dde-jesu          #+#    #+#             */
+/*   Updated: 2019/08/31 14:14:51 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef LIGHT_TYPE_H
+# define LIGHT_TYPE_H
 
-# include "math/vec3.h"
-
-struct s_ray {
-	struct s_vec3	origin;
-	struct s_vec3	direction;
+enum e_light_type {
+	LIGHT_POINT
 };
-
-t_vec3 ray_point_at(const struct s_ray *ray, float t);
 
 #endif

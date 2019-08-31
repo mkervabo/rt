@@ -6,16 +6,21 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/08/31 10:55:22 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/08/31 15:06:52 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "toml.h"
 #include "config_utils.h"
+#include "config.h"
 
 #include <stdlib.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
-/*bool		read_window(t_toml_table *toml, t_win *win)
+static bool		read_name_and_size(t_toml_table *toml, struct s_config *config)
 {
 	t_toml	*value;
 	double	width;
@@ -25,69 +30,18 @@
 		return (false);
 	if (!read_digit(value, &width))
 		return (false);
-	win->width = width;
+	config->size.width = width;
 	if (!(value = table_get(toml, "height")))
 		return (false);
 	if (!read_digit(value, &height))
 		return (false);
-	win->height = height;
+	config->size.height = height;
 	if (!(read_toml_type(toml, &value, "name", TOML_String)))
 		return (false);
-	win->name = value->value.string_v;
+	config->name = value->value.string_v;
 	value->value.string_v = NULL;
 	return (true);
 }
-
-t_light		**read_lights(t_toml_table *toml, size_t *size)
-{
-	t_light		**lights;
-	t_toml		*v;
-	size_t		i;
-
-	if (read_toml_type(toml, &v, "lights", TOML_Array) == false)
-		return (NULL);
-	if (v->value.array_v->len == 0
-		|| v->value.array_v->inner[0].type != TOML_Table)
-		return (NULL);
-	*size = v->value.array_v->len;
-	if (!(lights = malloc(sizeof(t_light*) * *size)))
-		return (NULL);
-	i = 0;
-	while (i < *size)
-	{
-		if (!(lights[i] = read_light(v->value.array_v->inner[i].value.table_v)))
-			return (free_ptr_array((void **)lights, i));
-		i++;
-	}
-	return (lights);
-}
-
-bool		read_camera(t_toml_table *toml, t_cam *cam)
-{
-	t_toml	*camera;
-	t_toml	*value;
-
-	if (!read_toml_type(toml, &camera, "camera", TOML_Table))
-		return (false);
-	if (!read_toml_type(camera->value.table_v, &value, "position", TOML_Table))
-		return (false);
-	if (!read_t_vec3(value->value.table_v, &cam->pos))
-		return (false);
-	if (!read_toml_type(camera->value.table_v, &value, "rotation", TOML_Table))
-		return (false);
-	if (!read_t_vec3(value->value.table_v, &cam->rot))
-		return (false);
-	cam->rot = vec3_multv(cam->rot, M_PI / 180);
-	return (true);
-}*/
-
-#include "config.h"
-#include "toml.h"
-
-#include <fcntl.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
 
 static t_object	*read_objects(t_toml_table *toml, size_t *size)
 {
@@ -114,6 +68,31 @@ static t_object	*read_objects(t_toml_table *toml, size_t *size)
 	return (objs);
 }
 
+static t_light		**read_lights(t_toml_table *toml, size_t *size)
+{
+	t_light		**lights;
+	t_toml		*v;
+	size_t		i;
+
+	if (read_toml_type(toml, &v, "lights", TOML_Array)) {
+		if (v->value.array_v->len != 0
+			&& v->value.array_v->inner[0].type != TOML_Table)
+			return (NULL);
+		*size = v->value.array_v->len;
+	} else
+		*size = 0;
+	if (!(lights = malloc(sizeof(t_light*) * *size)))
+		return (NULL);
+	i = 0;
+	while (i < *size)
+	{
+		if (!(lights[i] = read_light(v->value.array_v->inner[i].value.table_v)))
+			//return (free_ptr_array((void **)lights, i));
+			return (NULL);
+		i++;
+	}
+	return (lights);
+}
 
 static void		putnbr_fd(int fd, size_t n)
 {
@@ -162,17 +141,22 @@ bool	read_config(const char *file, struct s_config *config)
 		perror("rt");
 		return (false);
 	}
-	*config = (struct s_config) {
-		.name = "Unicorn",
-		.size = { 1024, 960 }
-	};
 	r = create_reader(fd, buffer, sizeof(buffer));
 	if ((err = read_toml(&r, &toml, true)) != No_Error)
 		return (print_toml_error(&r, err, file));
 	close(fd);
+	if (!read_name_and_size(toml, config)) {
+		write(STDERR_FILENO, "Invalid name or size\n", sizeof("Invalid name or size\n") - 1);
+		return (false);
+	}
 	if (!(config->scene.objects = read_objects(toml, &config->scene.objects_size)))
 	{
 		write(STDERR_FILENO, "Invalid objects\n", sizeof("Invalid objects\n") - 1);
+		return (false);
+	}
+	if (!(config->scene.lights = read_lights(toml, &config->scene.lights_size)))
+	{
+		write(STDERR_FILENO, "Invalid lights\n", sizeof("Invalid lights\n") - 1);
 		return (false);
 	}
 	if (!read_toml_type(toml, &camera, "camera", TOML_Table)
@@ -181,6 +165,7 @@ bool	read_config(const char *file, struct s_config *config)
 		write(STDERR_FILENO, "Invalid camera\n", sizeof("Invalid camera\n") - 1);
 		return (false);
 	}
+	free_toml_table(toml);
 	return (true);
 }
 
