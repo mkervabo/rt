@@ -13,6 +13,8 @@
 #ifndef MATH_VEC3_H
 # define MATH_VEC3_H
 
+# include <stdbool.h>
+
 typedef struct	s_vec3
 {
 	double		x;
@@ -32,5 +34,6 @@ double			vec3_dot(t_vec3 a, t_vec3 b);
 double			vec3_length(t_vec3 v);
 t_vec3			vec3_rotate(t_vec3 v, t_vec3 rot);
 t_vec3			vec3_invert(t_vec3 v);
+bool			vec3_is_zero(t_vec3 a);
 
 #endif

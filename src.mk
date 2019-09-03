@@ -7,6 +7,7 @@ SRCS += src/color.c
 SRCS += src/config/config.c
 SRCS += src/config/utils.c
 SRCS += src/frontend/sdl.c
+SRCS += src/lights/ambient_light.c
 SRCS += src/lights/light.c
 SRCS += src/lights/point_light.c
 SRCS += src/main.c

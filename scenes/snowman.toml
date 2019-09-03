@@ -418,3 +418,7 @@ height = 800
 	type = "POINT"
 	position = { x = 0, y = 0, z = 0 }
 	intensity = 2
+
+[[lights]]
+	type = "AMBIENT"
+	intensity = 0.2

@@ -14,7 +14,8 @@
 # define LIGHT_TYPE_H
 
 enum e_light_type {
-	LIGHT_POINT
+	LIGHT_POINT,
+	LIGHT_AMBIENT
 };
 
 #endif

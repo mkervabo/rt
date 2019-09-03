@@ -24,5 +24,7 @@ typedef struct	s_color {
 t_color			color_blend(t_color a, t_color b);
 uint32_t		color_to_rgb(t_color color);
 t_color			color_add(t_color a, t_color b);
+t_color			color_ratio(t_color a, t_color b);
+t_color			color_multv(t_color c, double v);
 
 #endif

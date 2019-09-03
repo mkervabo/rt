@@ -41,32 +41,30 @@ t_color		diffuse_material_color(struct s_diffuse_material *material, t_scene *sc
 {
 	size_t				i;
 	struct s_light_ray	light;
-	t_vec3				light_color; // r g b as x y z
+	t_color				light_color; // r g b as x y z
 	double				intensity;
 	t_vec3				point;
 
-	light_color = vec3(0, 0, 0);
+	light_color = (t_color){ 0, 0, 0 };
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
 	i = 0;
 	while (i < scene->lights_size) {
 		light = get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t));
-		if (receive_light(scene, &light, point))
-		{
+		if (vec3_is_zero(light.direction))
+			intensity = light.intensity;
+		else if (receive_light(scene, &light, point))
 			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(light.direction, -1), hit->normal), 0) * light.intensity;
-			light_color = vec3_add(light_color, vec3_multv(
-				vec3((double)255 / 255, (double)255 / 255, (double)255 / 255),
-				intensity
-			));
-		}
+		else
+			intensity = 0;
+		light_color = color_add(light_color, color_multv(
+			light.color,
+			intensity
+		));
 		i++;
 	}
-	return (color_mult_vec3(
+	return (color_ratio(
 		material_color(material->material, scene, ray, hit),
-		vec3(
-			fmin(light_color.x, 1.0),
-			fmin(light_color.y, 1.0),
-			fmin(light_color.z, 1.0)
-		)
+		light_color
 	));
 }
 

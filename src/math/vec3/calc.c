@@ -40,3 +40,8 @@ t_vec3		vec3_cross(t_vec3 a, t_vec3 b)
 		(a.x * b.y) - (a.y * b.x)
 	));
 }
+
+bool		vec3_is_zero(t_vec3 v)
+{
+	return (v.x == 0 && v.y == 0 && v.y == 0);
+}

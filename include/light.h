@@ -3,6 +3,7 @@
 
 #include "toml.h"
 #include "math/vec3.h"
+#include "color.h"
 
 #include <stdint.h>
 
@@ -15,6 +16,7 @@ t_light			*read_light(t_toml_table *toml);
 struct s_light_ray {
 	t_vec3	direction;
 	t_vec3	origin;
+	t_color	color;
 	double	intensity;
 };
 
