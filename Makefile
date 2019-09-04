@@ -6,7 +6,7 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/19 11:46:19 by mkervabo          #+#    #+#              #
-#    Updated: 2019/08/31 13:49:13 by dde-jesu         ###   ########.fr        #
+#    Updated: 2019/10/26 12:35:28 by dde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LIBS_FILES = $(patsubst %, lib%.a, $(LIBS))
 LIBS_FULL_FILES = $(join $(LIBS_DIR), $(LIBS_FILES))
 
 CFLAGS = -Wall -Wextra -I./include $(patsubst %, -I%/include, $(LIBS_DIR)) $(shell pkg-config --cflags sdl2 SDL2_image) -g
-LDFLAGS = $(patsubst %, -L%, $(LIBS_DIR)) $(patsubst %, -l%, $(LIBS)) $(shell pkg-config --libs sdl2 SDL2_image) -lm
+LDFLAGS = $(patsubst %, -L%, $(LIBS_DIR)) $(patsubst %, -l%, $(LIBS)) $(shell pkg-config --libs sdl2 SDL2_image) -lm -lpthread
 
 include src.mk
 
