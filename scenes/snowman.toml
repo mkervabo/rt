@@ -412,12 +412,18 @@ height = 800
 [[lights]]
 	type = "POINT"
 	position = { x = -5, y = 1, z = 1 }
-	intensity = 2
+	intensity = 1
 
 [[lights]]
 	type = "POINT"
 	position = { x = 0, y = 0, z = 0 }
-	intensity = 2
+	intensity = 1
+
+[[lights]]
+	type = "DIRECTIONAL"
+	position.y = 100
+	direction.y = -1
+	intensity = 1.5
 
 [[lights]]
 	type = "AMBIENT"

@@ -6,7 +6,7 @@
 /*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:55:08 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/08/15 13:33:49 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/04 18:15:47 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ t_vec3		vec3_cross(t_vec3 a, t_vec3 b)
 
 bool		vec3_is_zero(t_vec3 v)
 {
-	return (v.x == 0 && v.y == 0 && v.y == 0);
+	return (v.x == 0 && v.y == 0 && v.z == 0);
 }
