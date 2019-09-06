@@ -1,12 +1,13 @@
-#include "diffuse_material.h"
-#include "raytrace.h"
+#include "cartoon_material.h"
 #include "material_types.h"
+#include "raytrace.h"
 #include "config_utils.h"
 
 #include <stdlib.h>
 #include <math.h>
 
-static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p) {
+static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p)
+{
 	struct s_ray	shadow;
 	t_vec3			to_light;
 	t_vec3			direction;
@@ -29,7 +30,7 @@ static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p) {
 
 # define SHADOW_BIAS 1e-4
 
-t_color		diffuse_material_color(struct s_diffuse_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	size_t				i;
 	struct s_ray		lray;
@@ -48,6 +49,15 @@ t_color		diffuse_material_color(struct s_diffuse_material *material, t_scene *sc
 			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity;
 		else
 			intensity = 0;
+		printf("intensity: %f\n", intensity);
+		if (intensity <= 0.01)
+			intensity = 0;
+		else if (intensity <= 0.2)
+			intensity = 0.4;
+		else if (intensity <= 0.6)
+			intensity = 0.6;
+		else
+			intensity = 1;
 		light_color = color_add(light_color, color_multv(
 			scene->lights[i]->color,
 			intensity
@@ -58,12 +68,14 @@ t_color		diffuse_material_color(struct s_diffuse_material *material, t_scene *sc
 		material_color(material->material, scene, ray, hit),
 		light_color
 	));
+
+	return(material_color(material->material, scene, ray, hit));
 }
 
-struct s_diffuse_material	*read_diffuse_material(t_toml_table *toml)
+struct s_cartoon_material	*read_cartoon_material(t_toml_table *toml)
 {
-	struct s_diffuse_material	*material;
-	t_toml					*value;
+	struct s_cartoon_material	*material;
+	t_toml						*value;
 
 	if (!(material = malloc(sizeof(*material))))
 		return (NULL);
@@ -75,6 +87,6 @@ struct s_diffuse_material	*read_diffuse_material(t_toml_table *toml)
 		return (nfree(material));
 	if (!(material->material = read_material(value->value.table_v)))
 		return (nfree(material));
-	material->super.type = MATERIAL_DIFFUSE;
+	material->super.type = MATERIAL_CARTOON;
 	return (material);
 }

@@ -18,6 +18,7 @@ SRCS += src/lights/light.c
 SRCS += src/lights/point_light.c
 SRCS += src/lights/utils.c
 SRCS += src/main.c
+SRCS += src/materials/cartoon_material.c
 SRCS += src/materials/checkerboard_material.c
 SRCS += src/materials/color_material.c
 SRCS += src/materials/diffuse_material.c

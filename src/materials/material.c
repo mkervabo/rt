@@ -1,4 +1,3 @@
-#include "material.h"
 #include "debug/assert.h"
 #include "toml.h"
 
@@ -11,6 +10,7 @@
 #include "voronoi_material.h"
 #include "diffuse_material.h"
 #include "height_map.h"
+#include "cartoon_material.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -40,6 +40,8 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 		return (diffuse_material_color((struct s_diffuse_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_HEIGHT_MAP)
 		return (height_map_color((struct s_height_map *)material, scene, ray, hit));
+	else if (material->type == MATERIAL_CARTOON)
+		return (cartoon_material_color((struct s_cartoon_material *)material, scene, ray, hit));
 	else
 		assertf(false, "Unimplemented material type: %d", material->type);
 }
@@ -68,6 +70,8 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_diffuse_material(toml));
 	else if (ft_strcmp(type->value.string_v, "HEIGHT_MAP") == 0)
 		return ((t_material *)read_height_map(toml));
+	else if (ft_strcmp(type->value.string_v, "CARTOON") == 0)
+		return ((t_material *)read_cartoon_material(toml));
 	else
 		return (NULL);
 }
