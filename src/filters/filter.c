@@ -9,6 +9,7 @@
 #include "black_and_white.h"
 #include "sepia.h"
 #include "negative.h"
+#include "anti_aliasing.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -28,6 +29,8 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 		sepia_filter(pixels, hits, window);
 	else if (filter->type == FILTER_NEGATIVE)
 		negative_filter(pixels, hits, window);
+	else if (filter->type == FILTER_ANTI_ALIASING)
+		anti_aliasing_filter((struct s_anti_aliasing_filter *)filter, pixels, hits, window);
 	else
 		assertf(false, "Unimplemented filter type: %d", filter->type);
 
@@ -47,6 +50,8 @@ t_filter		*read_filter(t_toml_table *toml)
 		return ((t_filter *)read_sepia_filter(toml));
 	else if (ft_strcmp(type->value.string_v, "NEGATIVE") == 0)
 		return ((t_filter *)read_negative_filter(toml));
+	else if (ft_strcmp(type->value.string_v, "ANTI_ALIASING") == 0)
+		return ((t_filter *)read_anti_aliasing_filter(toml));
 	return (NULL);
 }
 

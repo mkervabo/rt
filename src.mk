@@ -9,6 +9,7 @@ SRCS += src/config/utils.c
 SRCS += src/filters/black_and_white.c
 SRCS += src/filters/sepia.c
 SRCS += src/filters/negative.c
+SRCS += src/filters/anti_aliasing.c
 SRCS += src/filters/filter.c
 SRCS += src/frontend/sdl.c
 SRCS += src/lights/ambient_light.c
