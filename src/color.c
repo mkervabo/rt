@@ -5,6 +5,16 @@ uint32_t	color_to_rgb(t_color color)
 	return (((uint32_t)color.r) << 16 | ((uint32_t)color.g) << 8 | color.b);
 }
 
+t_color color_from_rgb(uint32_t color)
+{
+	return ((t_color) {
+		.r = (color >> 16) & 0xFF,
+		.g = (color >> 8) & 0xFF,
+		.b = color & 0xFF
+	});
+}
+
+
 t_color		color_add(t_color a, t_color b)
 {
 	t_color res = ((t_color) {

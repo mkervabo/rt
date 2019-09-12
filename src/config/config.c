@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/08/31 15:06:52 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:15:28 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,11 @@ bool	read_config(const char *file, struct s_config *config)
 			|| !(config->scene.camera = read_camera(camera->value.table_v)))
 	{
 		write(STDERR_FILENO, "Invalid camera\n", sizeof("Invalid camera\n") - 1);
+		return (false);
+	}
+	if (!(config->scene.filters = read_filters(toml, &config->scene.filters_size)))
+	{
+		write(STDERR_FILENO, "Invalid filters\n", sizeof("Invalid filters\n") - 1);
 		return (false);
 	}
 	free_toml_table(toml);

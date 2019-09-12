@@ -2,10 +2,11 @@
 #include "material.h"
 #include <math.h>
 
-struct s_hit	hit_scene(t_scene *scene, struct s_ray ray) {
+struct s_hit	hit_scene(t_scene *scene, struct s_ray ray)
+{
 	struct s_hit	max;
 	struct s_hit	hit;
-	size_t	i;
+	size_t			i;
 
 	i = 0;
 	max = (struct s_hit) {
@@ -22,10 +23,17 @@ struct s_hit	hit_scene(t_scene *scene, struct s_ray ray) {
 	return (max);
 }
 
-t_color	raytrace(t_scene *scene, struct s_ray ray) {
+t_color	raytrace(t_scene *scene, struct s_ray ray, struct s_pixel_hit *pixel_hit)
+{
 	struct s_hit	hit;
 
-	if ((hit = hit_scene(scene, ray)).t >= 0)
+	hit = hit_scene(scene, ray);
+	if (pixel_hit)
+	{
+		pixel_hit->t = hit.t;
+		pixel_hit->who = hit.who;
+	}
+	if (hit.t >= 0)
 		return (material_color(hit.who->material, scene, ray, &hit));
 	else
 		return ((t_color) {
