@@ -8,6 +8,7 @@
 
 #include "black_and_white.h"
 #include "sepia.h"
+#include "negative.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -25,6 +26,8 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 		black_and_white_filter(pixels, hits, window);
 	else if (filter->type == FILTER_SEPIA)
 		sepia_filter(pixels, hits, window);
+	else if (filter->type == FILTER_NEGATIVE)
+		negative_filter(pixels, hits, window);
 	else
 		assertf(false, "Unimplemented filter type: %d", filter->type);
 
@@ -42,6 +45,8 @@ t_filter		*read_filter(t_toml_table *toml)
 		return ((t_filter *)read_black_and_white_filter(toml));
 	else if (ft_strcmp(type->value.string_v, "SEPIA") == 0)
 		return ((t_filter *)read_sepia_filter(toml));
+	else if (ft_strcmp(type->value.string_v, "NEGATIVE") == 0)
+		return ((t_filter *)read_negative_filter(toml));
 	return (NULL);
 }
 

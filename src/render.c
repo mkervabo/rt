@@ -6,7 +6,7 @@
 /*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:40:18 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/09/12 19:32:43 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/12 19:47:36 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ uint32_t		*render(t_scene *scene, struct s_size window, t_update_fn update, void
 			x++;
 		}
 		if (update(pixels, user))
-			break ;
+			return (pixels);
 	}
 	if (scene->filters)
 	{

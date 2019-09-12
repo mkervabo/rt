@@ -3,7 +3,8 @@
 
 enum e_filters_type {
 	FILTER_BLACK_AND_WHITE,
-	FILTER_SEPIA
+	FILTER_SEPIA,
+	FILTER_NEGATIVE
 };
 
 #endif
