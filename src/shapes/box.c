@@ -16,9 +16,9 @@ static t_vec3	box_normal(t_vec3 p, t_vec3 a, t_vec3 b)
 {
 	// TODO
 	if (double_cmp(p.x, a.x))
-		return (vec3(1, 0, 0));
-	else if (double_cmp(p.x, b.x))
 		return (vec3(-1, 0, 0));
+	else if (double_cmp(p.x, b.x))
+		return (vec3(1, 0, 0));
 	else if (double_cmp(p.y, a.y))
 		return (vec3(0, -1, 0));
 	else if (double_cmp(p.y, b.y))
