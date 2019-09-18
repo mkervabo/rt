@@ -93,13 +93,13 @@ struct s_box	*read_box(t_toml_table *toml)
 	t_toml			*value;
 
 	if (!(box = malloc(sizeof(*box))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate box shape"));
 	if (!read_shape_super(toml, &box->super))
-		return (nfree(box));
+		return (rt_error(box, "Invalid super in box shape"));
 	if (!(read_toml_type(toml, &value, "min", TOML_Table) && read_vec3(value->value.table_v, box->bounds + 0)))
-		return (nfree(box));
+		return (rt_error(box, "Invalid min in box shape"));
 	if (!(read_toml_type(toml, &value, "max", TOML_Table) && read_vec3(value->value.table_v, box->bounds + 1)))
-		return (nfree(box));
+		return (rt_error(box, "Invalid max in box shape"));
 	box->super.type = SHAPE_BOX;
 	return (box);
 }

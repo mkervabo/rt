@@ -29,7 +29,7 @@ struct s_black_and_white_filter	*read_black_and_white_filter(t_toml_table *toml)
 	struct s_black_and_white_filter	*black_and_white;
 
 	if (!(black_and_white = malloc(sizeof(*black_and_white))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate black and white filter"));
 	black_and_white->super.type = FILTER_BLACK_AND_WHITE;
 	return (black_and_white);
 }

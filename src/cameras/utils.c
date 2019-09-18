@@ -11,14 +11,14 @@ bool	read_camera_super(t_toml_table *toml, t_camera *camera)
 	if (read_toml_type(toml, &value, "position", TOML_Table))
 	{
 		if (!read_vec3(value->value.table_v, &camera->position))
-			return (false);
+			return ((bool)rt_error(NULL, "Invalid camera position"));
 	}
 	else
 		camera->position = vec3(0, 0, 0);
 	if (read_toml_type(toml, &value, "rotation", TOML_Table))
 	{
 		if (!read_vec3(value->value.table_v, &camera->rotation))
-			return (false);
+			return ((bool)rt_error(NULL, "Invalid camera rotation"));
 		camera->rotation = vec3_multv(camera->rotation, M_PI / 180);
 	}
 	else

@@ -22,9 +22,9 @@ struct s_perspective_camera	*read_perspective_camera(t_toml_table *toml)
 	struct s_perspective_camera	*camera;
 
 	if (!(camera = malloc(sizeof(*camera))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate perpective camera"));
 	if (!read_camera_super(toml, &camera->super))
-		return (nfree(camera));
+		return (rt_error(camera, "Invalid perspective camera"));
 	camera->super.type = CAMERA_PERSPECTIVE;
 	return (camera);
 }

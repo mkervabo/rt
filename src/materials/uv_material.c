@@ -21,7 +21,7 @@ struct s_uv_material	*read_uv_material(t_toml_table *toml)
 
 	(void)toml;
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate uv material"));
 	material->super.type = MATERIAL_UV;
 	return (material);
 }

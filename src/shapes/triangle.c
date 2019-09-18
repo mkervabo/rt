@@ -44,21 +44,21 @@ struct s_hit hit_triangle(struct s_ray ray, struct s_triangle *triangle,
 struct s_triangle	*read_triangle(t_toml_table *toml)
 {
 	struct s_triangle	*triangle;
-	t_toml			*value;
+	t_toml				*value;
 
 	if (!(triangle = malloc(sizeof(*triangle))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate triangle"));
 	if (!read_shape_super(toml, &triangle->super))
-		return (nfree(triangle));
+		return (rt_error(triangle, "Invalid super in triangle shape"));
 	if (!read_toml_type(toml, &value, "v0", TOML_Table)
 			|| !read_vec3(value->value.table_v, &triangle->v0))
-			return (nfree(triangle));
+		return (rt_error(triangle, "Invalid v0 in triangle shape"));
 	if (!read_toml_type(toml, &value, "v1", TOML_Table)
 			|| !read_vec3(value->value.table_v, &triangle->v1))
-			return (nfree(triangle));
+		return (rt_error(triangle, "Invalid v1 in triangle shape"));
 	if (!read_toml_type(toml, &value, "v2", TOML_Table)
 			|| !read_vec3(value->value.table_v, &triangle->v2))
-			return (nfree(triangle));
+		return (rt_error(triangle, "Invalid v3 in triangle shape"));
 	triangle->super.type = SHAPE_TRIANGLE;
 	return (triangle);
 }

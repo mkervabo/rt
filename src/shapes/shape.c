@@ -91,5 +91,5 @@ t_shape			*read_shape(t_toml_table *toml)
 	if (ft_strcmp(type->value.string_v, "DIFFERENCE") == 0)
 		return ((t_shape *)read_csg(toml, CSG_DIFFERENCE));
 	else
-		return (NULL);
+			return (rt_error(NULL, "Invalid shape type"));
 }

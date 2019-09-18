@@ -23,19 +23,19 @@ struct s_directional_light	*read_directional_light(t_toml_table *toml)
 	t_toml						*value;
 
 	if (!(light = malloc(sizeof(*light))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate directional light"));
 	if (!read_light_super(toml, &light->super))
-		return (nfree(light));
+		return (rt_error(light, "Invalid super in directional light"));
 	if (!read_toml_type(toml, &value, "position", TOML_Table))
-		return (nfree(light));
+		return (rt_error(light, "Missing position in directional light"));
 	if (!read_vec3(value->value.table_v, &light->position))
-		return (nfree(light));
+		return (rt_error(light, "Invalid position in directional light"));
 	if (!read_toml_type(toml, &value, "direction", TOML_Table))
-		return (nfree(light));
+		return (rt_error(light, "Misssing direction in directional light"));
 	if (!read_vec3(value->value.table_v, &light->direction))
-		return (nfree(light));
+		return(rt_error(light, "Invalid direction in directional light"));
 	if (vec3_is_zero(light->direction))
-		return (nfree(light));
+		return (rt_error(light, "Invalid direction in directional light"));
 	light->direction = vec3_unit(light->direction);
 	light->super.type = LIGHT_DIRECTIONAL;
 	return (light);

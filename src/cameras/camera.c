@@ -2,6 +2,7 @@
 #include "debug/assert.h"
 #include "camera_types.h"
 #include "toml.h"
+#include "config_utils.h"
 
 #include "perspective.h"
 #include "360.h"
@@ -54,5 +55,5 @@ t_camera			*read_camera(t_toml_table *toml)
 	else if (ft_strcmp(type->value.string_v, "ORTHOGRAPHIC") == 0)
 		return ((t_camera *)read_orthographic_camera(toml));
 	else
-		return (NULL);
+		return (rt_error(NULL, "Invalid camera type"));
 }

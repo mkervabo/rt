@@ -66,15 +66,15 @@ struct s_diffuse_material	*read_diffuse_material(t_toml_table *toml)
 	t_toml					*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate color material"));
 	if (!(value = table_get(toml, "albedo")))
-		return (nfree(material));
+		return (rt_error(material, "Missing albedo in color material"));
 	if (!read_digit(value, &material->albedo))
-		return (nfree(material));
+		return (rt_error(material, "Invalid albedo in color material"));
 	if (!read_toml_type(toml, &value, "material", TOML_Table))
-		return (nfree(material));
+		return (rt_error(material, "Missing material in color material"));
 	if (!(material->material = read_material(value->value.table_v)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid material in color material"));
 	material->super.type = MATERIAL_DIFFUSE;
 	return (material);
 }

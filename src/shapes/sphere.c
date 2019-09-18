@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:04:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/09/18 18:42:25 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/18 20:38:00 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ struct s_sphere	*read_sphere(t_toml_table *toml)
 	t_toml			*radius;
 
 	if (!(sphere = malloc(sizeof(*sphere))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate sphere shape"));
 	if (!(radius = table_get(toml, "radius")))
-		return (nfree(sphere));
+		return (rt_error(sphere, "Misssing radius in sphere shape"));
 	if (!read_shape_super(toml, &sphere->super))
-		return (nfree(sphere));
+		return (rt_error(sphere, "invalid super in sphere shape"));
 	if (read_digit(radius, &sphere->r) == false)
-		return (nfree(sphere));
+		return (rt_error(sphere, "Invalide radius in sphere shape"));
 	sphere->super.type = SHAPE_SPHERE;
 	return (sphere);
 }

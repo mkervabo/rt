@@ -28,19 +28,19 @@ struct s_checkerboard_material	*read_checkerboard_material(t_toml_table *toml)
 	t_toml							*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate checkerboard material"));
 	if (!(value = table_get(toml, "size")))
 		material->size = 1;
 	else if (read_digit(value, &material->size) == false)
-		return (nfree(material));
+		return (rt_error(material, "Invalid size in checkerboard material"));
 	if (read_toml_type(toml, &value, "black", TOML_Table) == false)
-		return (nfree(material));
+		return (rt_error(material, "Missing black in checkerboard material"));
 	else if (!(material->black = read_material(value->value.table_v)))
-		return (nfree(material));
+	return (rt_error(material, "Invalid black in checkerboard material"));
 	if (read_toml_type(toml, &value, "white", TOML_Table) == false)
-		return (nfree(material));
+		return (rt_error(material, "Missing white in checkerboard material"));
 	else if (!(material->white = read_material(value->value.table_v)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid white in checkerboard material"));
 	material->super.type = MATERIAL_CHECKERBOARD;
 	return (material);
 }

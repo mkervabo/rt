@@ -32,13 +32,13 @@ struct s_cylinder	*read_cylinder(t_toml_table *toml)
 	t_toml				*radius;
 
 	if (!(cylinder = malloc(sizeof(*cylinder))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate cylinder shape"));
 	if (!(radius = table_get(toml, "radius")))
-		return (nfree(cylinder));
+		return (rt_error(cylinder, "Missing radius in cylinder shape"));
 	if (!read_shape_super(toml, &cylinder->super))
-		return (nfree(cylinder));
+		return (rt_error(cylinder, "Invalid super in cylinder shape"));
 	if (read_digit(radius, &cylinder->r) == false)
-		return (nfree(cylinder));
+		return (rt_error(cylinder, "Invalid radius in cylinder shape"));
 	cylinder->super.type = SHAPE_CYLINDER;
 	return (cylinder);
 }

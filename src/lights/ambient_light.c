@@ -14,9 +14,9 @@ struct s_ambient_light	*read_ambient_light(t_toml_table *toml)
 	t_toml					*value;
 
 	if (!(light = malloc(sizeof(*light))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate ambient light"));
 	if (!read_light_super(toml, &light->super))
-		return (nfree(light));
+		return (rt_error(light, "Invalid ambient light"));
 	light->super.type = LIGHT_AMBIENT;
 	return (light);
 }

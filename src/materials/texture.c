@@ -31,14 +31,14 @@ struct s_texture	*read_texture(t_toml_table *toml)
 	t_toml				*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate texture material"));
 	if (!(read_toml_type(toml, &value, "texture", TOML_String)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid texture in texture material"));
 	if (!(material->surface = IMG_Load(value->value.string_v)))
-		return (nfree(material));
+		return (rt_error(material, IMG_GetError()));
 	if (!(material->surface = SDL_ConvertSurfaceFormat(material->surface,
 		SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (nfree(material));
+		return (rt_error(material, "SDL_ConvertSurfaceFormat error in texture material"));
 	material->super.type = MATERIAL_TEXTURE;
 	return (material);
 }

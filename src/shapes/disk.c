@@ -47,21 +47,21 @@ struct s_disk	*read_disk(t_toml_table *toml)
 	t_toml			*radius;
 
 	if (!(disk = malloc(sizeof(*disk))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate disk shape"));
 	if (!(radius = table_get(toml, "radius")))
-		return (nfree(disk));
+		return (rt_error(disk, "Missing radius in disk shape"));
 	if (!read_shape_super(toml, &disk->super))
-		return (nfree(disk));
+		return (rt_error(disk, "Invalid super in disk shape"));
 	if (read_digit(radius, &disk->radius) == false)
-		return (nfree(disk));
+		return (rt_error(disk, "Invalid radius in disk shape"));
 	if (!(radius = table_get(toml, "inner_radius")))
 		disk->inner_radius = 0;
 	else if (read_digit(radius, &disk->inner_radius) == false)
-		return (nfree(disk));
+		return (rt_error(disk, "Missing inner radius in disk shape"));
 	if (!(radius = table_get(toml, "angle")))
 		disk->angle = 360;
 	else if (read_digit(radius, &disk->angle) == false)
-		return (nfree(disk));
+		return (rt_error(disk, "Missing angle in disk shape"));
 	disk->angle *= M_PI / 180;
 	disk->super.type = SHAPE_DISK;
 	return (disk);

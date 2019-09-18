@@ -21,7 +21,7 @@ struct s_normal_material	*read_normal_material(t_toml_table *toml)
 
 	(void)toml;
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate normal material"));
 	material->super.type = MATERIAL_NORMAL;
 	return (material);
 }

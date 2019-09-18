@@ -30,7 +30,6 @@ t_color						height_map_color(struct s_height_map *material, t_scene *scene, str
 	double		x;
 	double		y;
 	
-	printf("%f, %f\n", hit->u, hit->v);
 	x = (hit->u > 0 ? hit->u : 1 - hit->u) / 2;
 	y = (1 + hit->v) / 2;
 	normal = vec3(hit->u, hit->v, (double)getpixel(material->surface, material->surface->w * x, material->surface->h * y) * ALTITUDE / 0xFFFFFF);
@@ -49,17 +48,18 @@ struct s_height_map	*read_height_map(t_toml_table *toml)
 	t_toml					*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate height map material"));
 	if (!(read_toml_type(toml, &value, "texture", TOML_String)))
-		return (nfree(material));
+		return (rt_error(material, "Missing texture in height map material"));
 	if (!(material->surface = IMG_Load(value->value.string_v)))
-		return (nfree(material));
+		return (rt_error(material, IMG_GetError()));
 	if (!(material->surface = SDL_ConvertSurfaceFormat(material->surface,
 		SDL_PIXELFORMAT_ARGB8888, 0)))
-		return (nfree(material));
+		return (rt_error(material, "SDL_ConvertSurfaceFormat error in height map material"));
 	if (read_toml_type(toml, &value, "material", TOML_Table) == false)
-		return (nfree(material));
-	else if (!(material->material = read_material(value->value.table_v)))
+		return (rt_error(material, "Misssing material in height map material"));
+	if (!(material->material = read_material(value->value.table_v)))
+		return (rt_error(material, "Invalid material in height map material"));
 	material->super.type = MATERIAL_HEIGHT_MAP;
 	return (material);
 }

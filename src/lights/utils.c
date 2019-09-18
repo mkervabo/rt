@@ -8,7 +8,7 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 	if (!(value = table_get(toml, "intensity")))
 		light->intensity = 1;
 	else if (!read_digit(value, &light->intensity))
-		return (false);
+		return ((bool)rt_error(NULL, "Is not a number"));
 	light->color = (t_color) { 255, 255, 255 };
 	return true;
 }

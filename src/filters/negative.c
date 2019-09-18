@@ -35,7 +35,7 @@ struct s_negative_filter	*read_negative_filter(t_toml_table *toml)
 
 	(void)toml;
 	if (!(negative = malloc(sizeof(*negative))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate negative filter"));
 	negative->super.type = FILTER_NEGATIVE;
 	return (negative);
 }

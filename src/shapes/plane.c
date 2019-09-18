@@ -31,9 +31,9 @@ struct s_plane	*read_plane(t_toml_table *toml)
 	struct s_plane	*plane;
 
 	if (!(plane = malloc(sizeof(*plane))))
-		return (NULL);
+			return (rt_error(NULL, "Can not allocate plane shape"));
 	if (!read_shape_super(toml, &plane->super))
-		return (nfree(plane));
+			return (rt_error(plane, "invalid super in plane shape"));
 	plane->super.type = SHAPE_PLANE;
 	return (plane);
 }

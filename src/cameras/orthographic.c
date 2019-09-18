@@ -23,9 +23,9 @@ struct s_orthographic_camera	*read_orthographic_camera(t_toml_table *toml)
 	struct s_orthographic_camera	*camera;
 
 	if (!(camera = malloc(sizeof(*camera))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate orthographic camera"));
 	if (!read_camera_super(toml, &camera->super))
-		return (nfree(camera));
+		return (rt_error(camera, "Invalid orthographic camera"));
 	camera->super.type = CAMERA_ORTHOGRAPHIC;
 	return (camera);
 }

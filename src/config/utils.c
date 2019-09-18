@@ -1,5 +1,7 @@
 #include "config_utils.h"
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 bool	read_digit(t_toml *toml, double *digit)
 {
@@ -8,7 +10,7 @@ bool	read_digit(t_toml *toml, double *digit)
 	else if (toml->type == TOML_Integer)
 		*digit = toml->value.integer_v;
 	else
-		return (false);
+		return ((bool)rt_error(NULL, "Is not a number"));
 	return (true);
 }
 
@@ -19,15 +21,15 @@ bool	read_vec3(t_toml_table *toml, t_vec3 *vec)
 	if (!(value = table_get(toml, "x")))
 		vec->x = 0;
 	else if (read_digit(value, &vec->x) == false)
-		return (false);
+		return ((bool)rt_error(NULL, "Invalid vec3 x"));
 	if (!(value = table_get(toml, "y")))
 		vec->y = 0;
 	else if (read_digit(value, &vec->y) == false)
-		return (false);
+		return ((bool)rt_error(NULL, "Invalid vec3 y"));
 	if (!(value = table_get(toml, "z")))
 		vec->z = 0;
 	else if (read_digit(value, &vec->z) == false)
-		return (false);
+		return ((bool)rt_error(NULL, "Invalid vec3 z"));
 	return (true);
 }
 
@@ -38,8 +40,27 @@ bool	read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 	if (!(*value = table_get(toml, name)))
 		return (false);
 	if ((*value)->type != type)
-		return (false);
+		return ((bool)rt_error(NULL, "Unexpected type in table get"));
 	return (true);
+}
+
+
+#define CSI "\033["
+#define CSI_GREEN CSI "32;01m"
+#define CSI_WHITE CSI "37;01m"
+#define CSI_BLUE CSI "34;01m"
+#define CSI_YELLOW CSI "33;01m"
+#define CSI_RED CSI "31m"
+#define CSI_RESET CSI "0m"
+#define RT_ERROR CSI_BLUE "rt: " CSI_RED "Error: " CSI_WHITE
+
+void	*rt_error(void *ptr, char *msg)
+{
+	write(STDERR_FILENO, RT_ERROR, sizeof(RT_ERROR) - 1);
+	write(STDERR_FILENO, msg, strlen(msg));
+	write(STDERR_FILENO, CSI_RESET "\n", sizeof(CSI_RESET));
+	free(ptr);
+	return (NULL);	
 }
 
 void	*nfree(void	*ptr)

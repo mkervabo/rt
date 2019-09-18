@@ -43,5 +43,5 @@ t_light			*read_light(t_toml_table *toml)
 	else if (ft_strcmp(type->value.string_v, "DIRECTIONAL") == 0)
 		return ((t_light *)read_directional_light(toml));
 	else
-		return (NULL);
+		return (rt_error(NULL, "Invalid light type"));
 }

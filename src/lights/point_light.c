@@ -17,13 +17,13 @@ struct s_point_light	*read_point_light(t_toml_table *toml)
 	t_toml					*value;
 
 	if (!(light = malloc(sizeof(*light))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate point light"));
 	if (!read_light_super(toml, &light->super))
-		return (nfree(light));
+		return (rt_error(light, "Invalid super in point light"));
 	if (!read_toml_type(toml, &value, "position", TOML_Table))
-		return (nfree(light));
+		return (rt_error(light, "Invalid position in point light"));
 	if (!read_vec3(value->value.table_v, &light->position))
-		return (nfree(light));
+		return (rt_error(light, "Invalid position in point light"));
 	light->super.type = LIGHT_POINT;
 	return (light);
 }

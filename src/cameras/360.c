@@ -28,9 +28,9 @@ struct s_360_camera	*read_360_camera(t_toml_table *toml)
 	struct s_360_camera	*camera;
 
 	if (!(camera = malloc(sizeof(*camera))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate 360 camera"));
 	if (!read_camera_super(toml, &camera->super))
-		return (nfree(camera));
+		return (rt_error(camera, "Invalid 360 camera"));
 	camera->super.type = CAMERA_360;
 	return (camera);
 }

@@ -46,17 +46,17 @@ struct s_paraboloid	*read_paraboloid(t_toml_table *toml)
 	t_toml				*value;
 
 	if (!(paraboloid = malloc(sizeof(*paraboloid))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate paraboloid shape"));
 	if (!read_shape_super(toml, &paraboloid->super))
-		return (nfree(paraboloid));
+		return (rt_error(paraboloid, "Invalid shape super in paraboloid shape"));
 	if (!(value = table_get(toml, "radius")))
-		return (nfree(paraboloid));
+		return (rt_error(paraboloid, "Missing radius in paraboloid shape"));
 	if (!read_digit(value, &paraboloid->r))
-		return (nfree(paraboloid));
+		return (rt_error(paraboloid, "Invalid radius in paraboloid shape"));
 	if (!(value = table_get(toml, "height")))
-		return (nfree(paraboloid));
+		return (rt_error(paraboloid, "Missing height in paraboloid shape"));
 	if (!read_digit(value, &paraboloid->h))
-		return (nfree(paraboloid));
+		return (rt_error(paraboloid, "Invalid height in paraboloid shape"));
 	paraboloid->super.type = SHAPE_PARABOLOID;
 	return (paraboloid);
 }

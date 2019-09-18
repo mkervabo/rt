@@ -73,5 +73,5 @@ t_material			*read_material(t_toml_table *toml)
 	else if (ft_strcmp(type->value.string_v, "CARTOON") == 0)
 		return ((t_material *)read_cartoon_material(toml));
 	else
-		return (NULL);
+		return (rt_error(NULL, "Invalid material type"));
 }

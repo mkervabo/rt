@@ -18,19 +18,19 @@ static bool	read_color(t_toml_table *toml, t_color *color)
 	if (!(value = table_get(toml, "r")))
 		color->r = 0;
 	else if (value->type != TOML_Integer)
-		return (false);
+		return ((bool)rt_error(NULL, "Is not a interger in red color"));
 	else
 		color->r = value->value.integer_v;
 	if (!(value = table_get(toml, "g")))
 		color->g = 0;
 	else if (value->type != TOML_Integer)
-		return (false);
+		return ((bool)rt_error(NULL, "Is not a interger in green color"));
 	else
 		color->g = value->value.integer_v;
 	if (!(value = table_get(toml, "b")))
 		color->b = 0;
 	else if (value->type != TOML_Integer)
-		return (false);
+		return ((bool)rt_error(NULL, "Is not a interger in blue color"));
 	else
 		color->b = value->value.integer_v;
 	return (true);
@@ -42,11 +42,11 @@ struct s_color_material	*read_color_material(t_toml_table *toml)
 	t_toml					*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate color material"));
 	if (read_toml_type(toml, &value, "color", TOML_Table) == false)
 		material->color = (t_color) { 0, 0, 0 };
 	else if (!read_color(value->value.table_v, &material->color))
-		return (nfree(material));
+		return (rt_error(material, "Invalid color material"));
 	material->super.type = MATERIAL_COLOR;
 	return (material);
 }

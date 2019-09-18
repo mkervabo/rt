@@ -49,7 +49,6 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity;
 		else
 			intensity = 0;
-		printf("intensity: %f\n", intensity);
 		if (intensity <= 0.01)
 			intensity = 0;
 		else if (intensity <= 0.2)
@@ -78,15 +77,15 @@ struct s_cartoon_material	*read_cartoon_material(t_toml_table *toml)
 	t_toml						*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate cartoon material"));
 	if (!(value = table_get(toml, "albedo")))
-		return (nfree(material));
+		return (rt_error(material, "Missing albedo in cartoon material"));
 	if (!read_digit(value, &material->albedo))
-		return (nfree(material));
+		return (rt_error(material, "Invalid albedo in cartoon material"));
 	if (!read_toml_type(toml, &value, "material", TOML_Table))
-		return (nfree(material));
+		return (rt_error(material, "Missing material in cartoon material"));
 	if (!(material->material = read_material(value->value.table_v)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid material in cartoon material"));
 	material->super.type = MATERIAL_CARTOON;
 	return (material);
 }

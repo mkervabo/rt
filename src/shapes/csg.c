@@ -226,17 +226,17 @@ struct s_csg			*read_csg(t_toml_table *toml, enum e_csg_op op)
 	t_toml			*value;
 
 	if (!(csg = malloc(sizeof(struct s_csg))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate csg shape"));
 	if (!read_shape_super(toml, &csg->super))
-		return (NULL);
+		return (rt_error(csg, "Invalid super in csg shape"));
 	if (!(value = table_get(toml, "first")))
-		return (nfree(csg));
+		return (rt_error(csg, "Missing first in csg shape"));
 	if ((csg->first = read_shape(value->value.table_v)) == NULL)
-		return (nfree(csg));
+		return (rt_error(csg, "Invalid first in csg shape"));
 	if (!(value = table_get(toml, "second")))
-		return (nfree(csg));
+		return (rt_error(csg, "Misssing second in csg shape"));
 	if ((csg->second = read_shape(value->value.table_v)) == NULL)
-		return (nfree(csg));
+		return (rt_error(csg, "Invalid second in csg shape"));
 	csg->super.type = SHAPE_CSG;
 	csg->op = op;
 	return (csg);

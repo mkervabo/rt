@@ -88,23 +88,23 @@ struct s_voronoi_material	*read_voronoi_material(t_toml_table *toml)
 	t_toml						*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate texture material"));
 	if (!(value = table_get(toml, "size")))
 		material->size = 50;
 	else if (read_digit(value, &material->size) == false)
-		return (nfree(material));
+		return (rt_error(material, "Invalid size in voronoi material"));
 	if (!(value = table_get(toml, "u")))
 		material->u= 1;
 	else if (read_digit(value, &material->u) == false || material->u < 0 || material->u > 1)
-		return (nfree(material));
+		return (rt_error(material, "Invalid u in voronoi material"));
 	if (!(value = table_get(toml, "v")))
 		material->v = 0;
 	else if (read_digit(value, &material->v) == false || material->v < 0 || material->v > 1)
-		return (nfree(material));
+		return (rt_error(material, "Invalid v in voronoi material"));
 	if (read_toml_type(toml, &value, "material", TOML_Table) == false)
-		return (nfree(material));
+		return (rt_error(material, "Missing material in voronoi material"));
 	else if (!(material->material = read_material(value->value.table_v)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid material in voronoi material"));
 	material->super.type = MATERIAL_VORONOI;
 	return (material);
 }
