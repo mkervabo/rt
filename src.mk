@@ -49,4 +49,5 @@ SRCS += src/shapes/plane.c
 SRCS += src/shapes/shape.c
 SRCS += src/shapes/sphere.c
 SRCS += src/shapes/triangle.c
+SRCS += src/shapes/group.c
 SRCS += src/shapes/utils.c

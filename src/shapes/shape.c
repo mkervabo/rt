@@ -11,6 +11,7 @@
 #include "plane.h"
 #include "paraboloid.h"
 #include "csg.h"
+#include "group.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -33,7 +34,6 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 	ray.origin = vec3_sub(ray.origin, shape->position);
 	ray.origin = vec3_rotate(ray.origin, vec3_multv(shape->rotation, -1));
 	ray.direction = vec3_rotate(ray.direction, vec3_multv(shape->rotation, -1));
-
 	if (shape->type == SHAPE_SPHERE)
 		hit = hit_sphere(ray, (struct s_sphere *)shape, intersections);
 	else if (shape->type == SHAPE_CYLINDER)
@@ -50,6 +50,8 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 		hit = hit_paraboloid(ray, (struct s_paraboloid *)shape, intersections);
 	else if (shape->type == SHAPE_CSG)
 		hit = hit_csg(ray, (struct s_csg *)shape, intersections);
+	else if (shape->type == SHAPE_GROUP)
+		hit = hit_group(ray, (struct s_group *)shape, intersections);
 	else
 		assertf(false, "Unimplemented type: %d", shape->type);
 
@@ -82,13 +84,15 @@ t_shape			*read_shape(t_toml_table *toml)
 		return ((t_shape *)read_plane(toml));
 	else if (ft_strcmp(type->value.string_v, "PARABOLOID") == 0)
 		return ((t_shape *)read_paraboloid(toml));
+	else if (ft_strcmp(type->value.string_v, "GROUP") == 0)
+		return ((t_shape *)read_group(toml));
 	/*else if (ft_strcmp(type->value.string_v, "CONE") == 0)
 		return ((t_shape *)read_cone(toml));*/
-	if (ft_strcmp(type->value.string_v, "UNION") == 0)
+	else if (ft_strcmp(type->value.string_v, "UNION") == 0)
 		return ((t_shape *)read_csg(toml, CSG_UNION));
-	if (ft_strcmp(type->value.string_v, "INTERSECTION") == 0)
+	else if (ft_strcmp(type->value.string_v, "INTERSECTION") == 0)
 		return ((t_shape *)read_csg(toml, CSG_INTERSECTION));
-	if (ft_strcmp(type->value.string_v, "DIFFERENCE") == 0)
+	else if (ft_strcmp(type->value.string_v, "DIFFERENCE") == 0)
 		return ((t_shape *)read_csg(toml, CSG_DIFFERENCE));
 	else
 			return (rt_error(NULL, "Invalid shape type"));

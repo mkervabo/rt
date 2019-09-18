@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   config.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/09/12 19:15:28 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/09/18 10:35:22 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool		read_name_and_size(t_toml_table *toml, struct s_config *config)
 	return (true);
 }
 
-static t_object	*read_objects(t_toml_table *toml, size_t *size)
+t_object		*read_objects(t_toml_table *toml, size_t *size)
 {
 	t_object		*objs;
 	t_toml			*v;

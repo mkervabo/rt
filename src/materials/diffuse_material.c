@@ -20,7 +20,7 @@ static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p) {
 		.origin = p,
 		.direction = direction
 	};
-	hit = hit_scene(scene, shadow);
+	hit = hit_scene(scene->objects, scene->objects_size, shadow);
 	if (hit.t >= 0 && hit.t <= dist)
 		return (false);
 	else

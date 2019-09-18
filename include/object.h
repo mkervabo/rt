@@ -11,6 +11,7 @@ typedef struct	s_object {
 	struct s_material	*material;
 }				t_object;
 
-bool	read_object(t_object *obj, t_toml_table *toml);
+bool			read_object(t_object *obj, t_toml_table *toml);
+t_object		*read_objects(t_toml_table *toml, size_t *size);
 
 #endif
