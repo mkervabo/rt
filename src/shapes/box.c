@@ -3,25 +3,32 @@
 #include "utils.h"
 #include "math/vec3.h"
 #include "config_utils.h"
+#include "debug/assert.h"
 #include <stdlib.h>
+#include <math.h>
 
-static t_vec3	box_normal(double t, t_vec3 min, t_vec3 max)
+static bool double_cmp(double a, double b)
+{
+	return fabs(a - b) < 1e-6;
+}
+
+static t_vec3	box_normal(t_vec3 p, t_vec3 a, t_vec3 b)
 {
 	// TODO
-	if (t == min.x)
+	if (double_cmp(p.x, a.x))
 		return (vec3(1, 0, 0));
-	else if (t == min.y)
-		return (vec3(0, 1, 0));
-	else if (t == min.z)
-		return (vec3(0, 0, 1));
-	else if (t == max.x)
+	else if (double_cmp(p.x, b.x))
 		return (vec3(-1, 0, 0));
-	else if (t == max.y)
+	else if (double_cmp(p.y, a.y))
 		return (vec3(0, -1, 0));
-	else if (t == max.z)
+	else if (double_cmp(p.y, b.y))
+		return (vec3(0, 1, 0));
+	else if (double_cmp(p.z, a.z))
 		return (vec3(0, 0, -1));
+	else if (double_cmp(p.z, b.z))
+		return (vec3(0, 0, 1));
 	else
-		return vec3(0, 1, 0);
+		assertf(false, "No normals ?");
 }
 
  #include "stdio.h"
@@ -48,22 +55,22 @@ struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection_
 
 	min = cmin.x;
 	max = cmax.x;
-	if ((min > cmax.y) || (cmin.y > max)) 
+	if ((min > cmax.y) || (cmin.y > max))
 		return ((struct s_hit) {
 			.t = -1.0,
 		});
-	if (cmin.y > min) 
-		min = cmin.y; 
-	if (cmax.y < max) 
-		max = cmax.y; 
-	if ((min > cmax.z) || (cmin.z > max)) 
+	if (cmin.y > min)
+		min = cmin.y;
+	if (cmax.y < max)
+		max = cmax.y;
+	if ((min > cmax.z) || (cmin.z > max))
 		return ((struct s_hit) {
 			.t = -1.0,
 		});
-	if (cmin.z > min) 
-		min = cmin.z; 
-	if (cmax.z < max) 
-		max = cmax.z; 
+	if (cmin.z > min)
+		min = cmin.z;
+	if (cmax.z < max)
+		max = cmax.z;
 
 	if (intersections)
 		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
@@ -72,11 +79,11 @@ struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection_
 			intersections->inner[0] = (struct s_intersection) {
 				.from = min, .to = max
 			};
-			
+
 		}
 	return ((struct s_hit) {
 		.t = min,
-		.normal = box_normal(min, cmin, cmax)
+		.normal = box_normal(ray_point_at(&ray, min), box->bounds[0], box->bounds[1])
 	});
 }
 
