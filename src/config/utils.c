@@ -78,7 +78,7 @@ bool	read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 #define CSI_RESET CSI "0m"
 #define RT_ERROR CSI_BLUE "rt: " CSI_RED "Error: " CSI_WHITE
 
-void	*rt_error(void *ptr, char *msg)
+void	*rt_error(void *ptr, const char *msg)
 {
 	write(STDERR_FILENO, RT_ERROR, sizeof(RT_ERROR) - 1);
 	write(STDERR_FILENO, msg, strlen(msg));

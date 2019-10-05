@@ -6,18 +6,21 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/01 16:39:31 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/02 14:07:28 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "frontend/sdl.h"
 #include "render.h"
 #include "video.h"
+#include "config.h"
+#include "image.h"
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <sys/stat.h>
+
 
 # define WINDOW_ERR "RT: Could not create SDL window: "
 
@@ -146,4 +149,54 @@ void	sdl_frontend(struct s_config *config)
 		}
 	}
 	destroy_window(&window);
+}
+
+#define USAGE_PRE "Usage: "
+#define USAGE_POST " [scene.toml]\n"
+
+int	main(int argc, char *argv[])
+{
+	struct s_config	config;
+
+	if (argc != 2)
+	{
+		write(STDERR_FILENO, USAGE_PRE, sizeof(USAGE_PRE) - 1);
+		write(STDERR_FILENO, argv[0], ft_strlen(argv[0]));
+		write(STDERR_FILENO, USAGE_POST, sizeof(USAGE_POST) - 1);
+		return (1);
+	}
+	// TODO: move + error
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+	if (read_config(argv[1], &config))
+	{
+		sdl_frontend(&config);
+		free_config(&config);
+		return (0);
+	}
+	return (1);
+}
+
+bool		load_image(t_image *dst, const char *path) {
+	SDL_Surface *surface;
+
+	if (!(surface = IMG_Load(path)))
+		return (false);
+	if (!(surface = SDL_ConvertSurfaceFormat(surface,
+		SDL_PIXELFORMAT_ARGB8888, 0)))
+		return (false);
+	*dst = (t_image) {
+		.size.width = surface->w,
+		.size.height = surface->h,
+		.pixels = surface->pixels
+	};
+	return (true);
+}
+
+const char	*get_image_error(void) {
+	return IMG_GetError();
+}
+
+uint32_t	getpixel(t_image *image, size_t x, size_t y)
+{
+	return (image->pixels[y * image->size.width + x]);
 }

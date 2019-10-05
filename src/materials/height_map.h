@@ -2,12 +2,12 @@
 # define MATERIALS_HEIGHT_MAP_H
 
 # include "material.h"
-# include <SDL.h>
+# include "image.h"
 
 struct s_height_map
 {
 	t_material	super;
-	SDL_Surface	*surface;
+	t_image		image;
 	t_material	*material;
 };
 
