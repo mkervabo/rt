@@ -40,7 +40,7 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 			.t = intersection.from,
 			.normal = n,
 			.u = 0.5 + atan2(n.z, n.x) / (2 * M_PI),
-			.v = fmod(n.y, 1)
+			.v = 0.5 - asin(n.y) / M_PI
 		});
 	}
 	else
