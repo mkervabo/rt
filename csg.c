@@ -48,8 +48,6 @@ static struct s_intersection_tab csg_difference(struct s_intersection_tab first,
 	size_t					j;
 	size_t					len;
 
-	if (second.len == 0)
-		return (first);
 	len = first.len + second.len;
 	tab.inner = malloc(len * sizeof(struct s_intersection));
 	tab.len = 0;
@@ -212,11 +210,11 @@ struct s_hit	hit_csg(struct s_ray ray, struct s_csg *csg,
 		tab = csg_intersection(t1, t2);
 	else
 		tab = csg_union(t1, t2);
-	if (tab.len == 0)
-		return ((struct s_hit) { .t = -1 });
 	if (intersections)
 		*intersections = tab;
-	if (t1.len > 0 && (tab.inner[0].from == t1.inner[0].to || tab.inner[0].from == t1.inner[0].from))
+	if (tab.len == 0)
+		return ((struct s_hit) { .t = -1 });
+	else if (tab.inner[0].from == t1.inner[0].to || tab.inner[0].from == t1.inner[0].from)
 		return (first);
 	else
 		return (second);
