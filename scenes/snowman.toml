@@ -34,13 +34,17 @@ height = 800
 		material.color = { r = 169, g = 169, b = 169 }
 
 #chapeau
-# [[objects]]
-#	type = "CONE"
-#	angle = 13
-#	revolution = false
-#	color = { r = 178, g = 0, b = 0 }
-#	position = { x = 0.1, y = 0.6, z = -3}
-#	rotation = { x = 0,y = 0, z = -7 }
+[[objects]]
+	type = "CONE"
+	angle = 13
+	revolution = false
+	position = { x = 0.1, y = 0.6, z = -3}
+	rotation = { x = 0,y = 0, z = -7 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.5
+		material.type = "COLOR"
+		material.color = { r = 178, g = 0, b = 0 }
 
 [[objects]]
 	type = "SPHERE"
@@ -74,13 +78,17 @@ height = 800
 		material.color = { r = 0, g = 0, b = 0 }
 
 #nez
-# [[objects]]
-#	type = "CONE"
-#	angle = 5
-#	revolution = false
-#	color = { r = 255, g = 140, b = 0 }
-#	position = { x = 0, y = 0.05, z = -2.5}
-#	rotation = { x = 92.1,y = 0, z = 0 }
+[[objects]]
+	type = "CONE"
+	angle = 5
+	revolution = false
+	position = { x = 0, y = 0.05, z = -2.5}
+	rotation = { x = 92.1,y = 0, z = 0 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.7
+		material.type = "COLOR"
+		material.color = { r = 255, g = 165, b = 0 }
 
 #bouche
 [[objects]]

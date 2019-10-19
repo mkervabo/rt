@@ -7,10 +7,11 @@
 #include "shape_types.h"
 #include "sphere.h"
 #include "cylinder.h"
+#include "cone.h"
+#include "plane.h"
 #include "box.h"
 #include "triangle.h"
 #include "disk.h"
-#include "plane.h"
 #include "paraboloid.h"
 #include "csg.h"
 #include "group.h"
@@ -48,14 +49,16 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 		hit = hit_sphere(ray, (struct s_sphere *)shape, intersections);
 	else if (shape->type == SHAPE_CYLINDER)
 		hit = hit_cylinder(ray, (struct s_cylinder *)shape, intersections);
+	else if (shape->type == SHAPE_CONE)
+		hit = hit_cone(ray, (struct s_cone *)shape, intersections);
+	else if (shape->type == SHAPE_PLANE)
+		hit = hit_plane(ray, (struct s_plane *)shape, intersections);
 	else if (shape->type == SHAPE_BOX)
 		hit = hit_box(ray, (struct s_box *)shape, intersections);
 	else if (shape->type == SHAPE_TRIANGLE)
 		hit = hit_triangle(ray, (struct s_triangle *)shape, intersections);
 	else if (shape->type == SHAPE_DISK)
 		hit = hit_disk(ray, (struct s_disk *)shape, intersections);
-	else if (shape->type == SHAPE_PLANE)
-		hit = hit_plane(ray, (struct s_plane *)shape, intersections);
 	else if (shape->type == SHAPE_PARABOLOID)
 		hit = hit_paraboloid(ray, (struct s_paraboloid *)shape, intersections);
 	else if (shape->type == SHAPE_CSG)
@@ -88,20 +91,20 @@ t_shape			*read_shape(t_toml_table *toml)
 		return ((t_shape *)read_sphere(toml));
 	else if (ft_strcmp(type->value.string_v, "CYLINDER") == 0)
 		return ((t_shape *)read_cylinder(toml));
+	else if (ft_strcmp(type->value.string_v, "CONE") == 0)
+		return ((t_shape *)read_cone(toml));
+	else if (ft_strcmp(type->value.string_v, "PLANE") == 0)
+		return ((t_shape *)read_plane(toml));
 	else if (ft_strcmp(type->value.string_v, "BOX") == 0)
 		return ((t_shape *)read_box(toml));
 	else if (ft_strcmp(type->value.string_v, "TRIANGLE") == 0)
 		return ((t_shape *)read_triangle(toml));
 	else if (ft_strcmp(type->value.string_v, "DISK") == 0)
 		return ((t_shape *)read_disk(toml));
-	else if (ft_strcmp(type->value.string_v, "PLANE") == 0)
-		return ((t_shape *)read_plane(toml));
 	else if (ft_strcmp(type->value.string_v, "PARABOLOID") == 0)
 		return ((t_shape *)read_paraboloid(toml));
 	else if (ft_strcmp(type->value.string_v, "GROUP") == 0)
 		return ((t_shape *)read_group(toml));
-	/*else if (ft_strcmp(type->value.string_v, "CONE") == 0)
-		return ((t_shape *)read_cone(toml));*/
 	else if (ft_strcmp(type->value.string_v, "UNION") == 0)
 		return ((t_shape *)read_csg(toml, CSG_UNION));
 	else if (ft_strcmp(type->value.string_v, "INTERSECTION") == 0)
