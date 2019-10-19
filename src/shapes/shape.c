@@ -2,6 +2,8 @@
 #include "debug/assert.h"
 #include "toml.h"
 
+#include <math.h>
+
 #include "shape_types.h"
 #include "sphere.h"
 #include "cylinder.h"
@@ -12,6 +14,14 @@
 #include "paraboloid.h"
 #include "csg.h"
 #include "group.h"
+
+static double clamp_uv(double uv) {
+	if (uv > 1 || uv < 0) {
+		uv = fmod(uv, 1);
+		return (uv < 0 ? 1 + uv : uv);
+	} else
+		return (uv);
+}
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -56,8 +66,12 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 		assertf(false, "Unimplemented type: %d", shape->type);
 
 	if (hit.t > 0)
+	{
 		// Since object is not rotated we need to rotate it's normal
 		hit.normal = vec3_rotate(hit.normal, shape->rotation);
+		hit.u = clamp_uv(hit.u);
+		hit.v = clamp_uv(hit.v);
+	}
 	return (hit);
 }
 

@@ -22,7 +22,7 @@ struct s_hit hit_cylinder(struct s_ray ray, struct s_cylinder *cylinder,
 	};
 	hit = hit_sphere(ray, &sphere, intersections);
 	if (hit.t >= 0)
-		hit.v = fmod(fabs(r.direction.y * hit.t + r.origin.y), 1);
+		hit.v = r.direction.y * hit.t + r.origin.y;
 	return (hit);
 }
 

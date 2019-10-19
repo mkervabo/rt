@@ -4,7 +4,6 @@
 #include "math/quadratic.h"
 #include "config_utils.h"
 #include <stdlib.h>
-#include <math.h>
 
 struct s_hit hit_plane(struct s_ray ray, struct s_plane *plane,
 		struct s_intersection_tab *intersections)
@@ -21,8 +20,8 @@ struct s_hit hit_plane(struct s_ray ray, struct s_plane *plane,
 	return ((struct s_hit) {
 		.t = t,
 		.normal = vec3(0, 1, 0),
-		.u = fmod(fabs(p.x), 1),
-		.v = fmod(fabs(p.z), 1)
+		.u = p.x,
+		.v = p.z
 	});
 }
 
