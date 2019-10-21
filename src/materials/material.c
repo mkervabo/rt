@@ -4,6 +4,8 @@
 #include "material_types.h"
 #include "normal_material.h"
 #include "uv_material.h"
+#include "move_uv_material.h"
+#include "zoom_uv_material.h"
 #include "color_material.h"
 #include "reflection_material.h"
 #include "texture.h"
@@ -30,6 +32,10 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 		return (normal_material_color((struct s_normal_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_UV)
 		return (uv_material_color((struct s_uv_material *)material, scene, ray, hit));
+	else if (material->type == MATERIAL_MOVE_UV)
+		return (move_uv_material_color((struct s_move_uv_material *)material, scene, ray, hit));
+	else if (material->type == MATERIAL_ZOOM_UV)
+		return (zoom_uv_material_color((struct s_zoom_uv_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_TEXTURE)
 		return (texture_color((struct s_texture *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_COLOR)
@@ -62,6 +68,10 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_normal_material(toml));
 	else if (ft_strcmp(type->value.string_v, "UV") == 0)
 		return ((t_material *)read_uv_material(toml));
+	else if (ft_strcmp(type->value.string_v, "MOVE_UV") == 0)
+		return ((t_material *)read_move_uv_material(toml));
+	else if (ft_strcmp(type->value.string_v, "ZOOM_UV") == 0)
+		return ((t_material *)read_zoom_uv_material(toml));
 	else if (ft_strcmp(type->value.string_v, "TEXTURE") == 0)
 		return ((t_material *)read_texture(toml));
 	else if (ft_strcmp(type->value.string_v, "COLOR") == 0)
