@@ -33,7 +33,7 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 	else if (filter->type == FILTER_ANTI_ALIASING)
 		anti_aliasing_filter((struct s_anti_aliasing_filter *)filter, pixels, hits, window);
 	else if (filter->type == FILTER_CARTOON)
-		cartoon_filter(pixels, hits, window);
+		cartoon_filter((struct s_cartoon_filter *)filter, pixels, hits, window);
 	else
 		assertf(false, "Unimplemented filter type: %d", filter->type);
 
