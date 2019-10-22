@@ -25,6 +25,8 @@ struct s_zoom_uv_material	*read_zoom_uv_material(t_toml_table *toml)
 		return (rt_error(material, "Missing material in zoom uv material"));
 	else if (!(material->material = read_material(value->value.table_v)))
 		return (rt_error(material, "Invalid material in zoom uv material"));
+	if (material->zoom != 0)
+		material->zoom = 1 / material->zoom;
 	material->super.type = MATERIAL_ZOOM_UV;
 	return (material);
 }

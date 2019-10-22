@@ -16,6 +16,14 @@
 #include "height_map.h"
 #include "cartoon_material.h"
 
+static double clamp_uv(double uv) {
+	if (uv > 1 || uv < 0) {
+		uv = fmod(uv, 1);
+		return (uv < 0 ? 1 + uv : uv);
+	}
+	return (uv);
+}
+
 static int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t i;
@@ -28,6 +36,8 @@ static int	ft_strcmp(const char *s1, const char *s2)
 
 t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
+	hit->u = clamp_uv(hit->u);
+	hit->v = clamp_uv(hit->v);
 	if (material->type == MATERIAL_NORMAL)
 		return (normal_material_color((struct s_normal_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_UV)
