@@ -3,10 +3,22 @@
 #include "material_types.h"
 #include "config_utils.h"
 
+#include "reflection_material.h"
+
 #include <stdlib.h>
 #include <math.h>
 
-static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p) {
+static bool            refracted_light(double *value, struct s_reflection_material *material)
+{
+	if (material->transparency > 0)
+	{
+		*value = material->transparency / 100;
+		return (true);
+	}
+	return (false);
+}
+
+static bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double *value) {
 	struct s_ray	shadow;
 	t_vec3			to_light;
 	t_vec3			direction;
@@ -21,22 +33,30 @@ static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p) {
 		.direction = direction
 	};
 	hit = hit_scene(scene->objects, scene->objects_size, shadow);
+
 	if (hit.t >= 0 && hit.t <= dist)
-		return (false);
-	else
-		return (true);
+	{
+		if (hit.who->material->type == MATERIAL_REFLECTION)
+			if (function(value, (struct s_reflection_material *)hit.who->material))
+				return (true);
+		else
+			return (false);
+	}
+	return (true);
 }
 
 # define SHADOW_BIAS 1e-4
 
-t_color		diffuse_material_color(struct s_diffuse_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color			diffuse_material_color(struct s_diffuse_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	size_t				i;
 	struct s_ray		lray;
 	t_color				light_color;
 	double				intensity;
 	t_vec3				point;
+	double				value;
 
+	value = 1.0;
 	light_color = (t_color){ 0, 0, 0 };
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
 	i = 0;
@@ -44,8 +64,8 @@ t_color		diffuse_material_color(struct s_diffuse_material *material, t_scene *sc
 		lray = get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t));
 		if (vec3_is_zero(lray.direction))
 			intensity = scene->lights[i]->intensity;
-		else if (receive_light(scene, &lray, point))
-			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity;
+		else if (receive_light(scene, &lray, point, &value))
+			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity * value;
 		else
 			intensity = 0;
 		light_color = color_add(light_color, color_multv(
