@@ -13,6 +13,7 @@ typedef struct	s_light {
 	uint8_t				type;
 	t_color				color;
 	double				intensity;
+	double				decay;
 	struct s_video_light video;
 }				t_light;
 

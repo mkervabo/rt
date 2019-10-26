@@ -34,7 +34,11 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 	if (!(value = table_get(toml, "intensity")))
 		light->intensity = 1;
 	else if (!read_digit(value, &light->intensity))
-		return ((bool)rt_error(NULL, "Is not a number"));
+		return ((bool)rt_error(NULL, "intensity is not a number"));
+	if (!(value = table_get(toml, "decay")))
+		light->decay = 0;
+	else if (!read_digit(value, &light->decay))
+		return ((bool)rt_error(NULL, "decay is not a number"));
 	if (!(value = table_get(toml, "color")))
 		light->color = (t_color) { 255, 255, 255 };
 	else if (!read_color(value->value.table_v, &light->color))

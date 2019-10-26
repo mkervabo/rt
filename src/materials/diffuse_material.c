@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-static bool            refracted_light(double *value, struct s_reflection_material *material)
+static bool	refracted_light(double *value, struct s_reflection_material *material)
 {
 	if (material->transparency > 0)
 	{
@@ -16,6 +16,18 @@ static bool            refracted_light(double *value, struct s_reflection_materi
 		return (true);
 	}
 	return (false);
+}
+
+static double	light_decay(t_vec3 origin, t_vec3 point, double decay)
+{
+	t_vec3		to_light;
+	double		dist;
+	double		res;
+
+	to_light = vec3_sub(origin, point);
+	dist = vec3_length(to_light);
+	res = 1 / pow(dist, decay);
+	return (res);
 }
 
 static bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double *value) {
@@ -37,7 +49,7 @@ static bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double
 	if (hit.t >= 0 && hit.t <= dist)
 	{
 		if (hit.who->material->type == MATERIAL_REFLECTION)
-			if (function(value, (struct s_reflection_material *)hit.who->material))
+			if (refracted_light(value, (struct s_reflection_material *)hit.who->material))
 				return (true);
 		else
 			return (false);
@@ -57,15 +69,18 @@ t_color			diffuse_material_color(struct s_diffuse_material *material, t_scene *s
 	double				value;
 
 	value = 1.0;
-	light_color = (t_color){ 0, 0, 0 };
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
+	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
 	while (i < scene->lights_size) {
 		lray = get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t));
 		if (vec3_is_zero(lray.direction))
-			intensity = scene->lights[i]->intensity;
+			intensity = /*scene->lights[i]->intensity*/0;
 		else if (receive_light(scene, &lray, point, &value))
-			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity * value;
+		{
+			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
+			* scene->lights[i]->intensity * value * light_decay(lray.origin, point, scene->lights[i]->decay);
+		}
 		else
 			intensity = 0;
 		light_color = color_add(light_color, color_multv(
