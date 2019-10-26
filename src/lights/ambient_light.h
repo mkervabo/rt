@@ -7,7 +7,7 @@ struct s_ambient_light {
 	t_light	super;
 };
 
-struct s_ray			ambient_get_light_ray(const struct s_ambient_light *light, t_vec3 point);
+bool			ambient_get_light_ray(const struct s_ambient_light *light, t_vec3 point, struct s_ray *ray);
 struct s_ambient_light	*read_ambient_light(t_toml_table *toml);
 
 #endif

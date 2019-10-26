@@ -4,17 +4,18 @@
 #include "config_utils.h"
 #include <stdlib.h>
 
-struct s_ray			directional_get_light_ray(const struct s_directional_light *light, t_vec3 point) {
+bool			directional_get_light_ray(const struct s_directional_light *light, t_vec3 point, struct s_ray *ray) {
 	double	denom;
 	double	t;
 
 	denom = vec3_dot(light->direction, vec3_multv(light->direction, -1));
 	t = vec3_dot(vec3_sub(light->position, point), light->direction) / denom;
 
-	return ((struct s_ray) {
+	*ray = (struct s_ray) {
 		.direction = light->direction,
 		.origin = vec3_add(point, vec3_multv(light->direction, -t))
-	});
+	};
+	return (true);
 }
 
 struct s_directional_light	*read_directional_light(t_toml_table *toml)

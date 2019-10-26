@@ -17,6 +17,7 @@ SRCS += src/lights/ambient_light.c
 SRCS += src/lights/directional_light.c
 SRCS += src/lights/light.c
 SRCS += src/lights/point_light.c
+SRCS += src/lights/spot_light.c
 SRCS += src/lights/utils.c
 SRCS += src/main.c
 SRCS += src/materials/cartoon_material.c

@@ -19,6 +19,6 @@ typedef struct	s_light {
 
 t_light			*read_light(t_toml_table *toml);
 
-struct s_ray	get_light_ray(const t_light *light, t_vec3 point);
+bool	get_light_ray(const t_light *light, t_vec3 point, struct s_ray *ray);
 
 #endif

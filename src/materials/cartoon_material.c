@@ -42,8 +42,9 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
 	i = 0;
 	while (i < scene->lights_size) {
-		lray = get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t));
-		if (vec3_is_zero(lray.direction))
+		if (get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t), &lray) == false)
+			intensity = 0;
+		else if (vec3_is_zero(lray.direction))
 			intensity = scene->lights[i]->intensity;
 		else if (receive_light(scene, &lray, point))
 			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity;

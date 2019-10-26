@@ -9,7 +9,7 @@ struct s_directional_light {
 	t_vec3	direction;
 };
 
-struct s_ray				directional_get_light_ray(const struct s_directional_light *light, t_vec3 point);
+bool				directional_get_light_ray(const struct s_directional_light *light, t_vec3 point, struct s_ray *ray);
 struct s_directional_light	*read_directional_light(t_toml_table *toml);
 
 #endif

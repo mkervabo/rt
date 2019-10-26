@@ -51,8 +51,7 @@ static bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double
 		if (hit.who->material->type == MATERIAL_REFLECTION)
 			if (refracted_light(value, (struct s_reflection_material *)hit.who->material))
 				return (true);
-		else
-			return (false);
+		return (false);
 	}
 	return (true);
 }
@@ -73,9 +72,10 @@ t_color			diffuse_material_color(struct s_diffuse_material *material, t_scene *s
 	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
 	while (i < scene->lights_size) {
-		lray = get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t));
-		if (vec3_is_zero(lray.direction))
-			intensity = /*scene->lights[i]->intensity*/0;
+		if (get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t), &lray) == false)
+			intensity = 0;
+		else if (vec3_is_zero(lray.direction))
+			intensity = scene->lights[i]->intensity;
 		else if (receive_light(scene, &lray, point, &value))
 		{
 			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
