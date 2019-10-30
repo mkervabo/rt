@@ -1,0 +1,111 @@
+name = "Figure 1"
+width = 600
+height = 450
+
+
+# [camera]
+# 	type = "PERSPECTIVE"
+# 	position = { x = 0, y = 0.75, z = 0 }
+# 	rotation = { x = -3, y = 0, z = 0 }
+
+[camera]
+	type = "PERSPECTIVE"
+	position = { x = -0.9, y = 0.51, z = -2.2 }
+	rotation = { x = -3, y = -90, z = 0 }
+
+#sol
+[[objects]]
+	type = "PLANE"
+	position = { x = 0, y = 0, z = -4 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 1.0
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 150, g = 150, b = 150 }
+
+# fond
+[[objects]]
+	type = "PLANE"
+	position = { x = 0, y = 0, z = -3.5 }
+	rotation.x = 90
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 106, g = 106, b = 255 }
+
+[[objects]]
+	type = "SPHERE"
+	position = { x = 0.75, y = 0.25, z = -2.2 }
+	radius = 0.2
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+			[objects.material.material]
+				# type = "SPECULAR"
+				# n = 100
+				# 	[objects.material.material.material]
+						type = "COLOR"
+						color = { r = 0, g = 255, b = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	position = { x = -0.75, y = 0.25, z = -2.2 }
+	radius = 0.2
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+			[objects.material.material]
+				# type = "SPECULAR"
+				# n = 100
+				# 	[objects.material.material.material]
+						type = "COLOR"
+						color = { r = 255, g = 0, b = 0 }
+
+[[objects]]
+	type = "CONE"
+	position = { x = 0.35, y = 0.25, z = -2.5 }
+	rotation.z = 45
+	angle = 18
+	revolution = true
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		[objects.material.material]
+		# type = "SPECULAR"
+		# n = 100
+		# [objects.material.material.material]
+			type = "COLOR"
+			color = { r = 255, g = 255, b = 0 }
+
+[[objects]]
+	type = "CYLINDER"
+	position = { x = -0.5, y = 0, z = -2.5 }
+	rotation.z = -45
+	radius = 0.18
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		[objects.material.material]
+		# type = "SPECULAR"
+		# n = 100
+		# [objects.material.material.material]
+			type = "COLOR"
+			color = { r = 255, g = 0, b = 255 }
+
+[[lights]]
+	type = "AMBIENT"
+	intensity = 0.3
+
+[[lights]]
+	type = "POINT"
+	position = { x = -0.85, y = 0.9, z = -0.7 }
+	intensity = 2
+
+[[lights]]
+	type = "POINT"
+	position = { x = 0.9, y = 0.6, z = -0.5 }
+	intensity = 2
+

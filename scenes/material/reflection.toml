@@ -1,0 +1,61 @@
+name = "Reflection & Refraction"
+width = 1280
+height = 800
+
+[camera]
+	type = "PERSPECTIVE"
+	position = { x = 0, y = 2, z = 0}
+	rotation = { x = -25, y = 0, z = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.5
+	position = { x = -1.0, y = 0.4, z = -4 }
+	[objects.material]
+			type = "REFLECTION"
+			reflection = 70
+			transparency = 0
+			refraction = 0
+			[objects.material.color]
+				type =  "COLOR"
+				color = { r = 150, g = 255, b = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.5
+	position = { x = 0, y = 0.4, z = -3 }
+	[objects.material]
+			type = "REFLECTION"
+			reflection = 40
+			transparency = 40
+			refraction = 1.75
+			[objects.material.color]
+				type =  "COLOR"
+				color = { r = 150, g = 255, b = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.5
+	position = { x = 1.0, y = 0.4, z = -4 }
+	[objects.material]
+			type = "REFLECTION"
+			reflection = 0
+			transparency = 70
+			refraction = 1.75
+			[objects.material.color]
+				type =  "COLOR"
+				color = { r = 150, g = 255, b = 0 }
+
+[[objects]]
+	type = "PLANE"
+	position = { x = 0, y = -0.1, z = -4 }
+	rotation.y = 45
+	[objects.material]
+		type = "CHECKERBOARD"
+		size = 4
+		[objects.material.white]
+			type = "COLOR"
+			color = { r = 255, g = 150, b = 0 }
+		[objects.material.black]
+			type = "COLOR"
+			color = { r = 255, g = 255, b = 255 }

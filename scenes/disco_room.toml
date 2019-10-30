@@ -1,0 +1,185 @@
+
+name = "Disco Room"
+width = 1280
+height = 800
+
+[[filters]]
+	type = "NEGATIVE"
+
+[camera]
+    type = "PERSPECTIVE"
+    position = { x = 0, y = 0, z = 1.0 }
+    rotation = { x = 0, y = 0, z = 0 }
+
+# MUR DROITE
+[[objects]]
+    type = "PLANE"
+	position = { x = 1.5, y = 0, z = 0 }
+    rotation.z = 90
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		[objects.material.material]
+			type = "ZOOM_UV"
+			zoom = 1.1
+			[objects.material.material.material]
+				type = "TEXTURE"
+				texture = "./scenes/img/70_wallpaper.png"
+
+# MUR GAUCHE
+[[objects]]
+    type = "PLANE"
+	position = { x = -1.5, y = 0, z = 0 }
+    rotation.z = -90
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		[objects.material.material]
+			type = "ZOOM_UV"
+			zoom = 1.1
+			[objects.material.material.material]
+				type = "TEXTURE"
+				texture = "./scenes/img/70_wallpaper.png"
+
+# MUR FOND
+[[objects]]
+    type = "DIFFERENCE"
+	material.type = "NORMAL"
+	# material.texture = "./scenes/img/70_wallpaper.png"
+	position = { x = 0, y = 0, z = -3 }
+    rotation = { x = 90, y = 0, z = 0 }
+	# [objects.material]
+		# type = "DIFFUSE"
+		# albedo = 0.8
+		# [objects.material.material]
+		# 	type = "ZOOM_UV"
+		# 	zoom = 1.1
+		# 	[objects.material.material.material]
+	[objects.first]
+		type = "PLANE"
+	[objects.second]
+		type = "BOX"
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.25 }
+
+# PLAFOND
+[[objects]]
+    type = "PLANE"
+	position = { x = 0, y = 1, z = 0 }
+	rotation.x = 180
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		[objects.material.material]
+			type = "TEXTURE"
+			texture = "./scenes/img/purple.jpg"
+		# color = { r = 255, g = 218, b = 51 }
+
+# SOL
+[[objects]]
+    type = "PLANE"
+	position = { x = 0, y = -1, z = 0 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		[objects.material.material]
+			type = "CHECKERBOARD"
+			size = 7
+			[objects.material.material.white]
+				type = "COLOR"
+				color = { r = 102, g = 40, b = 146 }
+			[objects.material.material.black]
+				type = "COLOR"
+				color = { r = 253, g = 177, b = 40 }
+
+# tableau mimi mathy
+[[objects]]
+    type = "BOX"
+    radius = 0.5
+    position = { x = 1.78, y = 0, z = -3 }
+    rotation = { x = 0, y = -90, z = 0}
+    min = { x = -0.3, y = -0.3, z = -0.3 }
+    max = { x = 0.3, y = 0.3, z = 0.3 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		[objects.material.material]
+			type = "TEXTURE"
+			texture = "./scenes/img/mimie-mathy.png"
+
+# fenetre
+# [[objects]]
+#     type = "BOX"
+#     radius = 0.5
+#     position = { x = -0.35, y = 0, z = -5 }
+#     min = { x = -0.5, y = -0.5, z = -0.1 }
+#     max = { x = 0.20, y = 0.4, z = 0.1 }
+# 	[objects.material]
+# 		type = "DIFFUSE"
+# 		albedo = 0.8
+# 		[objects.material.material]
+# 			type = "NORMAL"
+
+# disco ball
+[[objects]]
+    type = "SPHERE"
+    radius = 0.2
+    position = { x = 0, y = 0.8, z = -4 }
+    [objects.material]
+		type = "REFLECTION"
+		reflection = 80
+		[objects.material.color]
+			type = "TEXTURE"
+			texture = "./scenes/img/disco_ball.jpg"
+
+# lights sol
+[[lights]]
+    type = "SPOT"
+    position = { x = 0, y = 0.9, z = -1.2 }
+	direction = { x = 0, y = -1, z = -1 }
+	angle = 15
+    intensity = 1.5
+
+# light coin droit
+[[lights]]
+    type = "SPOT"
+    position = { x = 0, y = 0, z = -2.5 }
+	direction = { x = 1.0, y = 1, z = -2 }
+	angle = 15
+    intensity = 1.5
+
+# light coin gauche
+[[lights]]
+    type = "SPOT"
+    position = { x = 0, y = 0, z = -2.5 }
+	direction = { x = -1.0, y = 1, z = -2 }
+	angle = 15
+    intensity = 1.5
+
+# light disco ball
+
+[[lights]]
+    type = "SPOT"
+    position = { x = 0.5, y = 0, z = -4 }
+	direction = { x = -1.0, y = 2, z = 0 }
+	angle = 15
+    intensity = 1.5
+
+[[lights]]
+    type = "SPOT"
+    position = { x = -0.5, y = 0, z = -4 }
+	direction = { x = 1.0, y = 2, z = 0 }
+	angle = 15
+    intensity = 1.5
+
+# light tableau
+[[lights]]
+    type = "SPOT"
+    position = { x = 0.8, y = 0.9, z = -3 }
+	direction = { x = 1.9, y = -2, z = 0 }
+	angle = 23
+    intensity = 3
+
+[[lights]]
+    type = "AMBIENT"
+    intensity = 0.2

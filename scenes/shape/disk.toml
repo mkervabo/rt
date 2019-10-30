@@ -8,17 +8,23 @@ height = 800
 	rotation = { x = 0, y = 0, z = 0 }
 
 [[objects]]
-	type = "PARABOLOID"
+	type = "DISK"
 	radius = 0.4
 	height = 1.0
 	position = { x = 0, y = 0, z = -3 }
-	rotation = { x = 0, y = 0, z = 45 }
+	rotation = { x = 45, y = 45, z = 0 }
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
 	[objects.material.material]
-		type = "COLOR"
-		color = { r = 175, g = 200, b = 75 }
+		type = "CHECKERBOARD"
+		size = 10
+		[objects.material.material.white]
+			type = "COLOR"
+			color = { r = 175, g = 200, b = 75 }
+		[objects.material.material.black]
+			type = "COLOR"
+			color = { r = 75, g = 175, b = 200 }
 
 [[lights]]
 	type = "AMBIENT"

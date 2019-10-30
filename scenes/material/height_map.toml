@@ -1,0 +1,56 @@
+name = "Height map"
+width = 1280
+height = 800
+
+[camera]
+    type = "PERSPECTIVE"
+    position = { x = 0, y = 0, z = 0 }
+    rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+    type = "SPHERE"
+    radius = 0.4
+    position = { x = -0.9, y = 0, z = -3 }
+    [objects.material]
+        type = "TEXTURE"
+        texture = "./scenes/img/brick.png"
+
+[[objects]]
+    type = "SPHERE"
+    radius = 0.4
+    position = { x = 0, y = 0, z = -3 }
+	[objects.material]
+		type = "ZOOM_UV"
+		zoom = 0.5
+		[objects.material.material]
+			type = "HEIGHT_MAP"
+			texture = "./scenes/img/brick.png"
+			[objects.material.material.material]
+				type = "NORMAL"
+				color = { r = 0, g = 255, b = 150 }
+
+[[objects]]
+    type = "SPHERE"
+    radius = 0.4
+    position = { x = 0.9, y = 0, z = -3 }
+	[objects.material]
+		type = "ZOOM_UV"
+		zoom = 0.5
+		[objects.material.material]
+			type = "HEIGHT_MAP"
+			texture = "./scenes/img/brick.png"
+			[objects.material.material.material]
+				type = "DIFFUSE"
+				albedo = 0.5
+				[objects.material.material.material.material]
+					type = "COLOR"
+					color = { r = 200, g = 200, b = 255 }
+
+[[lights]]
+    type = "AMBIENT"
+    intensity = 0.2
+
+[[lights]]
+    type = "POINT"
+    position = { x = -1, y = 0, z = 0}
+    intensity = 1.5

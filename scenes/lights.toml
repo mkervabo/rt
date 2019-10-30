@@ -1,0 +1,79 @@
+name = "Lights"
+width = 1280
+height = 800
+
+[camera]
+    type = "PERSPECTIVE"
+    position = { x = 0, y = 1, z = 0 }
+    rotation = { x = -5, y = 0, z = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.2
+	position = { x = 1.5, y = 0.5, z = -4 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		[objects.material.material]
+			type = "REFLECTION"
+			refraction = 1.75
+			transparency = 80
+			[objects.material.material.color]
+				type = "COLOR"
+				color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.2
+	position = { x = -1, y = 0.5, z = -4 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.2
+	position = { x = 0, y = 0.5, z = -6 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "PLANE"
+	position = { x = 0, y = 0, z = -4 }
+	[objects.material]
+		type = "DIFFUSE"
+		albedo = 0.9
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 255, g = 255, b = 175 }
+
+[[lights]]
+	type = "AMBIENT"
+	intensity = 0.2
+
+[[lights]]
+	type = "SPOT"
+	position = { x = 0.5, y = 2.5, z = -2 }
+	direction = { x = -1, y = -1.5, z = -1.5 }
+	angle = 10
+	intensity = 3
+
+[[lights]]
+	type = "SPOT"
+	position = { x = 1.5, y = 2.5, z = -4 }
+	direction = { x = -1, y = -1.5, z = -1.5 }
+	angle = 10
+	intensity = 3
+	decay = 1
+
+[[lights]]
+	type = "SPOT"
+	position = { x = 3, y = 2.5, z = -2 }
+	direction = { x = -1, y = -1.5, z = -1.5 }
+	angle = 10
+	intensity = 3

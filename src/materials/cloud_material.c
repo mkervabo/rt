@@ -38,17 +38,17 @@ struct s_cloud_material	*read_cloud_material(t_toml_table *toml)
 	uint8_t			i;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate perlin material"));
 	if (!read_toml_type(toml, &value, "material", TOML_Table))
-		return (nfree(material));
+		return (rt_error(material, "Missing material in cloud material"));
 	if (!(material->material = read_material(value->value.table_v)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid material in cloud material"));
 	if (!read_toml_type(toml, &value, "size", TOML_Array))
-		return (nfree(material));
+		return (rt_error(material, "Missing size in cloud material"));
 	if (value->value.array_v->len != 8)
-		return (nfree(material));
+		return (rt_error(material, "Invalid size in cloud material"));
 	if (value->value.array_v->inner[0].type != TOML_Float)
-		return (nfree(material));
+		return (rt_error(material, "Invalid size type in cloud material"));
 	i = 0;
 	while (i < 8)
 	{

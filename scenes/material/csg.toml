@@ -1,0 +1,47 @@
+name = "csg type"
+width = 1280
+height = 800
+
+[camera]
+	type = "PERSPECTIVE"
+	position = { x = 0, y = 0, z = 0 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+	type = "UNION"
+	material.type = "NORMAL"
+	position = { x = -0.8, y = 0.2, z = -3 }
+	rotation = { x = 30, y = 45, z = 0 }
+	[objects.first]
+		type = "BOX"
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.25 }
+	[objects.second]
+		type = "SPHERE"
+		radius = 0.3
+
+[[objects]]
+	type = "DIFFERENCE"
+	material.type = "NORMAL"
+	position = { x = 0, y = 0.2, z = -3 }
+	rotation = { x = 30, y = 45, z = 0 }
+	[objects.first]
+		type = "BOX"
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.25 }
+	[objects.second]
+		type = "SPHERE"
+		radius = 0.3
+
+[[objects]]
+	type = "INTERSECTION"
+	material.type = "NORMAL"
+	position = { x = 0.8, y = 0.2, z = -3 }
+	rotation = { x = 30, y = 45, z = 0 }
+	[objects.first]
+		type = "BOX"
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.25 }
+	[objects.second]
+		type = "SPHERE"
+		radius = 0.3

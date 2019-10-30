@@ -4,8 +4,12 @@ height = 800
 
 [camera]
 	type = "PERSPECTIVE"
-	position = { x = 0, y = 0, z = 0 }
+	position = { x = 0, y = 0, z = 1.0 }
 	rotation = { x = 0, y = 0, z = 0 }
+
+# [[filters]]
+# 	type = "ANTI_ALIASING"
+# 	size = 10
 
 [[objects]]
 	type = "SPHERE"
@@ -39,18 +43,3 @@ height = 800
 		[objects.material.material]
 			type = "COLOR"
 			color = { r = 255, g = 255, b = 255}
-
-
-[[objects]]
-	type = "PLANE"
-	position.z = -5
-	position.y = -0.5
-	[objects.material]
-		type = "CHECKERBOARD"
-		size = 10
-		[objects.material.black]
-			type = "COLOR"
-			color = { r = 0, g = 0, b = 0 }
-		[objects.material.white]
-			type = "COLOR"
-			color = { r = 255, g = 255, b = 255 }

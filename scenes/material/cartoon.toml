@@ -1,0 +1,78 @@
+name = "Cartoon"
+width = 1280
+height = 800
+
+[camera]
+    type = "PERSPECTIVE"
+    position = { x = 1.00, y = 0.6, z = -2.0 }
+    rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.09
+	position = { x = 1, y = 0.65, z = -2.66 }
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.08
+	position = { x = 1.08, y = 0.6, z = -2.63 }
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.08
+	position = { x = 1.08, y = 0.605, z = -2.69 }
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.08
+	position = { x = 1, y = 0.605, z = -2.69 }
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.08
+	position = { x = 1, y = 0.605, z = -2.63 }
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.08
+	position = { x = 0.93, y = 0.605, z = -2.66 }
+	[objects.material]
+		type = "CARTOON"
+		albedo = 0.8
+		material.type = "COLOR"
+		material.color = { r = 120, g = 0, b = 230 }
+
+# [[lights]]
+#     type = "AMBIENT"
+#     intensity = 0.5
+
+[[lights]]
+    type = "POINT"
+    position = { x = 1.0, y = 0, z = 0 }
+    # direction = { x = 1.0, y = 0, z = -1 }
+    intensity = 1

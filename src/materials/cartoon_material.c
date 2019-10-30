@@ -24,8 +24,8 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 		else if (vec3_is_zero(lray.direction))
 			intensity = scene->lights[i]->intensity;
 		else if (receive_light(scene, &lray, point, &value))
-			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
-				* scene->lights[i]->intensity * value * light_decay(lray.origin, point, scene->lights[i]->decay);
+			intensity = fmin(material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
+				* scene->lights[i]->intensity * value * light_decay(lray.origin, point, scene->lights[i]->decay), 1);
 		else
 			intensity = 0;
 		if (intensity <= 0.01)

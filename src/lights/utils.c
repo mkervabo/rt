@@ -2,6 +2,7 @@
 #include "config_utils.h"
 #include "raytrace.h"
 #include "../materials/reflection_material.h"
+#include "../materials/diffuse_material.h"
 #include "../materials/material_types.h"
 
 #include <math.h>
@@ -27,13 +28,16 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 	return (true);
 }
 
-static bool	refracted_light(double *value, struct s_reflection_material *material)
+static bool	material_transparency(double *value, struct s_material *material)
 {
-	if (material->transparency > 0)
+	if (material->type == MATERIAL_REFLECTION
+		&& ((struct s_reflection_material *)material)->transparency > 0)
 	{
-		*value = material->transparency / 100;
+		*value = ((struct s_reflection_material *)material)->transparency / 100;
 		return (true);
 	}
+	else if (material->type == MATERIAL_DIFFUSE)
+		return (material_transparency(value, ((struct s_diffuse_material *)material)->material));
 	return (false);
 }
 
@@ -67,9 +71,8 @@ bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double *value
 
 	if (hit.t >= 0 && hit.t <= dist)
 	{
-		if (hit.who->material->type == MATERIAL_REFLECTION)
-			if (refracted_light(value, (struct s_reflection_material *)hit.who->material))
-				return (true);
+		if (material_transparency(value, hit.who->material))
+			return (true);
 		return (false);
 	}
 	return (true);

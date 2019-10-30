@@ -221,8 +221,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -231,8 +234,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -241,8 +247,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -251,8 +260,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -261,8 +273,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -271,8 +286,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 #nuage 2
 [[objects]]
@@ -282,8 +300,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -292,8 +313,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -302,8 +326,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -312,8 +339,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -322,8 +352,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -332,8 +365,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 #nuage 3
 [[objects]]
@@ -343,8 +379,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -353,8 +392,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -363,8 +405,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -373,8 +418,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -383,8 +431,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 [[objects]]
 	type = "SPHERE"
@@ -393,8 +444,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 169, g = 169, b = 169 }
+		[objects.material.material]
+			type = "CLOUD"
+			size = [2.0, 8.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 #sol
 [[objects]]
@@ -403,8 +457,11 @@ height = 800
 	[objects.material]
 		type = "DIFFUSE"
 		albedo = 0.9
-		material.type = "COLOR"
-		material.color = { r = 255, g = 255, b = 255 }
+		[objects.material.material]
+			type = "MARBLE"
+			size = 2
+			material.type = "COLOR"
+			material.color = { r = 255, g = 255, b = 255 }
 
 #fond
 [[objects]]
