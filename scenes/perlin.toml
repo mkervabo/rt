@@ -1,0 +1,56 @@
+name = "Perlin"
+width = 1280
+height = 800
+
+[camera]
+	type = "PERSPECTIVE"
+	position = { x = 0, y = 0, z = 0 }
+	rotation = { x = 0, y = 0, z = 0 }
+
+[[objects]]
+	type = "SPHERE"
+	radius = 1
+	position = { x = 0, y = 0.1, z = -4 }
+	[objects.material]
+		type = "CLOUD"
+		size = [2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0]
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 255, g = 0, b = 200}
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.4
+	position = { x = -0.5, y = -0.1, z = -2.7 }
+	[objects.material]
+		type = "PERLIN"
+		size = 15
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 0, g = 255, b = 200}
+
+[[objects]]
+	type = "SPHERE"
+	radius = 0.3
+	position = { x = 0.5, y = 0.1, z = -2.2 }
+	[objects.material]
+		type = "MARBLE"
+		size = 9
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 255, g = 255, b = 255}
+
+
+[[objects]]
+	type = "PLANE"
+	position.z = -5
+	position.y = -0.5
+	[objects.material]
+		type = "CHECKERBOARD"
+		size = 10
+		[objects.material.black]
+			type = "COLOR"
+			color = { r = 0, g = 0, b = 0 }
+		[objects.material.white]
+			type = "COLOR"
+			color = { r = 255, g = 255, b = 255 }

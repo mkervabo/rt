@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material_types.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/21 11:44:27 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/10/30 19:42:41 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ enum e_material_type {
 	MATERIAL_DIFFUSE,
 	MATERIAL_HEIGHT_MAP,
 	MATERIAL_CARTOON,
-	MATERIAL_REFLECTION
+	MATERIAL_REFLECTION,
+	MATERIAL_PERLIN,
+	MATERIAL_MARBLE,
+	MATERIAL_CLOUD
 };
 
 #endif

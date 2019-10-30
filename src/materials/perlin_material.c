@@ -1,0 +1,41 @@
+#include "perlin_material.h"
+#include "noise.h"
+#include "color_material.h"
+#include "material_types.h"
+#include "math/vec2.h"
+#include "math/vec3.h"
+#include "config_utils.h"
+#include <math.h>
+#include <stdlib.h>
+
+t_color				perlin_material_color(
+	struct s_perlin_material *material,
+	t_scene *scene, struct s_ray ray, struct s_hit *hit)
+{
+	t_vec3			p;
+
+	p = ray_point_at(&ray, hit->t);
+	return (color_multv(
+		material_color(material->material, scene, ray, hit),
+		(noise(vec3_multv(p, material->size)) + 1) / 2
+	));
+}
+
+struct s_perlin_material	*read_perlin_material(t_toml_table *toml)
+{
+	struct s_perlin_material	*material;
+	t_toml						*value;
+
+	if (!(material = malloc(sizeof(*material))))
+		return (NULL);
+	if (read_toml_type(toml, &value, "material", TOML_Table) == false)
+		return (nfree(material));
+	else if (!(material->material = read_material(value->value.table_v)))
+		return (nfree(material));
+	if (!(value = table_get(toml, "size")))
+		material->size = 10;
+	else if (read_digit(value, &material->size) == false)
+		return (nfree(material));
+	material->super.type = MATERIAL_PERLIN;
+	return (material);
+}
