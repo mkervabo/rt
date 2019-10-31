@@ -1,5 +1,17 @@
-#ifndef CONFIG_UTILS
-# define CONFIG_UTILS
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   config_utils.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 14:34:35 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/05 14:34:44 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CONFIG_UTILS_H
+# define CONFIG_UTILS_H
 
 # include "toml.h"
 # include "math/vec3.h"

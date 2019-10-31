@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/31 13:02:26 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/10/31 13:04:31 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "video.h"
 #include "config.h"
 
-static void 	new_camera_position(struct s_camera *camera, size_t frame, double frame_sec)
+static void		new_camera_position(struct s_camera *camera, size_t frame,
+	double frame_sec)
 {
 	size_t i;
 	double from;
@@ -11,17 +24,20 @@ static void 	new_camera_position(struct s_camera *camera, size_t frame, double f
 	while (i < camera->video.video_len)
 	{
 		from = camera->video.video[i].from * frame_sec;
-		to =  camera->video.video[i].to * frame_sec;
+		to = camera->video.video[i].to * frame_sec;
 		if (frame > from && frame <= to)
 		{
-			camera->position = vec3_add(camera->position, vec3_divv(camera->video.video[i].position, to - from));
-			camera->rotation = vec3_add(camera->rotation, vec3_divv(camera->video.video[i].rotation, to - from));
+			camera->position = vec3_add(camera->position,
+				vec3_divv(camera->video.video[i].position, to - from));
+			camera->rotation = vec3_add(camera->rotation,
+				vec3_divv(camera->video.video[i].rotation, to - from));
 		}
 		i++;
 	}
 }
 
-static void 	new_object_position(t_object *object, size_t frame, double frame_sec)
+static void		new_object_position(t_object *object, size_t frame,
+	double frame_sec)
 {
 	size_t i;
 	double from;
@@ -34,19 +50,22 @@ static void 	new_object_position(t_object *object, size_t frame, double frame_se
 		to = object->shape->video.video[i].to * frame_sec;
 		if (frame > from && frame <= to)
 		{
-			object->shape->position = vec3_add(object->shape->position, vec3_divv(object->shape->video.video[i].position, to - from));
-			object->shape->rotation = vec3_add(object->shape->rotation, vec3_divv(object->shape->video.video[i].rotation, to - from));
+			object->shape->position = vec3_add(object->shape->position,
+				vec3_divv(object->shape->video.video[i].position, to - from));
+			object->shape->rotation = vec3_add(object->shape->rotation,
+				vec3_divv(object->shape->video.video[i].rotation, to - from));
 		}
 		i++;
 	}
 }
 
-static void		new_object_material(t_object *object, size_t frame, double frame_sec)
+static void		new_object_material(t_object *object, size_t frame,
+	double frame_sec)
 {
-	size_t 			i;
-	size_t			second;
-	t_vec3			position;
-	t_vec3			rotation;
+	size_t	i;
+	size_t	second;
+	t_vec3	position;
+	t_vec3	rotation;
 
 	i = 0;
 	while (i < object->shape->video.frame_len)
@@ -57,7 +76,7 @@ static void		new_object_material(t_object *object, size_t frame, double frame_se
 			position = object->shape->position;
 			rotation = object->shape->rotation;
 			if (object->shape->video.frame[i].shape != NULL)
-				object->shape = object->shape->video.frame[i].shape;	
+				object->shape = object->shape->video.frame[i].shape;
 			if (object->shape->video.frame[i].material != NULL)
 				object->material = object->shape->video.frame[i].material;
 			object->shape->position = position;
@@ -67,9 +86,10 @@ static void		new_object_material(t_object *object, size_t frame, double frame_se
 	}
 }
 
-static void		new_light_type(t_light **light, size_t frame, double frame_sec)
+static void		new_light_type(t_light **light, size_t frame,
+	double frame_sec)
 {
-	size_t i;
+	size_t	i;
 	size_t	second;
 
 	i = 0;
@@ -94,14 +114,17 @@ void			video_transform_scene(struct s_config *config, size_t frame)
 	i = 0;
 	while (i < config->scene.objects_size)
 	{
-		new_object_position(&config->scene.objects[i], frame, config->video->frame_sec);
-		new_object_material(&config->scene.objects[i], frame, config->video->frame_sec);
+		new_object_position(&config->scene.objects[i],
+			frame, config->video->frame_sec);
+		new_object_material(&config->scene.objects[i],
+			frame, config->video->frame_sec);
 		i++;
 	}
 	i = 0;
 	while (i < config->scene.lights_size)
 	{
-		new_light_type(&config->scene.lights[i], frame, config->video->frame_sec);
+		new_light_type(&config->scene.lights[i],
+			frame, config->video->frame_sec);
 		i++;
 	}
 	new_camera_position(config->scene.camera, frame, config->video->frame_sec);

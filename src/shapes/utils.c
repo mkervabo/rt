@@ -1,8 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 15:21:46 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/14 08:51:09 by dde-jesu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 #include "config_utils.h"
 #include "math/vec3.h"
 #include <stdlib.h>
 #include <math.h>
+
+static void	read_shape_super_video(t_toml_table *toml, t_shape *object)
+{
+	if (!read_video_shape(toml, &object->video))
+	{
+		object->video.video_len = 0;
+		object->video.video = NULL;
+	}
+	if (!read_video_frame(toml, &object->video))
+	{
+		object->video.frame_len = 0;
+		object->video.frame = NULL;
+	}
+}
 
 bool		read_shape_super(t_toml_table *toml, t_shape *object)
 {
@@ -23,20 +49,11 @@ bool		read_shape_super(t_toml_table *toml, t_shape *object)
 	}
 	else
 		object->rotation = vec3(0, 0, 0);
-	if (!read_video_shape(toml, &object->video))
-	{
-		object->video.video_len = 0;
-		object->video.video = NULL;
-	}
-	if (!read_video_frame(toml, &object->video))
-	{
-		object->video.frame_len = 0;
-		object->video.frame = NULL;
-	}
+	read_shape_super_video(toml, object);
 	return (true);
 }
 
-void			free_shape_super(t_shape *object)
+void		free_shape_super(t_shape *object)
 {
 	free(object->video.frame);
 	free(object->video.video);

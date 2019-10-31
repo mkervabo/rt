@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plane.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 15:33:10 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/05 15:34:38 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "plane.h"
 #include "shape_types.h"
 #include "utils.h"
@@ -6,20 +18,19 @@
 #include <stdlib.h>
 #include <math.h>
 
-struct s_hit hit_plane(struct s_ray ray, struct s_plane *plane,
+struct s_hit	hit_plane(struct s_ray ray, struct s_plane *plane,
 		struct s_intersection_tab *intersections)
 {
+	double t;
+	t_vec3 p;
+
 	(void)plane;
 	if (fabs(ray.direction.y) < 1e-6)
 		return ((struct s_hit) { .t = -1.0 });
-
-	double t = -ray.origin.y / ray.direction.y;
-
+	t = -ray.origin.y / ray.direction.y;
 	if (t < 0)
 		return ((struct s_hit) { .t = -1.0 });
-
-	t_vec3 p = ray_point_at(&ray, t);
-
+	p = ray_point_at(&ray, t);
 	if (intersections)
 		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
 		{
@@ -40,9 +51,9 @@ struct s_plane	*read_plane(t_toml_table *toml)
 	struct s_plane	*plane;
 
 	if (!(plane = malloc(sizeof(*plane))))
-			return (rt_error(NULL, "Can not allocate plane shape"));
+		return (rt_error(NULL, "Can not allocate plane shape"));
 	if (!read_shape_super(toml, &plane->super))
-			return (rt_error(plane, "invalid super in plane shape"));
+		return (rt_error(plane, "invalid super in plane shape"));
 	plane->super.type = SHAPE_PLANE;
 	return (plane);
 }

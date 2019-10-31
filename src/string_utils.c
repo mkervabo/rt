@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/10 18:28:08 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/10 18:28:30 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stddef.h>
 #include <stdbool.h>
 
-bool 		ft_strcmp(const char *s1, const char *s2)
+bool		ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 

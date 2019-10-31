@@ -1,25 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 10:47:59 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:56:11 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "texture.h"
 #include "material_types.h"
 #include "config_utils.h"
 
 #include <stdlib.h>
 
-t_color						texture_color(struct s_texture *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color				texture_color(struct s_texture *material, t_scene *scene,
+	struct s_ray ray, struct s_hit *hit)
 {
 	uint32_t	pixel;
 
 	(void)scene;
 	(void)ray;
-	pixel = getpixel(&material->image, material->image.size.width * hit->u, material->image.size.height * hit->v);
+	pixel = getpixel(&material->image, material->image.size.width * hit->u,
+		material->image.size.height * hit->v);
 	return ((t_color) {
 		.r = (pixel >> 16) & 0xFF,
 		.g = (pixel >> 8) & 0xFF,
 		.b = (pixel) & 0xFF,
 	});
-
 }
 
-double	texture_transparency(struct s_texture *material, struct s_hit *hit)
+double				texture_transparency(struct s_texture *material,
+	struct s_hit *hit)
 {
 	(void)material;
 	(void)hit;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:55:08 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/09/04 18:15:47 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/05 13:21:39 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,18 @@ t_vec3	vec3_invert(t_vec3 v)
 	return (vec3(
 		1 / v.x,
 		1 / v.y,
-		1 / v.z
-	));
+		1 / v.z));
 }
 
-t_vec3		vec3_cross(t_vec3 a, t_vec3 b)
+t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	return (vec3(
 		(a.y * b.z) - (a.z * b.y),
 		(a.z * b.x) - (a.x * b.z),
-		(a.x * b.y) - (a.y * b.x)
-	));
+		(a.x * b.y) - (a.y * b.x)));
 }
 
-bool		vec3_is_zero(t_vec3 v)
+bool	vec3_is_zero(t_vec3 v)
 {
 	return (v.x == 0 && v.y == 0 && v.z == 0);
 }

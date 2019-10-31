@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cartoon.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:15:33 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:21:14 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "math/size.h"
 #include "color.h"
 #include <stdint.h>
@@ -11,9 +23,10 @@
 #include "toml.h"
 
 void					cartoon_filter(struct s_cartoon_filter *filter,
-										uint32_t *pixels,
-										struct s_pixel_hit *hits,
-										struct s_size window) {
+						uint32_t *pixels,
+						struct s_pixel_hit *hits,
+						struct s_size window)
+{
 	size_t			i;
 
 	i = 0;
@@ -21,11 +34,11 @@ void					cartoon_filter(struct s_cartoon_filter *filter,
 	{
 		if (i + window.width + 2 < window.width * window.height
 		&& ((hits[i].t != hits[i + 2].t && hits[i].who != hits[i + 2].who)
-		|| (hits[i].t != hits[i + window.width].t && hits[i].who != hits[i + window.width].who)
-		|| (hits[i].t != hits[i + window.width + 2].t && hits[i].who != hits[i + window.width + 2].who)))
-			{
-				pixels[i] = color_to_rgb(filter->color);
-			}
+		|| (hits[i].t != hits[i + window.width].t && hits[i].who
+		!= hits[i + window.width].who) || (hits[i].t
+		!= hits[i + window.width + 2].t && hits[i].who
+		!= hits[i + window.width + 2].who)))
+			pixels[i] = color_to_rgb(filter->color);
 		i++;
 	}
 }
@@ -45,7 +58,7 @@ struct s_cartoon_filter	*read_cartoon_filter(t_toml_table *toml)
 	return (filter);
 }
 
-void						free_cartoon_filter(struct s_cartoon_filter *filter)
+void					free_cartoon_filter(struct s_cartoon_filter *filter)
 {
 	free(filter);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:29:37 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/13 19:24:28 by dde-jesu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 #include "config_utils.h"
 #include "raytrace.h"
@@ -7,7 +19,7 @@
 
 #define MAX_DEPTH 5
 
-bool		read_light_super(t_toml_table *toml, t_light *light)
+bool			read_light_super(t_toml_table *toml, t_light *light)
 {
 	t_toml		*value;
 
@@ -28,7 +40,7 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 	return (true);
 }
 
-double	light_decay(t_vec3 origin, t_vec3 point, double decay)
+double			light_decay(t_vec3 origin, t_vec3 point, double decay)
 {
 	t_vec3		to_light;
 	double		dist;
@@ -40,26 +52,25 @@ double	light_decay(t_vec3 origin, t_vec3 point, double decay)
 	return (res);
 }
 
-double		receive_light(struct s_scene *scene, struct s_ray *light, t_vec3 p, t_color *color) {
+double			receive_light(struct s_scene *scene, struct s_ray *light,
+	t_vec3 p, t_color *color)
+{
 	struct s_ray	shadow;
-	t_vec3			to_light;
-	t_vec3			direction;
+	t_vec3			vec3[2];
 	double			v;
 	struct s_hit	hit;
 	t_material		*mat;
 
-	to_light = vec3_sub(light->origin, p);
-	v = vec3_length(to_light);
-	direction = vec3_divv(to_light, v);
-	shadow = (struct s_ray) {
-		.origin = p,
-		.direction = direction,
-		.depth = light->depth + 1
-	};
+	vec3[0] = vec3_sub(light->origin, p);
+	v = vec3_length(vec3[0]);
+	vec3[1] = vec3_divv(vec3[0], v);
+	shadow = (struct s_ray) { .origin = p, .direction = vec3[1],
+			.depth = light->depth + 1};
 	hit = hit_scene(scene->objects, scene->objects_size, shadow, NULL);
 	if (hit.t >= 0 && hit.t <= v)
 	{
-		if ((v = material_transparency(hit.who->material, &hit, &mat)) != 0.0) {
+		if ((v = material_transparency(hit.who->material, &hit, &mat)) != 0.0)
+		{
 			if (shadow.depth < MAX_DEPTH)
 				*color = material_color(mat, scene, shadow, &hit);
 			return (1.0 - v);
@@ -69,7 +80,7 @@ double		receive_light(struct s_scene *scene, struct s_ray *light, t_vec3 p, t_co
 	return (1.0);
 }
 
-void		free_light_super(t_light *light)
+void			free_light_super(t_light *light)
 {
 	free(light->video.frame);
 }

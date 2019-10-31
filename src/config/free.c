@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/11 17:15:51 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:16:05 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "config.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-bool	config_error(t_toml_table *toml, struct s_config *config, const char *msg)
+bool	config_error(t_toml_table *toml, struct s_config *config,
+	const char *msg)
 {
 	rt_error(NULL, msg);
 	free_toml_table(toml);

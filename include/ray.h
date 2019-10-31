@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:29:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/09/18 20:46:15 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/05 14:37:58 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <stdbool.h>
 # include <stddef.h>
 
-struct s_ray {
+struct	s_ray
+{
 	struct s_vec3	origin;
 	struct s_vec3	direction;
 	double			n1;
@@ -25,6 +26,6 @@ struct s_ray {
 	size_t			depth;
 };
 
-t_vec3 ray_point_at(const struct s_ray *ray, float t);
+t_vec3	ray_point_at(const struct s_ray *ray, float t);
 
 #endif

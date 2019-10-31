@@ -1,16 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move_uv_material.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 20:49:04 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:50:41 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "move_uv_material.h"
 #include "material_types.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-t_color						move_uv_material_color(struct s_move_uv_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color						move_uv_material_color(
+	struct s_move_uv_material *material, t_scene *scene, struct s_ray ray,
+	struct s_hit *hit)
 {
 	hit->u += material->u;
 	hit->v += material->v;
-	return(material_color(material->material, scene, ray, hit));
+	return (material_color(material->material, scene, ray, hit));
 }
 
-double	move_uv_material_transparency(struct s_move_uv_material *material, struct s_hit *hit, t_material **color)
+double						move_uv_material_transparency(
+	struct s_move_uv_material *material, struct s_hit *hit, t_material **color)
 {
 	return (material_transparency(material->material, hit, color));
 }
@@ -38,7 +53,8 @@ struct s_move_uv_material	*read_move_uv_material(t_toml_table *toml)
 	return (material);
 }
 
-void						free_move_uv_material(struct s_move_uv_material *material)
+void						free_move_uv_material(
+	struct s_move_uv_material *material)
 {
 	free_material(material->material);
 	free(material);

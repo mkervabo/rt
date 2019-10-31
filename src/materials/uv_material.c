@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   uv_material.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 11:09:58 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:57:02 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "uv_material.h"
 #include "material_types.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-t_color						uv_material_color(struct s_uv_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color					uv_material_color(struct s_uv_material *material,
+	t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	(void)material;
 	(void)scene;
@@ -13,10 +26,10 @@ t_color						uv_material_color(struct s_uv_material *material, t_scene *scene, s
 		.g = hit->v * 255,
 		.b = (1 - hit->u - hit->v) * 255
 	});
-
 }
 
-double	uv_material_transparency(struct s_uv_material *material, struct s_hit *hit)
+double					uv_material_transparency(struct s_uv_material *material,
+	struct s_hit *hit)
 {
 	(void)material;
 	(void)hit;
@@ -34,7 +47,7 @@ struct s_uv_material	*read_uv_material(t_toml_table *toml)
 	return (material);
 }
 
-void				free_uv_material(struct s_uv_material *material)
+void					free_uv_material(struct s_uv_material *material)
 {
 	free(material);
 }

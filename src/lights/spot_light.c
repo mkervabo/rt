@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   spot_light.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:27:43 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:32:12 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "spot_light.h"
 #include "light_types.h"
 #include "utils.h"
@@ -5,15 +17,15 @@
 #include <stdlib.h>
 #include <math.h>
 
-
-
-bool			spot_get_light_ray(const struct s_spot_light *light, t_vec3 point, struct s_ray *ray)
+bool				spot_get_light_ray(const struct s_spot_light *light,
+	t_vec3 point, struct s_ray *ray)
 {
 	struct s_ray	lray;
 
 	lray.direction = vec3_unit(vec3_sub(point, light->position));
 	lray.origin = light->position;
-	if (vec3_dot(lray.direction, light->direction) >= cos(light->angle * M_PI / 180))
+	if (vec3_dot(lray.direction, light->direction) >=
+		cos(light->angle * M_PI / 180))
 	{
 		*ray = (struct s_ray) {
 			.direction = vec3_unit(vec3_sub(point, light->position)),
@@ -24,10 +36,10 @@ bool			spot_get_light_ray(const struct s_spot_light *light, t_vec3 point, struct
 	return (false);
 }
 
-struct s_spot_light		*read_spot_light(t_toml_table *toml)
+struct s_spot_light	*read_spot_light(t_toml_table *toml)
 {
 	struct s_spot_light	*light;
-	t_toml					*value;
+	t_toml				*value;
 
 	if (!(light = malloc(sizeof(*light))))
 		return (rt_error(NULL, "Can not allocate spot light"));
@@ -50,7 +62,7 @@ struct s_spot_light		*read_spot_light(t_toml_table *toml)
 	return (light);
 }
 
-void					free_spot_light(struct s_spot_light *light)
+void				free_spot_light(struct s_spot_light *light)
 {
 	free_light_super(&light->super);
 	free(light);

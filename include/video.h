@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   video.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 14:41:14 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/05 14:42:39 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VIDEO_H
 # define VIDEO_H
 
@@ -15,17 +27,17 @@ typedef struct	s_video
 	double		frame;
 }				t_video;
 
-struct 			s_frame
+struct			s_frame
 {
-	double 		from;
+	double		from;
 	double		to;
 	t_vec3		position;
 	t_vec3		rotation;
 };
 
-struct 			s_video_light_frame
+struct			s_video_light_frame
 {
-	double 				second;
+	double				second;
 	struct s_light		*light;
 };
 
@@ -35,9 +47,9 @@ struct			s_video_light
 	struct s_video_light_frame		*frame;
 };
 
-struct 			s_video_frame
+struct			s_video_frame
 {
-	double 				second;
+	double				second;
 	struct s_shape		*shape;
 	struct s_material	*material;
 };
@@ -50,12 +62,14 @@ struct			s_video_shape
 	struct s_video_frame	*frame;
 };
 
-
-t_video					*read_video(t_toml_table *toml);
-bool					read_frame(struct s_frame *frame, t_toml_table *toml);
-bool					read_video_shape(t_toml_table *toml, struct s_video_shape *video);
-bool					read_video_frame(t_toml_table *toml, struct s_video_shape *video);
-bool					read_video_light(t_toml_table *toml, struct s_video_light *video);
-void					video_transform_scene(struct s_config *config, size_t frame);
+t_video			*read_video(t_toml_table *toml);
+bool			read_frame(struct s_frame *frame, t_toml_table *toml);
+bool			read_video_shape(t_toml_table *toml,
+	struct s_video_shape *video);
+bool			read_video_frame(t_toml_table *toml,
+	struct s_video_shape *video);
+bool			read_video_light(t_toml_table *toml,
+	struct s_video_light *video);
+void			video_transform_scene(struct s_config *config, size_t frame);
 
 #endif

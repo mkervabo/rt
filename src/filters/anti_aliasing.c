@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   anti_aliasing.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 10:36:00 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:24:21 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "math/size.h"
 #include "color.h"
 #include <stdint.h>
@@ -10,44 +22,62 @@
 #include <unistd.h>
 #include "toml.h"
 
-static t_color		merge_color_around(uint32_t *pixels, size_t i, struct s_size window)
+static t_color					blend(uint16_t rgb[3], size_t j,
+								uint32_t tmp[9])
 {
-	uint32_t	tmp[9];
-	ssize_t		p;
-	size_t		j;
+	size_t		i;
 	t_color		color;
-	uint16_t	r;
-	uint16_t	g;
-	uint16_t	b;
+	t_color		final;
 
-	r = 0;
-	g = 0;
-	b = 0;
-	j = 0;
-	for (ssize_t y = -1; y <= 1; y++) {
-		for (ssize_t x = -1; x <= 1; x++) {
-			p = (ssize_t)i + y * window.width + x;
-			if (p >= 0 && p < window.width * window.height)
-				tmp[j++] = pixels[(size_t)p];
-		}
-	}
 	i = 0;
 	while (i < j)
 	{
 		color = color_from_rgb(tmp[i]);
-		r += color.r;
-		g += color.g;
-		b += color.b;
+		rgb[0] += color.r;
+		rgb[1] += color.g;
+		rgb[2] += color.b;
 		i++;
 	}
-	return ((t_color) {
-		.r = r / j,
-		.g = g / j,
-		.b = b / j
-	});
+	final.r = rgb[0] / j;
+	final.g = rgb[1] / j;
+	final.b = rgb[2] / j;
+	return (final);
 }
 
-void	anti_aliasing_filter(struct s_anti_aliasing_filter *aa, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window) {
+static t_color					merge_color_around(uint32_t *pixels, size_t i,
+								struct s_size window)
+{
+	uint32_t	tmp[9];
+	size_t		j;
+	ssize_t		coord[3];
+	uint16_t	rgb[3];
+
+	rgb[0] = 0;
+	rgb[1] = 0;
+	rgb[2] = 0;
+	j = 0;
+	coord[1] = -1;
+	while (coord[1] <= 1)
+	{
+		coord[0] = -1;
+		while (coord[0] <= 1)
+		{
+			coord[2] = (ssize_t)i + coord[1] * window.width + coord[0];
+			if (coord[2] >= 0 && coord[2] < window.width * window.height)
+				tmp[j++] = pixels[(size_t)coord[2]];
+			coord[0]++;
+		}
+		coord[1]++;
+	}
+	return (blend(rgb, j, tmp));
+}
+
+void							anti_aliasing_filter(
+								struct s_anti_aliasing_filter *aa,
+								uint32_t *pixels,
+								struct s_pixel_hit *hits,
+								struct s_size window)
+{
 	size_t			i;
 	size_t			j;
 
@@ -59,11 +89,10 @@ void	anti_aliasing_filter(struct s_anti_aliasing_filter *aa, uint32_t *pixels, s
 		{
 			if (i + window.width + 2 < window.width * window.height
 			&& ((hits[i].t != hits[i + 2].t && hits[i].who != hits[i + 2].who)
-			|| (hits[i].t != hits[i + window.width].t && hits[i].who != hits[i + window.width].who)
-			|| (hits[i].t != hits[i + window.width + 2].t && hits[i].who != hits[i + window.width + 2].who)))
-				{
-					pixels[i] = color_to_rgb(merge_color_around(pixels, i, window));
-				}
+			|| (hits[i].t != hits[i + window.width].t && hits[i].who != hits[i
+			+ window.width].who) || (hits[i].t != hits[i + window.width + 2].t
+			&& hits[i].who != hits[i + window.width + 2].who)))
+				pixels[i] = color_to_rgb(merge_color_around(pixels, i, window));
 			i++;
 		}
 		j++;
@@ -85,8 +114,8 @@ struct s_anti_aliasing_filter	*read_anti_aliasing_filter(t_toml_table *toml)
 	return (anti_aliasing);
 }
 
-
-void						free_anti_aliasing_filter(struct s_anti_aliasing_filter *filter)
+void							free_anti_aliasing_filter(
+	struct s_anti_aliasing_filter *filter)
 {
 	free(filter);
 }

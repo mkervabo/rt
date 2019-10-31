@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/06 10:19:06 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/12 13:59:29 by gfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cylinder.h"
 #include "sphere.h"
 #include "shape_types.h"
@@ -7,8 +19,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-struct s_hit hit_cylinder(struct s_ray ray, struct s_cylinder *cylinder,
-		struct s_intersection_tab *intersections)
+struct s_hit		hit_cylinder(struct s_ray ray, struct s_cylinder *cylinder,
+					struct s_intersection_tab *intersections)
 {
 	struct s_sphere	sphere;
 	struct s_hit	hit;
@@ -43,7 +55,7 @@ struct s_cylinder	*read_cylinder(t_toml_table *toml)
 	return (cylinder);
 }
 
-void			free_cylinder(struct s_cylinder *cylinder)
+void				free_cylinder(struct s_cylinder *cylinder)
 {
 	free_shape_super(&cylinder->super);
 	free(cylinder);

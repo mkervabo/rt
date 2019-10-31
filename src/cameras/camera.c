@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   camera.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/02 17:13:09 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:13:25 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "camera.h"
-#include "debug/assert.h"
 #include "camera_types.h"
 #include "toml.h"
 #include "config_utils.h"
 #include "string_utils.h"
 
 #include "perspective.h"
-#include "360.h"
+#include "camera_360.h"
 #include "orthographic.h"
 
 struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
@@ -15,19 +26,20 @@ struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 	struct s_ray	ray;
 
 	if (camera->type == CAMERA_PERSPECTIVE)
-		ray = perspective_camera_create_ray((struct s_perspective_camera *)camera, x, y, window);
+		ray = perspective_camera_create_ray(
+			(struct s_perspective_camera *)camera, x, y, window);
 	else if (camera->type == CAMERA_360)
-		ray = s_360_camera_create_ray((struct s_360_camera *)camera, x, y, window);
+		ray = s_360_camera_create_ray(
+			(struct s_360_camera *)camera, x, y, window);
 	else if (camera->type == CAMERA_ORTHOGRAPHIC)
-		ray = orthographic_camera_create_ray((struct s_orthographic_camera *)camera, x, y, window);
-	else
-		assertf(false, "Unimplemented camera type: %d", camera->type);
+		ray = orthographic_camera_create_ray(
+			(struct s_orthographic_camera *)camera, x, y, window);
 	ray.origin = vec3_add(ray.origin, camera->position);
 	ray.direction = vec3_rotate(ray.direction, camera->rotation);
 	return (ray);
 }
 
-struct s_camera			*read_camera(t_toml_table *toml)
+struct s_camera	*read_camera(t_toml_table *toml)
 {
 	t_toml	*type;
 
@@ -45,7 +57,7 @@ struct s_camera			*read_camera(t_toml_table *toml)
 		return (rt_error(NULL, "Invalid camera type"));
 }
 
-void	free_camera(struct s_camera *camera)
+void			free_camera(struct s_camera *camera)
 {
 	if (camera->type == CAMERA_PERSPECTIVE)
 		free_perspective_camera((struct s_perspective_camera *)camera);
@@ -53,6 +65,4 @@ void	free_camera(struct s_camera *camera)
 		free_360_camera((struct s_360_camera *)camera);
 	else if (camera->type == CAMERA_ORTHOGRAPHIC)
 		free_orthographic_camera((struct s_orthographic_camera *)camera);
-	else
-		assertf(false, "Unimplemented camera type: %d", camera->type);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quadratic.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:00:59 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/07/20 15:08:02 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/05 13:23:09 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include <stdbool.h>
 
-struct	s_quadratic {
+struct	s_quadratic
+{
 	double	a;
 	double	b;
 	double	c;

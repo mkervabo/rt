@@ -6,14 +6,14 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/11 11:26:03 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/11 17:46:46 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATERIAL_TYPE_H
-# define MATERIAL_TYPE_H
+#ifndef MATERIAL_TYPES_H
+# define MATERIAL_TYPES_H
 
-#include "material.h"
+# include "material.h"
 
 enum	e_material_type {
 	MATERIAL_NORMAL,
@@ -36,11 +36,13 @@ enum	e_material_type {
 	MATERIAL_XOR,
 };
 
-struct	s_material_record {
+struct	s_material_record
+{
 	const char	*name;
 	t_color		(*color)(t_material *, t_scene *, struct s_ray, struct s_hit *);
 	t_material	*(*read)(t_toml_table *toml);
-	double		(*transparency)(t_material *material, struct s_hit *hit, t_material **color);
+	double		(*transparency)(t_material *material, struct s_hit *hit,
+				t_material **color);
 	void		(*free)(t_material *material);
 };
 

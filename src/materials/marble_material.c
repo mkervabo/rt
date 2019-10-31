@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   marble_material.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 20:43:10 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:46:12 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "marble_material.h"
 #include "material_types.h"
 #include "noise.h"
@@ -15,14 +27,16 @@ t_color						marble_material_color(
 	t_vec3		p;
 
 	p = ray_point_at(&ray, hit->t);
-	x = sin((p.x * material->size + p.y * material->size + p.z * material->size) * turbulence(p));
+	x = sin((p.x * material->size + p.y * material->size + p.z * material->size)
+		* turbulence(p));
 	x = sqrt(x + 1) * 0.7071;
 	x = sqrt(x);
-	return (color_multv(material_color(material->material, scene, ray, hit), x));
-
+	return (color_multv(material_color(material->material, scene, ray, hit),
+		x));
 }
 
-double	marble_material_transparency(struct s_marble_material *material, struct s_hit *hit, t_material **color)
+double						marble_material_transparency(
+	struct s_marble_material *material, struct s_hit *hit, t_material **color)
 {
 	return (material_transparency(material->material, hit, color));
 }
@@ -46,7 +60,8 @@ struct s_marble_material	*read_marble_material(t_toml_table *toml)
 	return (material);
 }
 
-void						free_marble_material(struct s_marble_material *material)
+void						free_marble_material(
+	struct s_marble_material *material)
 {
 	free_material(material->material);
 	free(material);

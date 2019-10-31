@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sepia.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:31:57 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:23:25 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sepia.h"
 #include "filter_types.h"
 #include "config_utils.h"
@@ -8,7 +20,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-void	sepia_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window)
+void					sepia_filter(uint32_t *pixels, struct s_pixel_hit *hits,
+						struct s_size window)
 {
 	size_t		i;
 	t_color		color;
@@ -43,7 +56,8 @@ struct s_sepia_filter	*read_sepia_filter(t_toml_table *toml)
 	return (sepia);
 }
 
-void						free_sepia_filter(struct s_sepia_filter *filter)
+void					free_sepia_filter(
+	struct s_sepia_filter *filter)
 {
 	free(filter);
 }

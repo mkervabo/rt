@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cartoon_material.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:59:02 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/13 19:33:17 by dde-jesu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cartoon_material.h"
 #include "material_types.h"
 #include "config_utils.h"
@@ -6,52 +18,74 @@
 #include <stdlib.h>
 #include <math.h>
 
-t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+static	double				cartoon_intensity(double intensity)
 {
-	size_t				i;
-	struct s_ray		lray;
-	t_color				light_color;
-	double				intensity;
-	t_vec3				point;
-	double				value;
-	t_color				color;
+	if (intensity <= 0.01)
+		intensity = 0;
+	else if (intensity <= 0.2)
+		intensity = 0.4;
+	else if (intensity <= 0.6)
+		intensity = 0.6;
+	else
+		intensity = 1;
+	return (intensity);
+}
 
-	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
+static t_color				cartoon_light_color(
+	struct s_cartoon_material *material, void *ctx[3], t_vec3 point,
+	struct s_hit *hit)
+{
+	const t_light	*light = ctx[1];
+	struct s_ray	lray;
+	double			intensity;
+	double			value;
+	t_color			color;
+
+	lray.depth = ((struct s_ray *)ctx[2])->depth;
+	color = (t_color) { 255, 255, 255 };
+	if (get_light_ray(light, point, &lray) == false)
+		intensity = 0;
+	else if (vec3_is_zero(lray.direction))
+		intensity = light->intensity;
+	else if ((value = receive_light(
+		(t_scene *)ctx[0], &lray, point, &color)) != 0)
+		intensity = fmin(material->albedo / M_PI
+				* fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
+				* light->intensity * value * light_decay(lray.origin, point,
+					light->decay), 1);
+	else
+		intensity = 0;
+	return (color_multv(
+			color_ratio(light->color, color),
+			cartoon_intensity(intensity)));
+}
+
+t_color						cartoon_material_color(
+	struct s_cartoon_material *material, t_scene *scene, struct s_ray ray,
+	struct s_hit *hit)
+{
+	size_t	i;
+	t_color	light_color;
+	t_vec3	point;
+
+	point = vec3_add(ray_point_at(&ray, hit->t),
+		vec3_multv(hit->normal, SHADOW_BIAS));
 	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
-	lray.depth = ray.depth;
-	while (i < scene->lights_size) {
-		color = (t_color) { 255, 255, 255 };
-		if (get_light_ray(scene->lights[i], point, &lray) == false)
-			intensity = 0;
-		else if (vec3_is_zero(lray.direction))
-			intensity = scene->lights[i]->intensity;
-		else if ((value = receive_light(scene, &lray, point, &color)) != 0)
-			intensity = fmin(material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
-				* scene->lights[i]->intensity * value * light_decay(lray.origin, point, scene->lights[i]->decay), 1);
-		else
-			intensity = 0;
-		if (intensity <= 0.01)
-			intensity = 0;
-		else if (intensity <= 0.2)
-			intensity = 0.4;
-		else if (intensity <= 0.6)
-			intensity = 0.6;
-		else
-			intensity = 1;
-		light_color = color_add(light_color, color_multv(
-			color_ratio(scene->lights[i]->color, color),
-			intensity
-		));
+	while (i < scene->lights_size)
+	{
+		light_color = color_add(light_color, cartoon_light_color(material,
+				(void *[3]) { scene, scene->lights[i], &ray }, point, hit));
 		i++;
 	}
 	return (color_ratio(
 		material_color(material->material, scene, ray, hit),
-		light_color
-	));
+		light_color));
 }
 
-double	cartoon_material_transparency(struct s_cartoon_material *material, struct s_hit *hit, t_material **color)
+double						cartoon_material_transparency(
+	struct s_cartoon_material *material,
+	struct s_hit *hit, t_material **color)
 {
 	return (material_transparency(material->material, hit, color));
 }
@@ -73,10 +107,4 @@ struct s_cartoon_material	*read_cartoon_material(t_toml_table *toml)
 		return (rt_error(material, "Invalid material in cartoon material"));
 	material->super.type = MATERIAL_CARTOON;
 	return (material);
-}
-
-void						free_cartoon_material(struct s_cartoon_material *material)
-{
-	free_material(material->material);
-	free(material);
 }

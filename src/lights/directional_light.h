@@ -1,16 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   directional_light.h                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:23:18 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:30:45 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIGHTS_DIRECTIONAL_LIGHT_H
 # define LIGHTS_DIRECTIONAL_LIGHT_H
 
 # include "light.h"
 
-struct s_directional_light {
+struct						s_directional_light
+{
 	t_light	super;
 	t_vec3	position;
 	t_vec3	direction;
 };
 
-bool						directional_get_light_ray(const struct s_directional_light *light, t_vec3 point, struct s_ray *ray);
+bool						directional_get_light_ray(
+	const struct s_directional_light *light, t_vec3 point, struct s_ray *ray);
 struct s_directional_light	*read_directional_light(t_toml_table *toml);
-void						free_directional_light(struct s_directional_light *light);
+void						free_directional_light(
+	struct s_directional_light *light);
 
 #endif

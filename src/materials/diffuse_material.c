@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   diffuse_material.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 20:33:36 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/13 19:34:11 by dde-jesu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "diffuse_material.h"
 #include "material_types.h"
 #include "config_utils.h"
@@ -5,45 +17,59 @@
 #include <stdlib.h>
 #include <math.h>
 
-
-t_color			diffuse_material_color(struct s_diffuse_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+static t_color				diffuse_light_color(
+	struct s_diffuse_material *material, void *ctx[3], t_vec3 point,
+	struct s_hit *hit)
 {
-	size_t				i;
-	struct s_ray		lray;
-	t_color				light_color;
-	double				intensity;
-	t_vec3				point;
-	double				value;
-	t_color				color;
+	const t_light	*light = ctx[1];
+	struct s_ray	lray;
+	double			intensity;
+	double			value;
+	t_color			color;
 
-	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
+	lray.depth = ((struct s_ray *)ctx[2])->depth;
+	color = (t_color) { 255, 255, 255 };
+	if (get_light_ray(light, point, &lray) == false)
+		intensity = 0;
+	else if (vec3_is_zero(lray.direction))
+		intensity = light->intensity;
+	else if ((value = receive_light((t_scene *)ctx[0],
+			&lray, point, &color)) != 0)
+		intensity = fmin(material->albedo / M_PI * fmax(vec3_dot(
+			vec3_multv(lray.direction, -1), hit->normal), 0) * light->intensity
+			* value * light_decay(lray.origin, point, light->decay), 1);
+	else
+		intensity = 0;
+	return (color_multv(
+		color_ratio(light->color, color),
+		intensity));
+}
+
+t_color						diffuse_material_color(
+	struct s_diffuse_material *material, t_scene *scene, struct s_ray ray,
+	struct s_hit *hit)
+{
+	size_t	i;
+	t_color	light_color;
+	t_vec3	point;
+
+	point = vec3_add(ray_point_at(&ray, hit->t),
+		vec3_multv(hit->normal, SHADOW_BIAS));
 	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
-	lray.depth = ray.depth;
-	while (i < scene->lights_size) {
-		color = (t_color) { 255, 255, 255 };
-		if (get_light_ray(scene->lights[i], point, &lray) == false)
-			intensity = 0;
-		else if (vec3_is_zero(lray.direction))
-			intensity = scene->lights[i]->intensity;
-		else if ((value = receive_light(scene, &lray, point, &color)) != 0)
-			intensity = fmin(material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
-				* scene->lights[i]->intensity * value * light_decay(lray.origin, point, scene->lights[i]->decay), 1);
-		else
-			intensity = 0;
-		light_color = color_add(light_color, color_multv(
-			color_ratio(scene->lights[i]->color, color),
-			intensity
-		));
+	while (i < scene->lights_size)
+	{
+		light_color = color_add(light_color, diffuse_light_color(material,
+				(void *[3]) { scene, scene->lights[i], &ray }, point, hit));
 		i++;
 	}
 	return (color_ratio(
 		material_color(material->material, scene, ray, hit),
-		light_color
-	));
+		light_color));
 }
 
-double	diffuse_material_transparency(struct s_diffuse_material *material, struct s_hit *hit, t_material **color)
+double						diffuse_material_transparency(
+	struct s_diffuse_material *material, struct s_hit *hit, t_material **color)
 {
 	return (material_transparency(material->material, hit, color));
 }
@@ -67,7 +93,8 @@ struct s_diffuse_material	*read_diffuse_material(t_toml_table *toml)
 	return (material);
 }
 
-void						free_diffuse_material(struct s_diffuse_material *material)
+void						free_diffuse_material(
+	struct s_diffuse_material *material)
 {
 	free_material(material->material);
 	free(material);

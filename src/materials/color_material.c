@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color_material.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 20:31:50 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:44:24 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "color_material.h"
 #include "material_types.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-t_color		color_material_color(struct s_color_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color					color_material_color(struct s_color_material *material,
+	t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	(void)scene;
 	(void)ray;
@@ -11,7 +24,8 @@ t_color		color_material_color(struct s_color_material *material, t_scene *scene,
 	return (material->color);
 }
 
-double	color_material_transparency(struct s_color_material *material)
+double					color_material_transparency(
+	struct s_color_material *material)
 {
 	(void)material;
 	return (0.0);
@@ -32,7 +46,8 @@ struct s_color_material	*read_color_material(t_toml_table *toml)
 	return (material);
 }
 
-void						free_color_material(struct s_color_material *material)
+void					free_color_material(
+	struct s_color_material *material)
 {
 	free(material);
 }

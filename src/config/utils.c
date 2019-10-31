@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/10 18:24:45 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:16:17 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "string_utils.h"
 
 #include "config_utils.h"
@@ -69,7 +81,6 @@ bool	read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 	return (true);
 }
 
-
 #define CSI "\033["
 #define CSI_GREEN CSI "32;01m"
 #define CSI_WHITE CSI "37;01m"
@@ -85,6 +96,5 @@ void	*rt_error(void *ptr, const char *msg)
 	write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, CSI_RESET "\n", sizeof(CSI_RESET));
 	free(ptr);
-	return (NULL);	
+	return (NULL);
 }
-

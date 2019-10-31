@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   blur.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:05:56 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:20:52 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "math/size.h"
 #include "color.h"
 #include <stdint.h>
@@ -10,44 +22,59 @@
 #include <unistd.h>
 #include "toml.h"
 
-static t_color		merge_color_around(uint32_t *pixels, size_t i, struct s_size window)
+static t_color			blend(uint16_t rgb[3], size_t j, uint32_t tmp[9])
 {
-	uint32_t	tmp[25];
-	ssize_t		p;
-	size_t		j;
+	size_t		i;
 	t_color		color;
-	uint16_t	r;
-	uint16_t	g;
-	uint16_t	b;
+	t_color		final;
 
-	r = 0;
-	g = 0;
-	b = 0;
-	j = 0;
-	for (ssize_t y = -2; y <= 2; y++) {
-		for (ssize_t x = -2; x <= 2; x++) {
-			p = (ssize_t)i + y * window.width + x;
-			if (p >= 0 && p < window.width * window.height)
-				tmp[j++] = pixels[(size_t)p];
-		}
-	}
 	i = 0;
 	while (i < j)
 	{
 		color = color_from_rgb(tmp[i]);
-		r += color.r;
-		g += color.g;
-		b += color.b;
+		rgb[0] += color.r;
+		rgb[1] += color.g;
+		rgb[2] += color.b;
 		i++;
 	}
-	return ((t_color) {
-		.r = r / j,
-		.g = g / j,
-		.b = b / j
-	});
+	final.r = rgb[0] / j;
+	final.g = rgb[1] / j;
+	final.b = rgb[2] / j;
+	return (final);
 }
 
-void	blur_filter(struct s_blur_filter *blur, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window) {
+static t_color			merge_color_around(uint32_t *pixels, size_t i,
+						struct s_size window)
+{
+	uint32_t	tmp[25];
+	size_t		j;
+	ssize_t		coord[3];
+	uint16_t	rgb[3];
+
+	rgb[0] = 0;
+	rgb[1] = 0;
+	rgb[2] = 0;
+	j = 0;
+	coord[1] = -2;
+	while (coord[1] <= 2)
+	{
+		coord[0] = -2;
+		while (coord[0] <= 2)
+		{
+			coord[2] = (ssize_t)i + coord[1] * window.width + coord[0];
+			if (coord[2] >= 0 && coord[2] < window.width * window.height)
+				tmp[j++] = pixels[(size_t)coord[2]];
+			coord[0]++;
+		}
+		coord[1]++;
+	}
+	return (blend(rgb, j, tmp));
+}
+
+void					blur_filter(struct s_blur_filter *blur,
+						uint32_t *pixels, struct s_pixel_hit *hits,
+						struct s_size window)
+{
 	size_t			i;
 	size_t			j;
 
@@ -68,7 +95,7 @@ void	blur_filter(struct s_blur_filter *blur, uint32_t *pixels, struct s_pixel_hi
 struct s_blur_filter	*read_blur_filter(t_toml_table *toml)
 {
 	struct s_blur_filter	*blur;
-	t_toml			*value;
+	t_toml					*value;
 
 	if (!(blur = malloc(sizeof(*blur))))
 		return (rt_error(NULL, "Can not allocate blur filter"));
@@ -80,8 +107,7 @@ struct s_blur_filter	*read_blur_filter(t_toml_table *toml)
 	return (blur);
 }
 
-
-void						free_blur_filter(struct s_blur_filter *filter)
+void					free_blur_filter(struct s_blur_filter *filter)
 {
 	free(filter);
 }

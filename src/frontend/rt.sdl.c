@@ -6,9 +6,11 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/11 13:27:01 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/13 20:02:56 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "rt.sdl.h"
 
 #include "render.h"
 #include "video.h"
@@ -24,16 +26,7 @@
 #include <sys/stat.h>
 #include <stddef.h>
 
-
-# define WINDOW_ERR "RT: Could not create SDL window: "
-
-struct s_sdl_window {
-	SDL_Window		*win;
-	SDL_Renderer	*renderer;
-	SDL_Texture		*screen;
-	size_t			width;
-	bool			quit;
-};
+#define WINDOW_ERR "RT: Could not create SDL window: "
 
 static bool	init_window(struct s_config *config, struct s_sdl_window *window)
 {
@@ -41,8 +34,8 @@ static bool	init_window(struct s_config *config, struct s_sdl_window *window)
 
 	SDL_Init(SDL_INIT_VIDEO);
 	if (!(window->win = SDL_CreateWindow(config->name, SDL_WINDOWPOS_UNDEFINED,
-					SDL_WINDOWPOS_UNDEFINED, config->size.width, config->size.height,
-					SDL_WINDOW_OPENGL))
+					SDL_WINDOWPOS_UNDEFINED, config->size.width,
+					config->size.height, SDL_WINDOW_OPENGL))
 			|| !(window->renderer = SDL_CreateRenderer(window->win, -1,
 					SDL_RENDERER_ACCELERATED))
 			|| !(window->screen = SDL_CreateTexture(window->renderer,
@@ -69,91 +62,30 @@ static void	destroy_window(struct s_sdl_window *window)
 	SDL_Quit();
 }
 
-/**
-** If wait is true we use WaitEvent instead of PollEvent to avoid using 100% cpu while
-** iddle
-**/
-static void	poll_events(struct s_sdl_window *window, bool wait)
-{
-	SDL_Event	event;
-
-	while (wait || SDL_PollEvent(&event))
-	{
-		if (wait)
-			SDL_WaitEvent(&event);
-		if (event.type == SDL_QUIT)
-			window->quit = true;
-		if (event.type == SDL_KEYDOWN
-				&& event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-			window->quit = true;
-		if (wait)
-			break;
-	}
-	SDL_RenderCopy(window->renderer, window->screen, NULL, NULL);
-	SDL_RenderPresent(window->renderer);
-}
-
-static bool	update_render(uint32_t *pixels, void *user)
-{
-	struct s_sdl_window	*window;
-
-	window = user;
-	SDL_UpdateTexture(window->screen, NULL, pixels,
-					window->width * sizeof(uint32_t));
-	poll_events(window, false);
-	return (window->quit);
-}
-
-void	sdl_frontend(struct s_config *config)
+void		sdl_frontend(struct s_config *config)
 {
 	struct s_sdl_window	window;
-	uint32_t	**pixels;
-	size_t		i;
-	char		name[25];
-	size_t		nframes;
+	uint32_t			**pixels;
+	size_t				nframes;
+	size_t				i;
 
 	window = (struct s_sdl_window) { .width = config->size.width };
 	nframes = config->video ? config->video->frame : 1;
 	if (!(pixels = malloc(sizeof(*pixels) * nframes)))
 		return ;
-	i = 0;
 	if (init_window(config, &window))
 	{
 		poll_events(&window, false);
-		while (i < nframes && !window.quit)
-		{
-			video_transform_scene(config, i);
-			pixels[i] = render(&config->scene, config->size, update_render, &window);
-			mkdir("./video", 0700);
-			snprintf(name, sizeof name, "./video/frame_%05zu.png", i + 1);
-			SDL_Surface *image = SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0);
-			IMG_SavePNG(image, name);
-			SDL_FreeSurface(image);
-			i++;
-		}
+		render_frames(config, &window, pixels, nframes);
 		i = 0;
 		while (i < config->scene.filters_size && !window.quit)
-			apply_video_filter(config->scene.filters[i++], pixels, &nframes, config->size);
-		while (!window.quit)
-		{
-			i = 0;
-			while (i < nframes && !window.quit)
-			{
-				SDL_UpdateTexture(window.screen, NULL, pixels[i],
-					window.width * sizeof(uint32_t));
-				poll_events(&window, false);
-				if (config->video)
-					SDL_Delay(1000 / config->video->frame_sec);
-				i++;
-			}
-		}
+			apply_video_filter(config->scene.filters[i++], pixels,
+			&nframes, config->size);
+		render_video(config, &window, pixels, nframes);
 	}
 	i = 0;
 	while (i < (config->video ? config->video->frame : 1))
-	{
-		free(pixels[i]);
-		i++;
-	}
+		free(pixels[i++]);
 	free(pixels);
 	destroy_window(&window);
 }
@@ -161,7 +93,7 @@ void	sdl_frontend(struct s_config *config)
 #define USAGE_PRE "Usage: "
 #define USAGE_POST " [scene.toml]\n"
 
-int	main(int argc, char *argv[])
+int			main(int argc, char *argv[])
 {
 	struct s_config	config;
 
@@ -182,40 +114,4 @@ int	main(int argc, char *argv[])
 	}
 	IMG_Quit();
 	return (1);
-}
-
-bool		load_image(t_image *dst, const char *path) {
-	SDL_Surface *surface;
-	SDL_Surface *converted;
-
-	if (!(surface = IMG_Load(path)))
-		return (false);
-	if (!(converted = SDL_ConvertSurfaceFormat(surface,
-		SDL_PIXELFORMAT_ARGB8888, 0)))
-	{
-		SDL_FreeSurface(surface);
-		return (false);
-	}
-	SDL_FreeSurface(surface);
-	*dst = (t_image) {
-		.size.width = converted->w,
-		.size.height = converted->h,
-		.pixels = converted->pixels,
-		.cookie = converted
-	};
-	return (true);
-}
-
-const char	*get_image_error(void) {
-	return IMG_GetError();
-}
-
-uint32_t	getpixel(t_image *image, size_t x, size_t y)
-{
-	return (image->pixels[y * image->size.width + x]);
-}
-
-void		free_image(t_image *image)
-{
-	SDL_FreeSurface((SDL_Surface *)image->cookie);
 }

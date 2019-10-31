@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   black_and_white.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 11:41:09 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:20:32 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "black_and_white.h"
 #include "color.h"
 #include "filter_types.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-void	black_and_white_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window)
+void							black_and_white_filter(uint32_t *pixels,
+								struct s_pixel_hit *hits,
+								struct s_size window)
 {
 	size_t	i;
 	uint8_t	res;
@@ -35,7 +49,8 @@ struct s_black_and_white_filter	*read_black_and_white_filter(t_toml_table *toml)
 	return (black_and_white);
 }
 
-void						free_black_and_white_filter(struct s_black_and_white_filter *filter)
+void							free_black_and_white_filter(
+	struct s_black_and_white_filter *filter)
 {
 	free(filter);
 }

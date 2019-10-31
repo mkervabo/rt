@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:04:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/07 10:40:47 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/12 14:03:11 by gfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
+struct s_hit		hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 		struct s_intersection_tab *intersections)
 {
 	struct s_quadratic		fn;
@@ -32,26 +32,23 @@ struct s_hit hit_sphere(struct s_ray ray, struct s_sphere *sphere,
 	if (solve_quadratic(fn, &intersection.from, &intersection.to))
 	{
 		if (intersections)
-			if ((intersections->inner = malloc(1 * sizeof(struct s_intersection)))) {
+			if ((intersections->inner = malloc(
+				1 * sizeof(struct s_intersection))))
+			{
 				intersections->len = 1;
 				intersections->inner[0] = intersection;
 			}
 		t = intersection.from >= 0 ? intersection.from : intersection.to;
 		n = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, t)));
-		return ((struct s_hit) {
-			.t = t,
-			.normal = n,
+		return ((struct s_hit) { .t = t, .normal = n,
 			.u = 0.5 + atan2(n.z, n.x) / (2 * M_PI),
-			.v = 0.5 - asin(n.y) / M_PI
-		});
+			.v = 0.5 - asin(n.y) / M_PI});
 	}
 	else
-		return ((struct s_hit) {
-			.t = -1.0
-		});
+		return ((struct s_hit) { .t = -1.0});
 }
 
-struct s_sphere	*read_sphere(t_toml_table *toml)
+struct s_sphere		*read_sphere(t_toml_table *toml)
 {
 	struct s_sphere	*sphere;
 	t_toml			*radius;
@@ -68,7 +65,7 @@ struct s_sphere	*read_sphere(t_toml_table *toml)
 	return (sphere);
 }
 
-void			free_sphere(struct s_sphere *sphere)
+void				free_sphere(struct s_sphere *sphere)
 {
 	free_shape_super(&sphere->super);
 	free(sphere);

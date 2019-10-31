@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   filter.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:25:15 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 16:14:42 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filter.h"
 #include "filter_types.h"
 
 #include "config.h"
 #include "config_utils.h"
 #include "string_utils.h"
-#include "debug/assert.h"
 #include <stdlib.h>
 
 #include "black_and_white.h"
@@ -16,7 +27,8 @@
 #include "depth_contrast.h"
 #include "motion_blur.h"
 
-void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window)
+void			apply_filter(t_filter *filter, uint32_t *pixels,
+				struct s_pixel_hit *hits, struct s_size window)
 {
 	if (filter->type == FILTER_BLACK_AND_WHITE)
 		black_and_white_filter(pixels, hits, window);
@@ -25,19 +37,23 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 	else if (filter->type == FILTER_NEGATIVE)
 		negative_filter(pixels, hits, window);
 	else if (filter->type == FILTER_ANTI_ALIASING)
-		anti_aliasing_filter((struct s_anti_aliasing_filter *)filter, pixels, hits, window);
+		anti_aliasing_filter((struct s_anti_aliasing_filter *)filter, pixels,
+			hits, window);
 	else if (filter->type == FILTER_CARTOON)
 		cartoon_filter((struct s_cartoon_filter *)filter, pixels, hits, window);
 	else if (filter->type == FILTER_BLUR)
 		blur_filter((struct s_blur_filter *)filter, pixels, hits, window);
 	else if (filter->type == FILTER_DEPTH_CONTRAST)
-		depth_contrast_filter((struct s_depth_contrast_filter *)filter, pixels, hits, window);
+		depth_contrast_filter((struct s_depth_contrast_filter *)filter, pixels,
+			hits, window);
 }
 
-void		apply_video_filter(t_filter *filter, uint32_t **pixels, size_t *nframes, struct s_size window)
+void			apply_video_filter(t_filter *filter, uint32_t **pixels,
+	size_t *nframes, struct s_size window)
 {
 	if (filter->type == FILTER_MOTION_BLUR)
-		motion_blur_video_filter((struct s_motion_blur_filter *)filter, pixels, nframes, window);
+		motion_blur_video_filter((struct s_motion_blur_filter *)filter, pixels,
+		nframes, window);
 }
 
 t_filter		*read_filter(t_toml_table *toml)
@@ -67,7 +83,7 @@ t_filter		*read_filter(t_toml_table *toml)
 	return (NULL);
 }
 
-t_filter 	**read_filters(t_toml_table *toml, size_t *size)
+t_filter		**read_filters(t_toml_table *toml, size_t *size)
 {
 	t_toml		*value;
 	t_filter	**filters;
@@ -84,7 +100,8 @@ t_filter 	**read_filters(t_toml_table *toml, size_t *size)
 	i = 0;
 	while (i < *size)
 	{
-		if (!(filters[i] = read_filter(value->value.array_v->inner[i].value.table_v)))
+		if (!(filters[i] =
+		read_filter(value->value.array_v->inner[i].value.table_v)))
 			return ((*size = 0) + free_filter_array(filters, i));
 		i++;
 	}

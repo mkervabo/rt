@@ -1,21 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checkerboard_material.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 20:26:50 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:42:14 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "checkerboard_material.h"
 #include "material_types.h"
 #include "config_utils.h"
 #include <math.h>
 #include <stdlib.h>
 
-static bool					checker(double u, double v, double size)
+static bool						checker(double u, double v, double size)
 {
 	double s;
 	double t;
 
 	s = floor(u * size);
 	t = floor(v * size);
-
-    	return (fmod(s + t, 2) == 0);
+	return (fmod(s + t, 2) == 0);
 }
 
-t_color							checkerboard_material_color(struct s_checkerboard_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color							checkerboard_material_color(
+	struct s_checkerboard_material *material, t_scene *scene, struct s_ray ray,
+	struct s_hit *hit)
 {
 	if (checker(hit->u, hit->v, material->size))
 		return (material_color(material->white, scene, ray, hit));
@@ -23,7 +36,9 @@ t_color							checkerboard_material_color(struct s_checkerboard_material *materi
 		return (material_color(material->black, scene, ray, hit));
 }
 
-double	checkerboard_material_transparency(struct s_checkerboard_material *material, struct s_hit *hit, t_material **color)
+double							checkerboard_material_transparency(
+	struct s_checkerboard_material *material, struct s_hit *hit,
+	t_material **color)
 {
 	if (checker(hit->u, hit->v, material->size))
 		return (material_transparency(material->white, hit, color));
@@ -60,7 +75,8 @@ struct s_checkerboard_material	*read_checkerboard_material(t_toml_table *toml)
 	return (material);
 }
 
-void				free_checkerboard_material(struct s_checkerboard_material *material)
+void							free_checkerboard_material(
+	struct s_checkerboard_material *material)
 {
 	free_material(material->black);
 	free_material(material->white);

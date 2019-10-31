@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   triangle.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 15:22:20 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/12 14:27:01 by gfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "triangle.h"
 #include "shape_types.h"
 #include "utils.h"
@@ -5,50 +17,61 @@
 #include <stdlib.h>
 #include <math.h>
 
-# define EPSILON 1e-12
+#define EPSILON 1e-12
 
-struct s_hit hit_triangle(struct s_ray ray, struct s_triangle *triangle,
-		struct s_intersection_tab *intersections)
+static struct s_hit		wait_name(float invdet, t_vec3 v0v[2],
+	t_vec3 vec[2], struct s_ray ray)
 {
-	t_vec3 v0v1 = vec3_sub(triangle->v1, triangle->v0);
-	t_vec3 v0v2 = vec3_sub(triangle->v2, triangle->v0);
+	float	u;
+	t_vec3	qvec;
+	float	v;
+	float	t;
 
-	t_vec3 pvec = vec3_cross(ray.direction, v0v2);
-	float det = vec3_dot(v0v1, pvec);
-
-	if (fabs(det) < EPSILON)
-		return ((struct s_hit) { .t = -1.0 });
-
-	float invDet = 1 / det;
-
-	t_vec3 tvec = vec3_sub(ray.origin, triangle->v0);
-
-	float u = vec3_dot(tvec, pvec) * invDet;
+	u = vec3_dot(vec[1], vec[0]) * invdet;
 	if (u < 0 || u > 1)
 		return ((struct s_hit) { .t = -1.0 });
-
-	t_vec3 qvec = vec3_cross(tvec, v0v1);
-	float v = vec3_dot(ray.direction, qvec) * invDet;
+	qvec = vec3_cross(vec[1], v0v[0]);
+	v = vec3_dot(ray.direction, qvec) * invdet;
 	if (v < 0 || u + v > 1)
 		return ((struct s_hit) { .t = -1.0 });
-
-	float t = vec3_dot(v0v2, qvec) * invDet;
-	if (intersections)
-		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
-		{
-			intersections->len = 1;
-			intersections->inner[0] = (struct s_intersection) {
-				.from = t, .to = t };
-		}
+	t = vec3_dot(v0v[1], qvec) * invdet;
 	return ((struct s_hit) {
 		.t = t,
-		.normal = vec3_unit(vec3_cross(v0v1, v0v2)),
+		.normal = vec3_unit(vec3_cross(v0v[0], v0v[1])),
 		.u = u,
 		.v = v
 	});
 }
 
-struct s_triangle	*read_triangle(t_toml_table *toml)
+struct s_hit			hit_triangle(struct s_ray ray,
+	struct s_triangle *triangle, struct s_intersection_tab *intersections)
+{
+	t_vec3			v0v[2];
+	t_vec3			vec[2];
+	float			det;
+	float			invdet;
+	struct s_hit	t;
+
+	v0v[0] = vec3_sub(triangle->v1, triangle->v0);
+	v0v[1] = vec3_sub(triangle->v2, triangle->v0);
+	vec[0] = vec3_cross(ray.direction, v0v[1]);
+	det = vec3_dot(v0v[0], vec[0]);
+	if (fabs(det) < EPSILON)
+		return ((struct s_hit) { .t = -1.0 });
+	invdet = 1 / det;
+	vec[1] = vec3_sub(ray.origin, triangle->v0);
+	t = wait_name(invdet, v0v, vec, ray);
+	if (intersections)
+		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
+		{
+			intersections->len = 1;
+			intersections->inner[0] = (struct s_intersection) {
+				.from = t.t, .to = t.t };
+		}
+	return (t);
+}
+
+struct s_triangle		*read_triangle(t_toml_table *toml)
 {
 	struct s_triangle	*triangle;
 	t_toml				*value;
@@ -70,7 +93,7 @@ struct s_triangle	*read_triangle(t_toml_table *toml)
 	return (triangle);
 }
 
-void			free_triangle(struct s_triangle *triangle)
+void					free_triangle(struct s_triangle *triangle)
 {
 	free_shape_super(&triangle->super);
 	free(triangle);

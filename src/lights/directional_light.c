@@ -1,16 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   directional_light.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:22:14 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:31:35 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "directional_light.h"
 #include "light_types.h"
 #include "utils.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-bool			directional_get_light_ray(const struct s_directional_light *light, t_vec3 point, struct s_ray *ray) {
+bool						directional_get_light_ray(
+	const struct s_directional_light *light, t_vec3 point, struct s_ray *ray)
+{
 	double	denom;
 	double	t;
 
 	denom = vec3_dot(light->direction, vec3_multv(light->direction, -1));
 	t = vec3_dot(vec3_sub(light->position, point), light->direction) / denom;
-
 	*ray = (struct s_ray) {
 		.direction = light->direction,
 		.origin = vec3_add(point, vec3_multv(light->direction, -t))
@@ -34,7 +47,7 @@ struct s_directional_light	*read_directional_light(t_toml_table *toml)
 	if (!read_toml_type(toml, &value, "direction", TOML_Table))
 		return (rt_error(light, "Misssing direction in directional light"));
 	if (!read_vec3(value->value.table_v, &light->direction))
-		return(rt_error(light, "Invalid direction in directional light"));
+		return (rt_error(light, "Invalid direction in directional light"));
 	if (vec3_is_zero(light->direction))
 		return (rt_error(light, "Invalid direction in directional light"));
 	light->direction = vec3_unit(light->direction);
@@ -42,7 +55,8 @@ struct s_directional_light	*read_directional_light(t_toml_table *toml)
 	return (light);
 }
 
-void					free_directional_light(struct s_directional_light *light)
+void						free_directional_light(
+	struct s_directional_light *light)
 {
 	free_light_super(&light->super);
 	free(light);

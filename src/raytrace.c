@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raytrace.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/02 16:05:30 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/02 16:06:46 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "raytrace.h"
 #include "material.h"
 #include <math.h>
 
-struct s_hit	hit_scene(t_object *objects, size_t object_size, struct s_ray ray, struct s_intersection_tab *intersections)
+struct s_hit	hit_scene(t_object *objects, size_t object_size,
+	struct s_ray ray, struct s_intersection_tab *intersections)
 {
 	struct s_hit	max;
 	struct s_hit	hit;
@@ -24,7 +37,8 @@ struct s_hit	hit_scene(t_object *objects, size_t object_size, struct s_ray ray, 
 	return (max);
 }
 
-t_color	raytrace(t_scene *scene, struct s_ray ray, struct s_pixel_hit *pixel_hit)
+t_color			raytrace(t_scene *scene, struct s_ray ray,
+	struct s_pixel_hit *pixel_hit)
 {
 	struct s_hit	hit;
 
@@ -34,7 +48,8 @@ t_color	raytrace(t_scene *scene, struct s_ray ray, struct s_pixel_hit *pixel_hit
 	{
 		pixel_hit->t = hit.t;
 		if (pixel_hit->t >= 0)
-			pixel_hit->t *= fabs(vec3_dot(ray.direction, vec3_rotate(vec3(0, 0, -1), scene->camera->rotation)));
+			pixel_hit->t *= fabs(vec3_dot(ray.direction,
+			vec3_rotate(vec3(0, 0, -1), scene->camera->rotation)));
 		pixel_hit->who = hit.who;
 	}
 	if (hit.t >= 0)

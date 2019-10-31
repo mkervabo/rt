@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cloud_material.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 20:28:57 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:43:11 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cloud_material.h"
 #include "noise.h"
 #include "color_material.h"
@@ -10,7 +22,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-t_color						cloud_material_color(
+t_color					cloud_material_color(
 	struct s_cloud_material *material, t_scene *scene,
 	struct s_ray ray, struct s_hit *hit)
 {
@@ -25,14 +37,17 @@ t_color						cloud_material_color(
 	p = ray_point_at(&ray, hit->t);
 	while (i < 8)
 	{
-		res += material->size[8 - i] * (noise(vec3_multv(p, material->size[i])) + 1) / 2;
+		res += material->size[8 - i] * (noise(vec3_multv(
+			p, material->size[i])) + 1) / 2;
 		div += material->size[i];
 		i++;
 	}
-	return (color_multv(material_color(material->material, scene, ray, hit), res / div));
+	return (color_multv(material_color(
+		material->material, scene, ray, hit), res / div));
 }
 
-double	cloud_material_transparency(struct s_cloud_material *material, struct s_hit *hit, t_material **color)
+double					cloud_material_transparency(
+	struct s_cloud_material *material, struct s_hit *hit, t_material **color)
 {
 	return (material_transparency(material->material, hit, color));
 }
@@ -40,8 +55,8 @@ double	cloud_material_transparency(struct s_cloud_material *material, struct s_h
 struct s_cloud_material	*read_cloud_material(t_toml_table *toml)
 {
 	struct s_cloud_material	*material;
-	t_toml			*value;
-	uint8_t			i;
+	t_toml					*value;
+	uint8_t					i;
 
 	if (!(material = malloc(sizeof(*material))))
 		return (rt_error(NULL, "Can not allocate perlin material"));
@@ -65,7 +80,7 @@ struct s_cloud_material	*read_cloud_material(t_toml_table *toml)
 	return (material);
 }
 
-void						free_cloud_material(struct s_cloud_material *material)
+void					free_cloud_material(struct s_cloud_material *material)
 {
 	free_material(material->material);
 	free(material);

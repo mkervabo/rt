@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   group.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 15:35:29 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 14:53:58 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "group.h"
 #include "shape_types.h"
 #include "utils.h"
@@ -10,7 +22,7 @@
 
 #include <math.h>
 
-struct s_hit hit_group(struct s_ray ray, struct s_group *group,
+struct s_hit	hit_group(struct s_ray ray, struct s_group *group,
 		struct s_intersection_tab *intersections)
 {
 	return (hit_scene(group->objects, group->objects_size, ray, intersections));

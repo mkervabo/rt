@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   negative.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:27:58 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:23:00 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "math/size.h"
 #include "color.h"
 #include <stdint.h>
@@ -9,7 +21,8 @@
 #include <stdlib.h>
 #include "toml.h"
 
-void	negative_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window)
+void						negative_filter(uint32_t *pixels,
+							struct s_pixel_hit *hits, struct s_size window)
 {
 	size_t	i;
 	uint8_t	res;
@@ -40,7 +53,8 @@ struct s_negative_filter	*read_negative_filter(t_toml_table *toml)
 	return (negative);
 }
 
-void						free_negative_filter(struct s_negative_filter *filter)
+void						free_negative_filter(
+	struct s_negative_filter *filter)
 {
 	free(filter);
 }

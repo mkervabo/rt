@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   depth_contrast.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:19:48 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/11 17:21:48 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "math/size.h"
 #include "color.h"
 #include <stdint.h>
@@ -10,9 +22,9 @@
 #include "toml.h"
 #include <math.h>
 
-static void		get_min_max_depth(double *min, double *max, struct s_size w, struct s_pixel_hit *hits)
+static void						get_min_max_depth(double *min, double *max,
+								struct s_size w, struct s_pixel_hit *hits)
 {
-
 	ssize_t		i;
 
 	*min = INFINITY;
@@ -20,7 +32,8 @@ static void		get_min_max_depth(double *min, double *max, struct s_size w, struct
 	i = 0;
 	while (i < w.width * w.height)
 	{
-		if (hits[i].t >= 0) {
+		if (hits[i].t >= 0)
+		{
 			*min = hits[i].t < *min ? hits[i].t : *min;
 			*max = hits[i].t > *max ? hits[i].t : *max;
 		}
@@ -28,7 +41,11 @@ static void		get_min_max_depth(double *min, double *max, struct s_size w, struct
 	}
 }
 
-void			depth_contrast_filter(struct s_depth_contrast_filter *d, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window)
+void							depth_contrast_filter(
+								struct s_depth_contrast_filter *d,
+								uint32_t *pixels,
+								struct s_pixel_hit *hits,
+								struct s_size window)
 {
 	double		max;
 	double		min;
@@ -37,7 +54,6 @@ void			depth_contrast_filter(struct s_depth_contrast_filter *d, uint32_t *pixels
 
 	(void)d;
 	get_min_max_depth(&min, &max, window, hits);
-	printf("min: %f, max: %f\n", min, max);
 	i = 0;
 	while (i < window.width * window.height)
 	{
@@ -67,7 +83,8 @@ struct s_depth_contrast_filter	*read_depth_contrast_filter(t_toml_table *toml)
 	return (depth_contrast);
 }
 
-void						free_depth_contrast_filter(struct s_depth_contrast_filter *filter)
+void							free_depth_contrast_filter(
+	struct s_depth_contrast_filter *filter)
 {
 	free(filter);
 }

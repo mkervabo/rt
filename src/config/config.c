@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/11/11 12:53:28 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/11 17:17:32 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,55 +43,6 @@ static bool		read_name_and_size(t_toml_table *toml, struct s_config *config)
 	return (true);
 }
 
-t_object		*read_objects(t_toml_table *toml, size_t *size)
-{
-	t_object		*objs;
-	t_toml			*v;
-	size_t			i;
-
-	if (read_toml_type(toml, &v, "objects", TOML_Array) == false)
-		return (NULL);
-	if (v->value.array_v->len == 0
-		|| v->value.array_v->inner[0].type != TOML_Table)
-		return (NULL);
-	*size = v->value.array_v->len;
-	if (!(objs = malloc(sizeof(t_object) * *size)))
-		return (NULL);
-	i = 0;
-	while (i < *size)
-	{
-		if (!read_object(objs + i, v->value.array_v->inner[i].value.table_v))
-			return ((*size = 0) + free_object_array(objs, i));
-		i++;
-	}
-	return (objs);
-}
-
-static t_light		**read_lights(t_toml_table *toml, size_t *size)
-{
-	t_light		**lights;
-	t_toml		*v;
-	size_t		i;
-
-	if (read_toml_type(toml, &v, "lights", TOML_Array)) {
-		if (v->value.array_v->len != 0
-			&& v->value.array_v->inner[0].type != TOML_Table)
-			return (NULL);
-		*size = v->value.array_v->len;
-	} else
-		*size = 0;
-	if (!(lights = malloc(sizeof(t_light*) * *size)))
-		return (NULL);
-	i = 0;
-	while (i < *size)
-	{
-		if (!(lights[i] = read_light(v->value.array_v->inner[i].value.table_v)))
-			return ((*size = 0) + free_light_array(lights, i));
-		i++;
-	}
-	return (lights);
-}
-
 static void		putnbr_fd(int fd, size_t n)
 {
 	char		buf[21];
@@ -109,7 +60,8 @@ static void		putnbr_fd(int fd, size_t n)
 	write(fd, buf + i, sizeof(buf) - i);
 }
 
-static bool		print_toml_error(t_reader *r, t_toml_error err, const char *file)
+static bool		print_toml_error(t_reader *r, t_toml_error err,
+	const char *file)
 {
 	char	*msg;
 
@@ -125,15 +77,39 @@ static bool		print_toml_error(t_reader *r, t_toml_error err, const char *file)
 	return (false);
 }
 
-bool	read_config(const char *file, struct s_config *config)
+static bool		read_config_scene(struct s_config *config, t_toml_table *toml)
+{
+	t_toml			*camera;
+	t_toml			*video;
+
+	if (!read_name_and_size(toml, config))
+		return (config_error(toml, config, "Invalid name or size"));
+	if (!(config->scene.objects = read_objects(toml,
+		&config->scene.objects_size)))
+		return (config_error(toml, config, "Invalid objects"));
+	if (!(config->scene.lights = read_lights(toml, &config->scene.lights_size)))
+		return (config_error(toml, config, "Invalid lights"));
+	if (!read_toml_type(toml, &camera, "camera", TOML_Table)
+			|| !(config->scene.camera = read_camera(camera->value.table_v)))
+		return (config_error(toml, config, "Invalid camera"));
+	if (!(config->scene.filters = read_filters(toml,
+		&config->scene.filters_size)))
+		return (config_error(toml, config, "Invalid filters"));
+	config->video = NULL;
+	if (read_toml_type(toml, &video, "video", TOML_Table)
+			&& !(config->video = read_video(video->value.table_v)))
+		return (config_error(toml, config, "Invalid video"));
+	free_toml_table(toml);
+	return (true);
+}
+
+bool			read_config(const char *file, struct s_config *config)
 {
 	int				fd;
 	t_reader		r;
 	t_toml_table	*toml;
-	t_toml			*camera;
 	t_toml_error	err;
 	char			buffer[4096];
-	t_toml			*video;
 
 	*config = (struct s_config) { .name = NULL };
 	if ((fd = open(file, O_RDONLY)) < 0)
@@ -145,21 +121,7 @@ bool	read_config(const char *file, struct s_config *config)
 	if ((err = read_toml(&r, &toml, true)) != No_Error)
 		return (print_toml_error(&r, err, file));
 	close(fd);
-	if (!read_name_and_size(toml, config))
-		return (config_error(toml, config, "Invalid name or size"));
-	if (!(config->scene.objects = read_objects(toml, &config->scene.objects_size)))
-		return (config_error(toml, config, "Invalid objects"));
-	if (!(config->scene.lights = read_lights(toml, &config->scene.lights_size)))
-		return (config_error(toml, config, "Invalid lights"));
-	if (!read_toml_type(toml, &camera, "camera", TOML_Table)
-			|| !(config->scene.camera = read_camera(camera->value.table_v)))
-		return (config_error(toml, config, "Invalid camera"));
-	if (!(config->scene.filters = read_filters(toml, &config->scene.filters_size)))
-		return (config_error(toml, config, "Invalid filters"));
-	config->video = NULL;
-	if (read_toml_type(toml, &video, "video", TOML_Table)
-			&& !(config->video = read_video(video->value.table_v)))
-		return (config_error(toml, config, "Invalid video"));
-	free_toml_table(toml);
+	if (!read_config_scene(config, toml))
+		return (false);
 	return (true);
 }

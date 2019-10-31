@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   filter_types.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 12:27:31 by gfranco           #+#    #+#             */
+/*   Updated: 2019/11/05 12:27:41 by gfranco          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FILTER_TYPES_H
 # define FILTER_TYPES_H
 
-enum e_filters_type {
+enum	e_filters_type
+{
 	FILTER_BLACK_AND_WHITE,
 	FILTER_SEPIA,
 	FILTER_NEGATIVE,

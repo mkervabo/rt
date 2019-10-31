@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <dde-jesu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:51:16 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/09 14:47:07 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/10 18:30:07 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 
 # include <stdint.h>
 
-typedef struct	s_color {
+typedef struct	s_color
+{
 	uint8_t	r;
 	uint8_t	g;
 	uint8_t	b;
 }				t_color;
 
 uint32_t		color_to_rgb(t_color color);
-t_color 		color_from_rgb(uint32_t color);
+t_color			color_from_rgb(uint32_t color);
 
 t_color			color_add(t_color a, t_color b);
 t_color			color_ratio(t_color a, t_color b);

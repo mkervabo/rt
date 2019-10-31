@@ -6,7 +6,7 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
-#    Updated: 2019/11/13 18:36:53 by dde-jesu         ###   ########.fr        #
+#    Updated: 2019/11/14 08:22:12 by mkervabo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,11 +35,11 @@ rt.objects := $(rt.srcs:.c=.o)
 rt.objects := $(filter-out src/frontend/%, $(rt.objects))
 rt.objects := $(addprefix $(rt.rootdir), $(rt.objects))
 
-rt.sdl.o $(rt.objects): CC       = gcc
-rt.sdl.o $(rt.objects): CFLAGS   ?= -Wall -Wextra
-rt.sdl.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
-rt.sdl.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
-rt.sdl.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
+rt.sdl.o image.o update_render.o $(rt.objects): CC       = gcc
+rt.sdl.o image.o update_render.o $(rt.objects): CFLAGS   ?= -Wall -Wextra 
+rt.sdl.o image.o update_render.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
+rt.sdl.o image.o update_render.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
+rt.sdl.o image.o update_render.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
 
 rt.sdl: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image) -lm -lpthread
 
@@ -48,13 +48,13 @@ all: rt
 
 vpath %.c $(rt.rootdir)src/frontend
 
-rt.sdl: rt.sdl.o $(rt.objects) libtoml.a libobj.a
+rt.sdl: rt.sdl.o image.o update_render.o $(rt.objects) libtoml.a libobj.a
 
 rt: rt.sdl
 	$(INSTALL) -m 777 $< $@
 
 .PHONY: clean
-clean:: rt.objects += rt.sdl.o
+clean:: rt.objects += rt.sdl.o image.o update_render.o
 clean::
 	$(RM) $(rt.objects:.o=.{o,d,gcno,gcna})
 

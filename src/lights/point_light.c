@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   point_light.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:26:30 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:30:53 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "point_light.h"
 #include "light_types.h"
 #include "utils.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-bool			point_get_light_ray(const struct s_point_light *light, t_vec3 point, struct s_ray *ray) {
+bool					point_get_light_ray(const struct s_point_light *light,
+	t_vec3 point, struct s_ray *ray)
+{
 	*ray = (struct s_ray) {
 		.direction = vec3_unit(vec3_sub(point, light->position)),
 		.origin = light->position

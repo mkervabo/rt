@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   motion_blur.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/09 18:39:40 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:22:22 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "motion_blur.h"
 #include "filter_types.h"
 #include "config_utils.h"
@@ -5,7 +17,8 @@
 
 #include <stdlib.h>
 
-static void			extract_and_add_rgb(uint32_t rgb, size_t *r, size_t *g, size_t *b)
+static void					extract_and_add_rgb(uint32_t rgb, size_t *r,
+	size_t *g, size_t *b)
 {
 	t_color	color;
 
@@ -15,7 +28,9 @@ static void			extract_and_add_rgb(uint32_t rgb, size_t *r, size_t *g, size_t *b)
 	*b += color.b;
 }
 
-void				motion_blur_video_filter(struct s_motion_blur_filter *filter, uint32_t **pixels, size_t *nframes, struct s_size window)
+void						motion_blur_video_filter(
+	struct s_motion_blur_filter *filter, uint32_t **pixels, size_t *nframes,
+	struct s_size window)
 {
 	size_t	i;
 	size_t	j;
@@ -52,7 +67,8 @@ struct s_motion_blur_filter	*read_motion_blur_filter(t_toml_table *toml)
 	return (filter);
 }
 
-void						free_motion_blur_filter(struct s_motion_blur_filter *filter)
+void						free_motion_blur_filter(
+	struct s_motion_blur_filter *filter)
 {
 	free(filter);
 }

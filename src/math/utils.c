@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/05 13:17:05 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/05 13:18:32 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "math/utils.h"
 
-void		scale(double *a, double *b, double max)
+void	scale(double *a, double *b, double max)
 {
-	double		total;
+	double	total;
 
 	total = *a + *b;
 	if (total)
@@ -12,18 +24,17 @@ void		scale(double *a, double *b, double max)
 	}
 }
 
-
 double	clamp(double value, double from, double to)
 {
-       if (value > to)
-               return (to);
-       else if (value < from)
-               return (from);
-       else
-               return (value);
+	if (value > to)
+		return (to);
+	else if (value < from)
+		return (from);
+	else
+		return (value);
 }
 
-void		dswap(double *a, double *b)
+void	dswap(double *a, double *b)
 {
 	double	c;
 

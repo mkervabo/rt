@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ambient_light.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/04 19:19:59 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/11 17:30:23 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ambient_light.h"
 #include "light_types.h"
 #include "utils.h"
 #include "config_utils.h"
 #include <stdlib.h>
 
-bool		ambient_get_light_ray(const struct s_ambient_light *light, t_vec3 point, struct s_ray *ray) {
+bool					ambient_get_light_ray(
+	const struct s_ambient_light *light, t_vec3 point, struct s_ray *ray)
+{
 	(void)light;
 	(void)point;
-	*ray = (struct s_ray) {};
+	*ray = (struct s_ray) { .depth = 0 };
 	return (true);
 }
 

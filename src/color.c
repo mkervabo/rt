@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/02 15:35:18 by mkervabo          #+#    #+#             */
+/*   Updated: 2019/11/09 21:00:24 by mkervabo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "color.h"
-#include "debug/assert.h"
 #include "math/utils.h"
 
-uint32_t	color_to_rgb(t_color color)
+uint32_t		color_to_rgb(t_color color)
 {
 	return (((uint32_t)color.r) << 16 | ((uint32_t)color.g) << 8 | color.b);
 }
 
-t_color color_from_rgb(uint32_t color)
+t_color			color_from_rgb(uint32_t color)
 {
 	return ((t_color) {
 		.r = (color >> 16) & 0xFF,
@@ -16,10 +27,11 @@ t_color color_from_rgb(uint32_t color)
 	});
 }
 
-
-t_color		color_add(t_color a, t_color b)
+t_color			color_add(t_color a, t_color b)
 {
-	t_color res = ((t_color) {
+	t_color res;
+
+	res = ((t_color) {
 		.r = (uint8_t)(a.r + b.r) < a.r ? 255 : (a.r + b.r),
 		.g = (uint8_t)(a.g + b.g) < a.g ? 255 : (a.g + b.g),
 		.b = (uint8_t)(a.b + b.b) < a.b ? 255 : (a.b + b.b)
@@ -27,10 +39,8 @@ t_color		color_add(t_color a, t_color b)
 	return (res);
 }
 
-t_color		color_multv(t_color c, double v)
+t_color			color_multv(t_color c, double v)
 {
-	assertf(v >= 0 && v <= 1, "color_multv: v must be between 0 and 1 but got %f", v);
-
 	return ((t_color) {
 		.r = clamp((double)c.r * v, 0, 255),
 		.g = clamp((double)c.g * v, 0, 255),
@@ -38,7 +48,7 @@ t_color		color_multv(t_color c, double v)
 	});
 }
 
-t_color		color_ratio(t_color a, t_color b)
+t_color			color_ratio(t_color a, t_color b)
 {
 	return ((t_color) {
 		.r = ((uint16_t)a.r * (uint16_t)b.r) / 255,
