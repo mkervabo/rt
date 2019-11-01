@@ -32,6 +32,8 @@ t_color	raytrace(t_scene *scene, struct s_ray ray, struct s_pixel_hit *pixel_hit
 	if (pixel_hit)
 	{
 		pixel_hit->t = hit.t;
+		if (pixel_hit->t >= 0)
+			pixel_hit->t *= fabs(vec3_dot(ray.direction, vec3_rotate(vec3(0, 0, -1), scene->camera->rotation)));
 		pixel_hit->who = hit.who;
 	}
 	if (hit.t >= 0)
