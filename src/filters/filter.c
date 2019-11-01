@@ -11,6 +11,7 @@
 #include "negative.h"
 #include "anti_aliasing.h"
 #include "cartoon.h"
+#include "blur.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -34,6 +35,8 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 		anti_aliasing_filter((struct s_anti_aliasing_filter *)filter, pixels, hits, window);
 	else if (filter->type == FILTER_CARTOON)
 		cartoon_filter((struct s_cartoon_filter *)filter, pixels, hits, window);
+	else if (filter->type == FILTER_BLUR)
+		blur_filter((struct s_blur_filter *)filter, pixels, hits, window);
 	else
 		assertf(false, "Unimplemented filter type: %d", filter->type);
 
@@ -57,6 +60,8 @@ t_filter		*read_filter(t_toml_table *toml)
 		return ((t_filter *)read_anti_aliasing_filter(toml));
 	else if (ft_strcmp(type->value.string_v, "CARTOON") == 0)
 		return ((t_filter *)read_cartoon_filter(toml));
+	else if (ft_strcmp(type->value.string_v, "BLUR") == 0)
+		return ((t_filter *)read_blur_filter(toml));
 	return (NULL);
 }
 

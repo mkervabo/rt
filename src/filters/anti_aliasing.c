@@ -79,7 +79,7 @@ struct s_anti_aliasing_filter	*read_anti_aliasing_filter(t_toml_table *toml)
 		return (rt_error(NULL, "Can not allocate anti aliasing filter"));
 	if (!(value = table_get(toml, "size")))
 		anti_aliasing->size = 1;
-	else if (read_digit(value, &anti_aliasing->size) == false)
+	else if (!read_digit(value, &anti_aliasing->size))
 		return (rt_error(anti_aliasing, "Invalid anti aliasing filter"));
 	anti_aliasing->super.type = FILTER_ANTI_ALIASING;
 	return (anti_aliasing);
