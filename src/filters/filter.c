@@ -12,6 +12,7 @@
 #include "anti_aliasing.h"
 #include "cartoon.h"
 #include "blur.h"
+#include "depth_contrast.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -37,6 +38,8 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 		cartoon_filter((struct s_cartoon_filter *)filter, pixels, hits, window);
 	else if (filter->type == FILTER_BLUR)
 		blur_filter((struct s_blur_filter *)filter, pixels, hits, window);
+	else if (filter->type == FILTER_DEPTH_CONTRAST)
+		depth_contrast_filter((struct s_depth_contrast_filter *)filter, pixels, hits, window);
 	else
 		assertf(false, "Unimplemented filter type: %d", filter->type);
 
@@ -62,6 +65,8 @@ t_filter		*read_filter(t_toml_table *toml)
 		return ((t_filter *)read_cartoon_filter(toml));
 	else if (ft_strcmp(type->value.string_v, "BLUR") == 0)
 		return ((t_filter *)read_blur_filter(toml));
+	else if (ft_strcmp(type->value.string_v, "DEPTH_CONTRAST") == 0)
+		return ((t_filter *)read_depth_contrast_filter(toml));
 	return (NULL);
 }
 

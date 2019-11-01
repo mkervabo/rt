@@ -10,6 +10,7 @@ SRCS += src/filters/anti_aliasing.c
 SRCS += src/filters/black_and_white.c
 SRCS += src/filters/blur.c
 SRCS += src/filters/cartoon.c
+SRCS += src/filters/depth_contrast.c
 SRCS += src/filters/filter.c
 SRCS += src/filters/negative.c
 SRCS += src/filters/sepia.c
