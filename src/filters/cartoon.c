@@ -10,31 +10,6 @@
 #include <unistd.h>
 #include "toml.h"
 
-static bool	read_color(t_toml_table *toml, t_color *color)
-{
-	t_toml	*value;
-
-	if (!(value = table_get(toml, "r")))
-		color->r = 0;
-	else if (value->type != TOML_Integer)
-		return ((bool)rt_error(NULL, "Is not a interger in red color"));
-	else
-		color->r = value->value.integer_v;
-	if (!(value = table_get(toml, "g")))
-		color->g = 0;
-	else if (value->type != TOML_Integer)
-		return ((bool)rt_error(NULL, "Is not a interger in green color"));
-	else
-		color->g = value->value.integer_v;
-	if (!(value = table_get(toml, "b")))
-		color->b = 0;
-	else if (value->type != TOML_Integer)
-		return ((bool)rt_error(NULL, "Is not a interger in blue color"));
-	else
-		color->b = value->value.integer_v;
-	return (true);
-}
-
 void					cartoon_filter(struct s_cartoon_filter *filter,
 										uint32_t *pixels,
 										struct s_pixel_hit *hits,

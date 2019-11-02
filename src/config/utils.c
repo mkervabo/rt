@@ -33,6 +33,30 @@ bool	read_vec3(t_toml_table *toml, t_vec3 *vec)
 	return (true);
 }
 
+bool	read_color(t_toml_table *toml, t_color *color)
+{
+	t_toml	*value;
+
+	if (!(value = table_get(toml, "r")))
+		color->r = 0;
+	else if (value->type != TOML_Integer)
+		return ((bool)rt_error(NULL, "Is not a interger in red color"));
+	else
+		color->r = value->value.integer_v;
+	if (!(value = table_get(toml, "g")))
+		color->g = 0;
+	else if (value->type != TOML_Integer)
+		return ((bool)rt_error(NULL, "Is not a interger in green color"));
+	else
+		color->g = value->value.integer_v;
+	if (!(value = table_get(toml, "b")))
+		color->b = 0;
+	else if (value->type != TOML_Integer)
+		return ((bool)rt_error(NULL, "Is not a interger in blue color"));
+	else
+		color->b = value->value.integer_v;
+	return (true);
+}
 
 bool	read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 	enum e_toml_type type)
