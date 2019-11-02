@@ -60,6 +60,7 @@ struct s_depth_contrast_filter	*read_depth_contrast_filter(t_toml_table *toml)
 {
 	struct s_depth_contrast_filter	*depth_contrast;
 
+	(void)toml;
 	if (!(depth_contrast = malloc(sizeof(*depth_contrast))))
 		return (NULL);
 	depth_contrast->super.type = FILTER_DEPTH_CONTRAST;

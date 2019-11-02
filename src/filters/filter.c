@@ -77,14 +77,11 @@ t_filter 	**read_filters(t_toml_table *toml, size_t *size)
 	size_t		i;
 
 	if (read_toml_type(toml, &value, "filters", TOML_Array) == false)
-	{
 		*size = 0;
-		return (NULL + 1);
-	}
-	if (value->value.array_v->len == 0
-		|| value->value.array_v->inner[0].type != TOML_Table)
+	else
+		*size = value->value.array_v->len;
+	if (value->value.array_v->inner[0].type != TOML_Table)
 		return (NULL);
-	*size = value->value.array_v->len;
 	if (!(filters = malloc(sizeof(*filters) * *size)))
 		return (NULL);
 	i = 0;

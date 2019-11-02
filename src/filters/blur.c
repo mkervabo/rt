@@ -51,6 +51,7 @@ void	blur_filter(struct s_blur_filter *blur, uint32_t *pixels, struct s_pixel_hi
 	size_t			i;
 	size_t			j;
 
+	(void)hits;
 	j = 0;
 	while (j < blur->size)
 	{

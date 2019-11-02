@@ -36,6 +36,7 @@ struct s_sepia_filter	*read_sepia_filter(t_toml_table *toml)
 {
 	struct s_sepia_filter	*sepia;
 
+	(void)toml;
 	if (!(sepia = malloc(sizeof(*sepia))))
 		return (rt_error(NULL, "Can not allocate sepia filter"));
 	sepia->super.type = FILTER_SEPIA;

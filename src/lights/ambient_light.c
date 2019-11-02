@@ -5,6 +5,8 @@
 #include <stdlib.h>
 
 bool		ambient_get_light_ray(const struct s_ambient_light *light, t_vec3 point, struct s_ray *ray) {
+	(void)light;
+	(void)point;
 	*ray = (struct s_ray) {};
 	return (true);
 }
@@ -12,7 +14,6 @@ bool		ambient_get_light_ray(const struct s_ambient_light *light, t_vec3 point, s
 struct s_ambient_light	*read_ambient_light(t_toml_table *toml)
 {
 	struct s_ambient_light	*light;
-	t_toml					*value;
 
 	if (!(light = malloc(sizeof(*light))))
 		return (rt_error(NULL, "Can not allocate ambient light"));

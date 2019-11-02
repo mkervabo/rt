@@ -6,7 +6,7 @@
 /*   By: dde-jesu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 12:34:54 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/27 11:57:02 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/02 14:55:52 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void 
 			.i = &atom,
 			.done = &done
 		};
-		pthread_create(&threads[i], 0, render_tile, args + i);
+		pthread_create(&threads[i], 0, (void *)render_tile, args + i);
 		i++;
 	}
 	size_t max_i = ((window.width + window.width - 1) / TILE_SIZE) * ((window.height + window.height - 1) / TILE_SIZE);

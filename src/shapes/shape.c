@@ -1,6 +1,7 @@
 #include "shape.h"
 #include "debug/assert.h"
 #include "toml.h"
+#include "config_utils.h"
 
 #include <math.h>
 

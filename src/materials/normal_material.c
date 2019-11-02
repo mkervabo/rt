@@ -1,5 +1,6 @@
 #include "normal_material.h"
 #include "material_types.h"
+#include "config_utils.h"
 #include <stdlib.h>
 
 t_color						normal_material_color(struct s_normal_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)

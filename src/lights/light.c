@@ -1,6 +1,7 @@
 #include "light.h"
 #include "debug/assert.h"
 #include "toml.h"
+#include "config_utils.h"
 
 #include "light_types.h"
 #include "point_light.h"

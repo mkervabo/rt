@@ -1,5 +1,6 @@
 #include "debug/assert.h"
 #include "toml.h"
+#include "config_utils.h"
 
 #include "material_types.h"
 #include "normal_material.h"
@@ -19,6 +20,8 @@
 #include "marble_material.h"
 #include "cloud_material.h"
 #include "specular_material.h"
+
+#include <math.h>
 
 static double clamp_uv(double uv) {
 	if (uv > 1 || uv < 0) {

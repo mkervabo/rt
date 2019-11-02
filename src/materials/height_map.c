@@ -2,7 +2,9 @@
 #include "config_utils.h"
 #include "material_types.h"
 #include "math/vec3.h"
+
 #include <stdlib.h>
+#include <math.h>
 
 #define ALTITUDE 200 //atiltude du blanc
 

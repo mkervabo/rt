@@ -15,7 +15,6 @@ void					cartoon_filter(struct s_cartoon_filter *filter,
 										struct s_pixel_hit *hits,
 										struct s_size window) {
 	size_t			i;
-	t_color			color;
 
 	i = 0;
 	while (i < window.width * window.height)
