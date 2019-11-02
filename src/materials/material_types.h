@@ -6,7 +6,7 @@
 /*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/30 19:42:41 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/01 18:19:26 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ enum e_material_type {
 	MATERIAL_REFLECTION,
 	MATERIAL_PERLIN,
 	MATERIAL_MARBLE,
-	MATERIAL_CLOUD
+	MATERIAL_CLOUD,
+	MATERIAL_SPECULAR
 };
 
 #endif

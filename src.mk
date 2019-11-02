@@ -34,6 +34,7 @@ SRCS += src/materials/move_uv_material.c
 SRCS += src/materials/normal_material.c
 SRCS += src/materials/perlin_material.c
 SRCS += src/materials/reflection_material.c
+SRCS += src/materials/specular_material.c
 SRCS += src/materials/texture.c
 SRCS += src/materials/uv_material.c
 SRCS += src/materials/voronoi_material.c

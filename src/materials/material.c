@@ -18,6 +18,7 @@
 #include "perlin_material.h"
 #include "marble_material.h"
 #include "cloud_material.h"
+#include "specular_material.h"
 
 static double clamp_uv(double uv) {
 	if (uv > 1 || uv < 0) {
@@ -71,6 +72,8 @@ t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray,
 		return (marble_material_color((struct s_marble_material *)material, scene, ray, hit));
 	else if (material->type == MATERIAL_CLOUD)
 		return (cloud_material_color((struct s_cloud_material *)material, scene, ray, hit));
+	else if (material->type == MATERIAL_SPECULAR)
+		return (specular_material_color((struct s_specular_material *)material, scene, ray, hit));
 	else
 		assertf(false, "Unimplemented material type: %d", material->type);
 }
@@ -113,6 +116,8 @@ t_material			*read_material(t_toml_table *toml)
 		return ((t_material *)read_marble_material(toml));
 	else if (ft_strcmp(type->value.string_v, "CLOUD") == 0)
 		return ((t_material *)read_cloud_material(toml));
+	else if (ft_strcmp(type->value.string_v, "SPECULAR") == 0)
+		return ((t_material *)read_specular_material(toml));
 	else
 		return (rt_error(NULL, "Invalid material type"));
 }
