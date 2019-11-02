@@ -15,6 +15,7 @@ struct s_hit		hit_obj_shape(struct s_ray ray, struct s_obj_shape *obj, struct s_
 	struct s_hit	hit;
 	size_t	i;
 
+	(void)intersections;
 	i = 0;
 	max = (struct s_hit) {
 		.t = -1.0

@@ -17,6 +17,14 @@ struct s_hit hit_plane(struct s_ray ray, struct s_plane *plane,
 		return ((struct s_hit) { .t = -1.0 });
 
 	t_vec3 p = ray_point_at(&ray, t);
+
+	if (intersections)
+		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
+		{
+			intersections->len = 1;
+			intersections->inner[0] = (struct s_intersection) {
+				.from = t, .to = t };
+		}
 	return ((struct s_hit) {
 		.t = t,
 		.normal = vec3(0, 1, 0),

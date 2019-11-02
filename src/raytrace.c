@@ -2,7 +2,7 @@
 #include "material.h"
 #include <math.h>
 
-struct s_hit	hit_scene(t_object *objects, size_t object_size, struct s_ray ray)
+struct s_hit	hit_scene(t_object *objects, size_t object_size, struct s_ray ray, struct s_intersection_tab *intersections)
 {
 	struct s_hit	max;
 	struct s_hit	hit;
@@ -14,7 +14,7 @@ struct s_hit	hit_scene(t_object *objects, size_t object_size, struct s_ray ray)
 	};
 	while (i < object_size)
 	{
-		hit = hit_shape(ray, objects[i].shape, NULL);
+		hit = hit_shape(ray, objects[i].shape, intersections);
 		if (hit.who == NULL)
 			hit.who = objects + i;
 		if (hit.t >= 0 && (max.t < 0 || hit.t <= max.t))
@@ -28,7 +28,7 @@ t_color	raytrace(t_scene *scene, struct s_ray ray, struct s_pixel_hit *pixel_hit
 {
 	struct s_hit	hit;
 
-	hit = hit_scene(scene->objects, scene->objects_size, ray);
+	hit = hit_scene(scene->objects, scene->objects_size, ray, NULL);
 	if (pixel_hit)
 	{
 		pixel_hit->t = hit.t;

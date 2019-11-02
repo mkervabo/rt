@@ -33,6 +33,13 @@ struct s_hit hit_triangle(struct s_ray ray, struct s_triangle *triangle,
 		return ((struct s_hit) { .t = -1.0 });
 
 	float t = vec3_dot(v0v2, qvec) * invDet;
+	if (intersections)
+		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
+		{
+			intersections->len = 1;
+			intersections->inner[0] = (struct s_intersection) {
+				.from = t, .to = t };
+		}
 	return ((struct s_hit) {
 		.t = t,
 		.normal = vec3_unit(vec3_cross(v0v1, v0v2)),

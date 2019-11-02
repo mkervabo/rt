@@ -33,6 +33,14 @@ struct s_hit hit_disk(struct s_ray ray, struct s_disk *disk,
 
 	double r_hit = sqrt(dist);
 
+	if (intersections)
+		if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
+		{
+			intersections->len = 1;
+			intersections->inner[0] = (struct s_intersection) {
+				.from = t, .to = t };
+		}
+
 	return ((struct s_hit) {
 		.t = t,
 		.normal = vec3(0, 0, 1),

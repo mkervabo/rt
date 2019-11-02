@@ -26,8 +26,12 @@ struct s_hit	hit_paraboloid(struct s_ray ray, struct s_paraboloid *paraboloid,
 	fn.c = k * vec3_dot(ray.origin, ray.origin) - origin_y;
 	if (solve_quadratic(fn, &intersection.from, &intersection.to))
 	{
-		/*TODO: if (intersections)
-			*intersection = &intersection;*/
+		if (intersections)
+			if ((intersections->inner = malloc(1 * sizeof(struct s_intersection))))
+			{
+				intersections->len = 1;
+				intersections->inner[0] = intersection;
+			}
 		n = vec3_unit(vec3_add(ray.origin, vec3_multv(ray.direction, intersection.from)));
 		return ((struct s_hit) {
 			.t = intersection.from,

@@ -117,7 +117,6 @@ struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection_
 			intersections->inner[0] = (struct s_intersection) {
 				.from = min, .to = max
 			};
-
 		}
 	p = ray_point_at(&ray, min);
 	normal = box_normal(p, box->bounds[0], box->bounds[1]);

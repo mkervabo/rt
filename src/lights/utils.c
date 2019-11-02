@@ -63,7 +63,7 @@ bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double *value
 		.origin = p,
 		.direction = direction
 	};
-	hit = hit_scene(scene->objects, scene->objects_size, shadow);
+	hit = hit_scene(scene->objects, scene->objects_size, shadow, NULL);
 
 	if (hit.t >= 0 && hit.t <= dist)
 	{

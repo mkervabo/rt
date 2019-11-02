@@ -10,9 +10,9 @@
 #include <math.h>
 
 struct s_hit hit_group(struct s_ray ray, struct s_group *group,
-		struct s_intersection **intersections)
+		struct s_intersection_tab *intersections)
 {
-	return (hit_scene(group->objects, group->objects_size, ray));
+	return (hit_scene(group->objects, group->objects_size, ray, intersections));
 }
 
 struct s_group	*read_group(t_toml_table *toml)
