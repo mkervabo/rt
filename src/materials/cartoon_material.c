@@ -14,10 +14,11 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 	t_vec3				point;
 	double				value;
 
-	light_color = (t_color){ 0, 0, 0 };
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
+	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
 	while (i < scene->lights_size) {
+		value = 1.0;
 		if (get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t), &lray) == false)
 			intensity = 0;
 		else if (vec3_is_zero(lray.direction))
@@ -45,8 +46,6 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 		material_color(material->material, scene, ray, hit),
 		light_color
 	));
-
-	return(material_color(material->material, scene, ray, hit));
 }
 
 struct s_cartoon_material	*read_cartoon_material(t_toml_table *toml)
