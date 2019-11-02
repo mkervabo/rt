@@ -1,34 +1,9 @@
 #include "cartoon_material.h"
 #include "material_types.h"
-#include "raytrace.h"
 #include "config_utils.h"
 
 #include <stdlib.h>
 #include <math.h>
-
-static bool	receive_light(t_scene *scene, struct s_ray *light, t_vec3 p)
-{
-	struct s_ray	shadow;
-	t_vec3			to_light;
-	t_vec3			direction;
-	double			dist;
-	struct s_hit	hit;
-
-	to_light = vec3_sub(light->origin, p);
-	dist = vec3_length(to_light);
-	direction = vec3_divv(to_light, dist);
-	shadow = (struct s_ray) {
-		.origin = p,
-		.direction = direction
-	};
-	hit = hit_scene(scene->objects, scene->objects_size, shadow);
-	if (hit.t >= 0 && hit.t <= dist)
-		return (false);
-	else
-		return (true);
-}
-
-# define SHADOW_BIAS 1e-4
 
 t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
@@ -37,6 +12,7 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 	t_color				light_color;
 	double				intensity;
 	t_vec3				point;
+	double				value;
 
 	light_color = (t_color){ 0, 0, 0 };
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
@@ -46,8 +22,9 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 			intensity = 0;
 		else if (vec3_is_zero(lray.direction))
 			intensity = scene->lights[i]->intensity;
-		else if (receive_light(scene, &lray, point))
-			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0) * scene->lights[i]->intensity;
+		else if (receive_light(scene, &lray, point, &value))
+			intensity = material->albedo / M_PI * fmax(vec3_dot(vec3_multv(lray.direction, -1), hit->normal), 0)
+				* scene->lights[i]->intensity * value * light_decay(lray.origin, point, scene->lights[i]->decay);
 		else
 			intensity = 0;
 		if (intensity <= 0.01)
