@@ -1,8 +1,11 @@
-/build
 /rt
+/rt.*
 earth_map.jpg
 out.png
 /snowman.toml
 /test.toml
 /video
 .vscode
+*.o
+*.d
+*.a

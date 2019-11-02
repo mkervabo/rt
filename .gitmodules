@@ -1,9 +1,9 @@
 [submodule "lib/toml"]
 	path = lib/toml
-	url = https://github.com/mkervabo/toml.git
+	url = ../../mkervabo/toml.git
 [submodule "lib/obj"]
 	path = lib/obj
-	url = https://github.com/mkervabo/obj.git
+	url = ../../mkervabo/obj.git
 [submodule "lib/mtl"]
 	path = lib/mtl
-	url = https://github.com/mkervabo/mtl.git
+	url = ../../mkervabo/mtl.git

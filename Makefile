@@ -5,49 +5,86 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/04/19 11:46:19 by mkervabo          #+#    #+#              #
-#    Updated: 2019/10/26 12:35:28 by dde-jesu         ###   ########.fr        #
+#    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
+#    Updated: 2019/11/02 17:19:45 by dde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = rt
-CC = gcc
+.DEFAULT_GOAL := all
+.SECONDARY:
 
-LIBS = toml obj mtl
-LIBS_DIR = $(patsubst %, lib/%/, $(LIBS))
-LIBS_FILES = $(patsubst %, lib%.a, $(LIBS))
-LIBS_FULL_FILES = $(join $(LIBS_DIR), $(LIBS_FILES))
+PKG_CONFIG ?= pkg-config
 
-CFLAGS = -Wall -Wextra -I./include $(patsubst %, -I%/include, $(LIBS_DIR)) $(shell pkg-config --cflags sdl2 SDL2_image) -g
-LDFLAGS = $(patsubst %, -L%, $(LIBS_DIR)) $(patsubst %, -l%, $(LIBS)) $(shell pkg-config --libs sdl2 SDL2_image) -lm -lpthread
+V ?= @
 
+rt.rootdir := $(dir $(lastword $(MAKEFILE_LIST)))
+
+clean::
+	@echo "  CLEAN"
+fclean::
+	@echo "  FCLEAN"
+
+include $(rt.rootdir)lib/toml/Makefile
+include $(rt.rootdir)lib/obj/Makefile
+
+rt.srcs :=
 include src.mk
 
-OBJS=$(patsubst src/%.c,build/%.o,$(SRCS))
+rt.objects := $(rt.srcs:.c=.o)
+rt.objects := $(filter-out src/frontend/%, $(rt.objects))
+rt.objects := $(addprefix $(rt.rootdir), $(rt.objects))
 
-all: $(NAME)
+rt.sdl.o $(rt.objects): CC       = gcc
+rt.sdl.o $(rt.objects): CFLAGS   ?= -Wall -Wextra
+rt.sdl.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
+rt.sdl.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
+rt.sdl.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
 
-# Special rule to force exec
-phony:
-.PHONY: phony
+rt: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image)
 
-$(LIBS_FULL_FILES): phony
-	$(MAKE) --no-print-directory -C $(dir $@)
+.PHONY: all
+all: rt
 
-build/%.o: src/%.c include/*.h Makefile
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+vpath %.c $(rt.rootdir)src/frontend
 
+rt.sdl: rt.sdl.o $(rt.objects) libtoml.a libobj.a
 
-$(NAME): $(OBJS) $(LIBS_FULL_FILES)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
+rt: rt.sdl
+	@echo "  CP    $(<F) $(@F)"
+	$(V)cp $< $@
 
-clean:
-	rm -rf build
+.PHONY: clean
+clean:: rt.objects += rt.sdl.o
+clean::
+	$(RM) $(rt.objects:.o=.{o,d,gcno,gcna})
 
-fclean: clean
-	rm -f $(NAME)
+.PHONY: fclean
+fclean:: clean
+	$(RM) -r rt rt.sdl
 
+.PHNOY: re
 re: fclean all
 
-.PHONY: all clean fclean re
+-include $(wildcard $(rt.rootdir)src/*.d $(rt.rootdir)src/*/*.d)
+
+# just for style
+define newline
+
+
+endef
+
+ARFLAGS = rcs
+
+objects := rt.sdl.o $(rt.objects) $(libtoml.objects) $(libobj.objects)
+
+$(objects): compile.c := $(COMPILE.c)
+$(objects): COMPILE.c = @echo "  CC    $(@F)"$(newline)$(V)$(compile.c)
+
+libtoml.a(%) libobj.a(%): ar := $(AR)
+libtoml.a(%) libobj.a(%): AR = @echo "  AR    $(@F)($(<F))"$(newline)$(V)$(ar)
+
+rt.sdl: link.o := $(LINK.o)
+rt.sdl: LINK.o = @echo "  LN    $(@F)"$(newline)$(V)$(link.o)
+
+clean fclean: rm := $(RM)
+clean fclean: RM = $(V)$(rm)
