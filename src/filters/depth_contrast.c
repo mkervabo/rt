@@ -62,7 +62,7 @@ struct s_depth_contrast_filter	*read_depth_contrast_filter(t_toml_table *toml)
 
 	(void)toml;
 	if (!(depth_contrast = malloc(sizeof(*depth_contrast))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate depth_contrast filter"));
 	depth_contrast->super.type = FILTER_DEPTH_CONTRAST;
 	return (depth_contrast);
 }
