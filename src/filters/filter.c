@@ -13,6 +13,7 @@
 #include "cartoon.h"
 #include "blur.h"
 #include "depth_contrast.h"
+#include "motion_blur.h"
 
 static int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -40,9 +41,12 @@ void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits
 		blur_filter((struct s_blur_filter *)filter, pixels, hits, window);
 	else if (filter->type == FILTER_DEPTH_CONTRAST)
 		depth_contrast_filter((struct s_depth_contrast_filter *)filter, pixels, hits, window);
-	else
-		assertf(false, "Unimplemented filter type: %d", filter->type);
+}
 
+void		apply_video_filter(t_filter *filter, uint32_t **pixels, size_t *nframes, struct s_size window)
+{
+	if (filter->type == FILTER_MOTION_BLUR)
+		motion_blur_video_filter((struct s_motion_blur_filter *)filter, pixels, nframes, window);
 }
 
 t_filter		*read_filter(t_toml_table *toml)
@@ -67,6 +71,8 @@ t_filter		*read_filter(t_toml_table *toml)
 		return ((t_filter *)read_blur_filter(toml));
 	else if (ft_strcmp(type->value.string_v, "DEPTH_CONTRAST") == 0)
 		return ((t_filter *)read_depth_contrast_filter(toml));
+	else if (ft_strcmp(type->value.string_v, "MOTION_BLUR") == 0)
+		return ((t_filter *)read_motion_blur_filter(toml));
 	return (NULL);
 }
 

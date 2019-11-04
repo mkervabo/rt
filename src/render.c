@@ -6,7 +6,7 @@
 /*   By: dde-jesu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 12:34:54 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/02 14:55:52 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/04 19:27:54 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,9 +135,8 @@ uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void 
 	}
 	pthread_mutex_unlock(&mutex);
 	i = 0;
-	if (scene->filters)
-		while (i < scene->filters_size)
-			apply_filter(scene->filters[i++], pixels, hits, window);
+	while (i < scene->filters_size)
+		apply_filter(scene->filters[i++], pixels, hits, window);
 	update(pixels, user);
 	return (pixels);
 }

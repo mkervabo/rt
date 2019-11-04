@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/02 14:07:28 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/04 19:50:07 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "video.h"
 #include "config.h"
 #include "image.h"
+#include "filter.h"
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -117,15 +118,17 @@ void	sdl_frontend(struct s_config *config)
 	uint32_t	**pixels;
 	size_t		i;
 	char		name[25];
+	size_t		nframes;
 
 	window = (struct s_sdl_window) { .width = config->size.width };
-	if (!(pixels = malloc(sizeof(*pixels) * (config->video ? config->video->frame : 1))))
+	nframes = config->video ? config->video->frame : 1;
+	if (!(pixels = malloc(sizeof(*pixels) * nframes)))
 		return ;
 	i = 0;
 	if (init_window(config, &window))
 	{
 		poll_events(&window, false);
-		while (i < (config->video ? config->video->frame : 1) && !window.quit)
+		while (i < nframes && !window.quit)
 		{
 			video_transform_scene(config, i);
 			pixels[i] = render(&config->scene, config->size, update_render, &window);
@@ -134,10 +137,13 @@ void	sdl_frontend(struct s_config *config)
 			IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), name);
 			i++;
 		}
+		i = 0;
+		while (i < config->scene.filters_size && !window.quit)
+			apply_video_filter(config->scene.filters[i++], pixels, &nframes, config->size);
 		while (!window.quit)
 		{
 			i = 0;
-			while (i < (config->video ? config->video->frame : 1) && !window.quit)
+			while (i < nframes && !window.quit)
 			{
 				SDL_UpdateTexture(window.screen, NULL, pixels[i],
 					window.width * sizeof(uint32_t));

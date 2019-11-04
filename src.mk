@@ -12,6 +12,7 @@ rt.srcs += src/filters/blur.c
 rt.srcs += src/filters/cartoon.c
 rt.srcs += src/filters/depth_contrast.c
 rt.srcs += src/filters/filter.c
+rt.srcs += src/filters/motion_blur.c
 rt.srcs += src/filters/negative.c
 rt.srcs += src/filters/sepia.c
 rt.srcs += src/frontend/rt.sdl.c
