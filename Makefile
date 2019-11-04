@@ -6,7 +6,7 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
-#    Updated: 2019/11/02 17:19:45 by dde-jesu         ###   ########.fr        #
+#    Updated: 2019/11/04 19:57:37 by dde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,16 @@
 .SECONDARY:
 
 PKG_CONFIG ?= pkg-config
-
-V ?= @
+INSTALL ?= install
 
 rt.rootdir := $(dir $(lastword $(MAKEFILE_LIST)))
 
+ifndef V
 clean::
 	@echo "  CLEAN"
 fclean::
 	@echo "  FCLEAN"
+endif
 
 include $(rt.rootdir)lib/toml/Makefile
 include $(rt.rootdir)lib/obj/Makefile
@@ -50,8 +51,7 @@ vpath %.c $(rt.rootdir)src/frontend
 rt.sdl: rt.sdl.o $(rt.objects) libtoml.a libobj.a
 
 rt: rt.sdl
-	@echo "  CP    $(<F) $(@F)"
-	$(V)cp $< $@
+	$(INSTALL) -m 777 $< $@
 
 .PHONY: clean
 clean:: rt.objects += rt.sdl.o
@@ -65,26 +65,14 @@ fclean:: clean
 .PHNOY: re
 re: fclean all
 
--include $(wildcard $(rt.rootdir)src/*.d $(rt.rootdir)src/*/*.d)
-
-# just for style
-define newline
-
-
-endef
-
 ARFLAGS = rcs
 
-objects := rt.sdl.o $(rt.objects) $(libtoml.objects) $(libobj.objects)
+-include $(wildcard $(rt.rootdir)src/*.d $(rt.rootdir)src/*/*.d)
 
-$(objects): compile.c := $(COMPILE.c)
-$(objects): COMPILE.c = @echo "  CC    $(@F)"$(newline)$(V)$(compile.c)
-
-libtoml.a(%) libobj.a(%): ar := $(AR)
-libtoml.a(%) libobj.a(%): AR = @echo "  AR    $(@F)($(<F))"$(newline)$(V)$(ar)
-
-rt.sdl: link.o := $(LINK.o)
-rt.sdl: LINK.o = @echo "  LN    $(@F)"$(newline)$(V)$(link.o)
-
-clean fclean: rm := $(RM)
-clean fclean: RM = $(V)$(rm)
+ifndef V
+  $(eval COMPILE.c = @echo "  CC      $$(@F)"; $(value COMPILE.c))
+  $(eval        AR = @echo "  AR      $$(@F)"; $(value AR))
+  $(eval    LINK.o = @echo "  LD      $$(@F)"; $(value LINK.o))
+  $(eval   INSTALL = @echo "  INSTALL $$(@F)"; $(value INSTALL))
+  $(eval        RM = @$(value RM))
+endif
