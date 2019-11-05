@@ -69,3 +69,9 @@ struct s_triangle	*read_triangle(t_toml_table *toml)
 	triangle->super.type = SHAPE_TRIANGLE;
 	return (triangle);
 }
+
+void			free_triangle(struct s_triangle *triangle)
+{
+	free_shape_super(&triangle->super);
+	free(triangle);
+}

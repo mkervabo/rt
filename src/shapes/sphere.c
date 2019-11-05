@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 14:04:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/10/19 14:17:22 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/07 10:40:47 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,10 @@ struct s_sphere	*read_sphere(t_toml_table *toml)
 		return (rt_error(sphere, "Invalide radius in sphere shape"));
 	sphere->super.type = SHAPE_SPHERE;
 	return (sphere);
+}
+
+void			free_sphere(struct s_sphere *sphere)
+{
+	free_shape_super(&sphere->super);
+	free(sphere);
 }

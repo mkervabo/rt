@@ -9,5 +9,5 @@ struct s_negative_filter {
 
 void					negative_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
 struct s_negative_filter	*read_negative_filter(t_toml_table *toml);
-
+void						free_negative_filter(struct s_negative_filter *filter);
 #endif

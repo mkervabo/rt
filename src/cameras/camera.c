@@ -44,3 +44,15 @@ struct s_camera			*read_camera(t_toml_table *toml)
 	else
 		return (rt_error(NULL, "Invalid camera type"));
 }
+
+void	free_camera(struct s_camera *camera)
+{
+	if (camera->type == CAMERA_PERSPECTIVE)
+		free_perspective_camera((struct s_perspective_camera *)camera);
+	else if (camera->type == CAMERA_360)
+		free_360_camera((struct s_360_camera *)camera);
+	else if (camera->type == CAMERA_ORTHOGRAPHIC)
+		free_orthographic_camera((struct s_orthographic_camera *)camera);
+	else
+		assertf(false, "Unimplemented camera type: %d", camera->type);
+}

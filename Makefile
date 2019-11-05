@@ -21,7 +21,7 @@ rt.rootdir := $(dir $(lastword $(MAKEFILE_LIST)))
 ifndef V
 clean::
 	@echo "  CLEAN"
-fclean::
+fclean:: clean
 	@echo "  FCLEAN"
 endif
 

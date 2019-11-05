@@ -21,17 +21,17 @@
 
 
 static struct s_shape_record g_shapes[] = {
-	[SHAPE_SPHERE] = { "SPHERE", (void *)hit_sphere, (void *)read_sphere },
-	[SHAPE_CYLINDER] = { "CYLINDER", (void *)hit_cylinder, (void *)read_cylinder },
-	[SHAPE_CONE] = { "CONE", (void *)hit_cone, (void *)read_cone },
-	[SHAPE_PLANE] = { "PLANE", (void *)hit_plane, (void *)read_plane },
-	[SHAPE_BOX] = { "BOX", (void *)hit_box, (void *)read_box },
-	[SHAPE_TRIANGLE] = { "TRIANGLE", (void *)hit_triangle, (void *)read_triangle },
-	[SHAPE_DISK] = { "DISK", (void *)hit_disk, (void *)read_disk },
-	[SHAPE_PARABOLOID] = { "PARABOLOID", (void *)hit_paraboloid, (void *)read_paraboloid },
-	[SHAPE_CSG] = { NULL, (void *)hit_csg, NULL }, // Custom read
-	[SHAPE_GROUP] = { "GROUP", (void *)hit_group, (void *)read_group },
-	[SHAPE_OBJ] = { "OBJ", (void *)hit_obj_shape, (void *)read_obj_shape }
+	[SHAPE_SPHERE] = { "SPHERE", (void *)hit_sphere, (void *)read_sphere, (void *)free_sphere },
+	[SHAPE_CYLINDER] = { "CYLINDER", (void *)hit_cylinder, (void *)read_cylinder, (void *)free_cylinder },
+	[SHAPE_CONE] = { "CONE", (void *)hit_cone, (void *)read_cone, (void *)free_cone },
+	[SHAPE_PLANE] = { "PLANE", (void *)hit_plane, (void *)read_plane, (void *)free_plane },
+	[SHAPE_BOX] = { "BOX", (void *)hit_box, (void *)read_box, (void *)free_box },
+	[SHAPE_TRIANGLE] = { "TRIANGLE", (void *)hit_triangle, (void *)read_triangle, (void *)free_triangle },
+	[SHAPE_DISK] = { "DISK", (void *)hit_disk, (void *)read_disk,  (void *)free_disk},
+	[SHAPE_PARABOLOID] = { "PARABOLOID", (void *)hit_paraboloid, (void *)read_paraboloid, (void *)free_paraboloid },
+	[SHAPE_CSG] = { NULL, (void *)hit_csg, NULL, (void *)free_csg }, // Custom read
+	[SHAPE_GROUP] = { "GROUP", (void *)hit_group, (void *)read_group, (void *)free_group },
+	[SHAPE_OBJ] = { "OBJ", (void *)hit_obj_shape, (void *)read_obj_shape, (void *)free_obj_shape }
 };
 
 struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_tab *intersections)
@@ -83,4 +83,10 @@ t_shape			*read_shape(t_toml_table *toml)
 		i++;
 	}
 	return (rt_error(NULL, "Invalid shape type"));
+}
+
+void	free_shape(t_shape *shape)
+{
+	if (shape->type <= (sizeof(g_shapes) / sizeof(*g_shapes)))
+		g_shapes[shape->type].free(shape);
 }

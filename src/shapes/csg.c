@@ -201,9 +201,10 @@ struct s_hit	hit_csg(struct s_ray ray, struct s_csg *csg,
 	struct s_intersection_tab	t1;
 	struct s_intersection_tab	t2;
 	struct s_intersection_tab	tab;
+	bool						is_first;
 
-	t1.len = 0;
-	t2.len = 0;
+	t1 = (struct s_intersection_tab) { .len = 0 };
+	t2 = (struct s_intersection_tab) { .len = 0 };
 	first = hit_shape(ray, csg->first, &t1);
 	second = hit_shape(ray, csg->second, &t2);
 	if (csg->op == CSG_DIFFERENCE)
@@ -212,14 +213,19 @@ struct s_hit	hit_csg(struct s_ray ray, struct s_csg *csg,
 		tab = csg_intersection(t1, t2);
 	else
 		tab = csg_union(t1, t2);
-	if (tab.len == 0)
-		return ((struct s_hit) { .t = -1 });
+	if (tab.len != 0)
+		is_first = t1.len > 0 && (tab.inner[0].from == t1.inner[0].to
+			|| tab.inner[0].from == t1.inner[0].from);
+	if (t1.inner != tab.inner)
+		free(t1.inner);
+	free(t2.inner);
 	if (intersections)
 		*intersections = tab;
-	if (t1.len > 0 && (tab.inner[0].from == t1.inner[0].to || tab.inner[0].from == t1.inner[0].from))
-		return (first);
 	else
-		return (second);
+		free(tab.inner);
+	if (tab.len == 0)
+		return ((struct s_hit) { .t = -1 });
+	return (is_first ? first : second);
 }
 
 struct s_csg			*read_csg(t_toml_table *toml, enum e_csg_op op)
@@ -236,10 +242,24 @@ struct s_csg			*read_csg(t_toml_table *toml, enum e_csg_op op)
 	if ((csg->first = read_shape(value->value.table_v)) == NULL)
 		return (rt_error(csg, "Invalid first in csg shape"));
 	if (!(value = table_get(toml, "second")))
+	{
+		free_shape(csg->first);
 		return (rt_error(csg, "Misssing second in csg shape"));
+	}
 	if ((csg->second = read_shape(value->value.table_v)) == NULL)
+	{
+		free_shape(csg->first);
 		return (rt_error(csg, "Invalid second in csg shape"));
+	}
 	csg->super.type = SHAPE_CSG;
 	csg->op = op;
 	return (csg);
+}
+
+void			free_csg(struct s_csg *csg)
+{
+	free_shape_super(&csg->super);
+	free_shape(csg->first);
+	free_shape(csg->second);
+	free(csg);
 }

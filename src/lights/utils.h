@@ -5,5 +5,6 @@
 #include "light.h"
 
 bool	read_light_super(t_toml_table *toml, t_light *light);
+void		free_light_super(t_light *light);
 
 #endif

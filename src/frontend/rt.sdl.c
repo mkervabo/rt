@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/10 17:45:49 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/11 13:27:01 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <stddef.h>
 
 
 # define WINDOW_ERR "RT: Could not create SDL window: "
@@ -125,7 +126,9 @@ void	sdl_frontend(struct s_config *config)
 			pixels[i] = render(&config->scene, config->size, update_render, &window);
 			mkdir("./video", 0700);
 			snprintf(name, sizeof name, "./video/frame_%05zu.png", i + 1);
-			IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), name);
+			SDL_Surface *image = SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0);
+			IMG_SavePNG(image, name);
+			SDL_FreeSurface(image);
 			i++;
 		}
 		i = 0;
@@ -145,6 +148,13 @@ void	sdl_frontend(struct s_config *config)
 			}
 		}
 	}
+	i = 0;
+	while (i < (config->video ? config->video->frame : 1))
+	{
+		free(pixels[i]);
+		i++;
+	}
+	free(pixels);
 	destroy_window(&window);
 }
 
@@ -162,29 +172,36 @@ int	main(int argc, char *argv[])
 		write(STDERR_FILENO, USAGE_POST, sizeof(USAGE_POST) - 1);
 		return (1);
 	}
-	// TODO: move + error
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	if (read_config(argv[1], &config))
 	{
 		sdl_frontend(&config);
 		free_config(&config);
+		IMG_Quit();
 		return (0);
 	}
+	IMG_Quit();
 	return (1);
 }
 
 bool		load_image(t_image *dst, const char *path) {
 	SDL_Surface *surface;
+	SDL_Surface *converted;
 
 	if (!(surface = IMG_Load(path)))
 		return (false);
-	if (!(surface = SDL_ConvertSurfaceFormat(surface,
+	if (!(converted = SDL_ConvertSurfaceFormat(surface,
 		SDL_PIXELFORMAT_ARGB8888, 0)))
+	{
+		SDL_FreeSurface(surface);
 		return (false);
+	}
+	SDL_FreeSurface(surface);
 	*dst = (t_image) {
-		.size.width = surface->w,
-		.size.height = surface->h,
-		.pixels = surface->pixels
+		.size.width = converted->w,
+		.size.height = converted->h,
+		.pixels = converted->pixels,
+		.cookie = converted
 	};
 	return (true);
 }
@@ -196,4 +213,9 @@ const char	*get_image_error(void) {
 uint32_t	getpixel(t_image *image, size_t x, size_t y)
 {
 	return (image->pixels[y * image->size.width + x]);
+}
+
+void		free_image(t_image *image)
+{
+	SDL_FreeSurface((SDL_Surface *)image->cookie);
 }

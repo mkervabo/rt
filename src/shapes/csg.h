@@ -18,5 +18,5 @@ struct s_csg {
 
 struct s_hit		hit_csg(struct s_ray ray, struct s_csg *minus, struct s_intersection_tab *intersections);
 struct s_csg		*read_csg(t_toml_table *toml, enum e_csg_op op);
-
+void				free_csg(struct s_csg *csg);
 #endif

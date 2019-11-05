@@ -12,5 +12,6 @@ struct s_perlin_material {
 t_color							perlin_material_color(struct s_perlin_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit);
 double							perlin_material_transparency(struct s_perlin_material *material, struct s_hit *hit, t_material **color);
 struct s_perlin_material		*read_perlin_material(t_toml_table *toml);
+void							free_perlin_material(struct s_perlin_material *material);
 
 #endif

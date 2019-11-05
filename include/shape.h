@@ -53,5 +53,6 @@ struct s_hit
 
 struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_tab *intersections);
 t_shape			*read_shape(t_toml_table *toml);
+void			free_shape(t_shape *shape);
 
 #endif

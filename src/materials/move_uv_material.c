@@ -37,3 +37,9 @@ struct s_move_uv_material	*read_move_uv_material(t_toml_table *toml)
 	material->super.type = MATERIAL_MOVE_UV;
 	return (material);
 }
+
+void						free_move_uv_material(struct s_move_uv_material *material)
+{
+	free_material(material->material);
+	free(material);
+}

@@ -64,3 +64,10 @@ struct s_height_map	*read_height_map(t_toml_table *toml)
 	material->super.type = MATERIAL_HEIGHT_MAP;
 	return (material);
 }
+
+void						free_height_map(struct s_height_map *material)
+{
+	free_image(&material->image);
+	free_material(material->material);
+	free(material);
+}

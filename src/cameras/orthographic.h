@@ -10,5 +10,5 @@ struct s_orthographic_camera {
 struct s_ray	orthographic_camera_create_ray(struct s_orthographic_camera *camera, size_t x, size_t y,
 			struct s_size window);
 struct s_orthographic_camera	*read_orthographic_camera(t_toml_table *toml);
-
+void							free_orthographic_camera(struct s_orthographic_camera *camera);
 #endif

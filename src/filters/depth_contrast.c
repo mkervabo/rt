@@ -66,3 +66,8 @@ struct s_depth_contrast_filter	*read_depth_contrast_filter(t_toml_table *toml)
 	depth_contrast->super.type = FILTER_DEPTH_CONTRAST;
 	return (depth_contrast);
 }
+
+void						free_depth_contrast_filter(struct s_depth_contrast_filter *filter)
+{
+	free(filter);
+}

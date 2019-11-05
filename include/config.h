@@ -17,5 +17,9 @@ struct	s_config {
 
 bool	read_config(const char *file, struct s_config *config);
 void	free_config(struct s_config *config);
+void	*free_light_array(t_light **lights, size_t len);
+void	*free_object_array(t_object *objects, size_t len);
+void	*free_filter_array(t_filter **filters, size_t len);
+bool	config_error(t_toml_table *toml, struct s_config *config, const char *msg);
 
 #endif

@@ -23,7 +23,13 @@ bool	read_camera_super(t_toml_table *toml, struct s_camera *camera)
 	}
 	else
 		camera->rotation = vec3(0, 0, 0);
-	if (!read_video_shape(toml, &camera->video))
-		camera->video.video_len = 0;
+	camera->video = (struct s_video_shape) { .video_len = 0, .frame_len = 0 };
+	read_video_shape(toml, &camera->video);
 	return (true);
+}
+
+void	free_camera_super(struct s_camera *camera)
+{
+	free(camera->video.video);
+	free(camera->video.frame);
 }

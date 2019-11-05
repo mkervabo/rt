@@ -33,3 +33,8 @@ struct s_normal_material	*read_normal_material(t_toml_table *toml)
 	material->super.type = MATERIAL_NORMAL;
 	return (material);
 }
+
+void						free_normal_material(struct s_normal_material *material)
+{
+	free(material);
+}

@@ -28,3 +28,9 @@ struct s_perspective_camera	*read_perspective_camera(t_toml_table *toml)
 	camera->super.type = CAMERA_PERSPECTIVE;
 	return (camera);
 }
+
+void			free_perspective_camera(struct s_perspective_camera *camera)
+{
+	free_camera_super(&camera->super);
+	free(camera);
+}

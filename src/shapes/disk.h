@@ -12,5 +12,6 @@ struct s_disk {
 
 struct s_hit	hit_disk(struct s_ray ray, struct s_disk *disk, struct s_intersection_tab *intersections);
 struct s_disk	*read_disk(t_toml_table *toml);
+void			free_disk(struct s_disk	*disk);
 
 #endif

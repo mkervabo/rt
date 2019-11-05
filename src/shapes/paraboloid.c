@@ -64,3 +64,9 @@ struct s_paraboloid	*read_paraboloid(t_toml_table *toml)
 	paraboloid->super.type = SHAPE_PARABOLOID;
 	return (paraboloid);
 }
+
+void			free_paraboloid(struct s_paraboloid *paraboloid)
+{
+	free_shape_super(&paraboloid->super);
+	free(paraboloid);
+}

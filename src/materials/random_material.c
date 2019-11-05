@@ -36,3 +36,8 @@ struct s_random_material	*read_random_material(t_toml_table *toml)
 	material->super.type = MATERIAL_RANDOM;
 	return (material);
 }
+
+void						free_random_material(struct s_random_material *material)
+{
+	free(material);
+}

@@ -104,3 +104,9 @@ struct s_voronoi_material	*read_voronoi_material(t_toml_table *toml)
 	material->super.type = MATERIAL_VORONOI;
 	return (material);
 }
+
+void				free_voronoi_material(struct s_voronoi_material *material)
+{
+	free_material(material->material);
+	free(material);
+}

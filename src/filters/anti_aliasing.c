@@ -84,3 +84,9 @@ struct s_anti_aliasing_filter	*read_anti_aliasing_filter(t_toml_table *toml)
 	anti_aliasing->super.type = FILTER_ANTI_ALIASING;
 	return (anti_aliasing);
 }
+
+
+void						free_anti_aliasing_filter(struct s_anti_aliasing_filter *filter)
+{
+	free(filter);
+}

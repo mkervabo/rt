@@ -60,7 +60,10 @@ static bool read_obj_triangles(t_obj *obj, struct s_triangle **objects, size_t *
 		i++;
 	}
 	if (!(*objects = malloc(sizeof(**objects) * *size)))
+	{
+		obj_free(obj);
 		return (false);
+	}
 	k = 0;
 	i = 0;
 	while (i < obj->len)
@@ -73,6 +76,7 @@ static bool read_obj_triangles(t_obj *obj, struct s_triangle **objects, size_t *
 		}
 		i++;
 	}
+	obj_free(obj);
 	return (true);	
 }
 
@@ -109,4 +113,11 @@ struct s_obj_shape	*read_obj_shape(t_toml_table *toml)
 		return (rt_error(obj, "Invalid obj triangle in obj shape"));
 	obj->super.type = SHAPE_OBJ;
 	return (obj);
+}
+
+void			free_obj_shape(struct s_obj_shape *obj)
+{
+	free_shape_super(&obj->super);
+	free(obj->triangles);
+	free(obj);
 }

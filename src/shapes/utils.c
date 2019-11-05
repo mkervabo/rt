@@ -23,9 +23,16 @@ bool		read_shape_super(t_toml_table *toml, t_shape *object)
 	}
 	else
 		object->rotation = vec3(0, 0, 0);
+	object->video = (struct s_video_shape) { .video_len = 0, .frame_len = 0 };
 	if (!read_video_shape(toml, &object->video))
 		object->video.video_len = 0;
 	if (!read_video_frame(toml, &object->video))
 		object->video.frame_len = 0;
 	return (true);
+}
+
+void			free_shape_super(t_shape *object)
+{
+	free(object->video.frame);
+	free(object->video.video);
 }

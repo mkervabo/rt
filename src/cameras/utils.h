@@ -5,5 +5,6 @@
 #include "camera.h"
 
 bool	read_camera_super(t_toml_table *toml, struct s_camera *camera);
+void	free_camera_super(struct s_camera *camera);
 
 #endif

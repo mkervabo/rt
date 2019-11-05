@@ -28,3 +28,9 @@ struct s_point_light	*read_point_light(t_toml_table *toml)
 	light->super.type = LIGHT_POINT;
 	return (light);
 }
+
+void					free_point_light(struct s_point_light *light)
+{
+	free_light_super(&light->super);
+	free(light);
+}

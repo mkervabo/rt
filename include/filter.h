@@ -20,5 +20,6 @@ struct			s_pixel_hit {
 t_filter 	**read_filters(t_toml_table *toml, size_t *size);
 void		apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
 void		apply_video_filter(t_filter *filter, uint32_t **pixels, size_t *nframes, struct s_size window);
+void		free_filter(t_filter *filter);
 
 #endif

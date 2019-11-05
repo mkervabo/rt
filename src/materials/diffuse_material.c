@@ -65,3 +65,9 @@ struct s_diffuse_material	*read_diffuse_material(t_toml_table *toml)
 	material->super.type = MATERIAL_DIFFUSE;
 	return (material);
 }
+
+void						free_diffuse_material(struct s_diffuse_material *material)
+{
+	free_material(material->material);
+	free(material);
+}

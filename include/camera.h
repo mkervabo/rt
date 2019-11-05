@@ -31,5 +31,6 @@ typedef struct	s_camera {
 struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 			struct s_size window);
 struct s_camera		*read_camera(t_toml_table *toml);
+void	free_camera(struct s_camera *camera);
 
 #endif

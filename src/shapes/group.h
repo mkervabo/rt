@@ -12,5 +12,6 @@ struct s_group
 
 struct s_hit	hit_group(struct s_ray ray, struct s_group *group, struct s_intersection_tab *intersections);
 struct s_group	*read_group(t_toml_table *toml);
+void			free_group(struct s_group *group);
 
 #endif

@@ -79,3 +79,9 @@ struct s_blur_filter	*read_blur_filter(t_toml_table *toml)
 	blur->super.type = FILTER_BLUR;
 	return (blur);
 }
+
+
+void						free_blur_filter(struct s_blur_filter *filter)
+{
+	free(filter);
+}

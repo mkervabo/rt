@@ -44,3 +44,8 @@ struct s_cartoon_filter	*read_cartoon_filter(t_toml_table *toml)
 	filter->super.type = FILTER_CARTOON;
 	return (filter);
 }
+
+void						free_cartoon_filter(struct s_cartoon_filter *filter)
+{
+	free(filter);
+}

@@ -4,6 +4,7 @@
 #include "../materials/reflection_material.h"
 #include "../materials/diffuse_material.h"
 #include "../materials/material_types.h"
+#include <stdlib.h>
 
 #include <math.h>
 
@@ -24,7 +25,7 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 	else if (!read_color(value->value.table_v, &light->color))
 		return ((bool)rt_error(NULL, "Invalid color in read light super"));
 	if (!read_video_light(toml, &light->video))
-		light->video.frame_len = 0;
+		light->video = (struct s_video_light) { .frame_len = 0 };
 	return (true);
 }
 
@@ -68,3 +69,7 @@ double		receive_light(struct s_scene *scene, struct s_ray *light, t_vec3 p, t_co
 	return (1.0);
 }
 
+void		free_light_super(t_light *light)
+{
+	free(light->video.frame);
+}

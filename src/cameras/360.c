@@ -35,3 +35,9 @@ struct s_360_camera	*read_360_camera(t_toml_table *toml)
 	camera->super.type = CAMERA_360;
 	return (camera);
 }
+
+void			free_360_camera(struct s_360_camera *camera)
+{
+	free_camera_super(&camera->super);
+	free(camera);
+}

@@ -9,5 +9,6 @@ struct s_sepia_filter {
 
 void					sepia_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
 struct s_sepia_filter	*read_sepia_filter(t_toml_table *toml);
+void					free_sepia_filter(struct s_sepia_filter *filter);
 
 #endif

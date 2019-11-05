@@ -5,6 +5,8 @@
 #include "math/vec2.h"
 #include "math/vec3.h"
 #include "config_utils.h"
+#include "material.h"
+
 #include <math.h>
 #include <stdlib.h>
 
@@ -43,10 +45,6 @@ struct s_cloud_material	*read_cloud_material(t_toml_table *toml)
 
 	if (!(material = malloc(sizeof(*material))))
 		return (rt_error(NULL, "Can not allocate perlin material"));
-	if (!read_toml_type(toml, &value, "material", TOML_Table))
-		return (rt_error(material, "Missing material in cloud material"));
-	if (!(material->material = read_material(value->value.table_v)))
-		return (rt_error(material, "Invalid material in cloud material"));
 	if (!read_toml_type(toml, &value, "size", TOML_Array))
 		return (rt_error(material, "Missing size in cloud material"));
 	if (value->value.array_v->len != 8)
@@ -59,6 +57,16 @@ struct s_cloud_material	*read_cloud_material(t_toml_table *toml)
 		material->size[i] = value->value.array_v->inner[i].value.float_v;
 		i++;
 	}
+	if (!read_toml_type(toml, &value, "material", TOML_Table))
+		return (rt_error(material, "Missing material in cloud material"));
+	if (!(material->material = read_material(value->value.table_v)))
+		return (rt_error(material, "Invalid material in cloud material"));
 	material->super.type = MATERIAL_CLOUD;
 	return (material);
+}
+
+void						free_cloud_material(struct s_cloud_material *material)
+{
+	free_material(material->material);
+	free(material);
 }

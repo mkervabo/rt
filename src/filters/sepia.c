@@ -42,3 +42,8 @@ struct s_sepia_filter	*read_sepia_filter(t_toml_table *toml)
 	sepia->super.type = FILTER_SEPIA;
 	return (sepia);
 }
+
+void						free_sepia_filter(struct s_sepia_filter *filter)
+{
+	free(filter);
+}

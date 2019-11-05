@@ -76,3 +76,9 @@ struct s_specular_material	*read_specular_material(t_toml_table *toml)
 	material->super.type = MATERIAL_SPECULAR;
 	return (material);
 }
+
+void						free_specular_material(struct s_specular_material *material)
+{
+	free_material(material->material);
+	free(material);
+}

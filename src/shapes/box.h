@@ -10,5 +10,6 @@ struct s_box {
 
 struct s_hit	hit_box(struct s_ray ray, struct s_box *box, struct s_intersection_tab *intersections);
 struct s_box	*read_box(t_toml_table *toml);
+void			free_box(struct s_box *box);
 
 #endif

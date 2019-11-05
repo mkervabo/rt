@@ -51,3 +51,8 @@ struct s_motion_blur_filter	*read_motion_blur_filter(t_toml_table *toml)
 	filter->super.type = FILTER_MOTION_BLUR;
 	return (filter);
 }
+
+void						free_motion_blur_filter(struct s_motion_blur_filter *filter)
+{
+	free(filter);
+}

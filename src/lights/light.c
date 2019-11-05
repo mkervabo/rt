@@ -43,3 +43,17 @@ t_light			*read_light(t_toml_table *toml)
 	else
 		return (rt_error(NULL, "Invalid light type"));
 }
+
+void	free_light(t_light *light)
+{
+	if (light->type == LIGHT_POINT)
+		free_point_light((struct s_point_light *)light);
+	else if (light->type == LIGHT_AMBIENT)
+		free_ambient_light((struct s_ambient_light *)light);
+	else if (light->type == LIGHT_DIRECTIONAL)
+		free_directional_light((struct s_directional_light *)light);
+	else if (light->type == LIGHT_SPOT)
+		free_spot_light((struct s_spot_light *)light);
+	else
+		assertf(false, "Unimplemented light type: %d", light->type);
+}

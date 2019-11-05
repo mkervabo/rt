@@ -5,5 +5,6 @@
 #include "shape.h"
 
 bool	read_shape_super(t_toml_table *toml, t_shape *shape);
+void	free_shape_super(t_shape *object);
 
 #endif

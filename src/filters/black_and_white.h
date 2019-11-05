@@ -7,7 +7,8 @@ struct s_black_and_white_filter {
 	t_filter	super;
 };
 
-void					black_and_white_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
+void							black_and_white_filter(uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
 struct s_black_and_white_filter	*read_black_and_white_filter(t_toml_table *toml);
+void							free_black_and_white_filter(struct s_black_and_white_filter *filter);
 
 #endif

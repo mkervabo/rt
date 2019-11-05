@@ -1,7 +1,7 @@
 #include "filter.h"
 #include "filter_types.h"
 
-#include "toml.h"
+#include "config.h"
 #include "config_utils.h"
 #include "string_utils.h"
 #include "debug/assert.h"
@@ -85,8 +85,26 @@ t_filter 	**read_filters(t_toml_table *toml, size_t *size)
 	while (i < *size)
 	{
 		if (!(filters[i] = read_filter(value->value.array_v->inner[i].value.table_v)))
-			return (NULL);
+			return ((*size = 0) + free_filter_array(filters, i));
 		i++;
 	}
 	return (filters);
+}
+
+void			free_filter(t_filter *filter)
+{
+	if (filter->type == FILTER_BLACK_AND_WHITE)
+		free_black_and_white_filter((struct s_black_and_white_filter *)filter);
+	else if (filter->type == FILTER_SEPIA)
+		free_sepia_filter((struct s_sepia_filter *)filter);
+	else if (filter->type == FILTER_NEGATIVE)
+		free_negative_filter((struct s_negative_filter *)filter);
+	else if (filter->type == FILTER_ANTI_ALIASING)
+		free_anti_aliasing_filter((struct s_anti_aliasing_filter *)filter);
+	else if (filter->type == FILTER_CARTOON)
+		free_cartoon_filter((struct s_cartoon_filter *)filter);
+	else if (filter->type == FILTER_BLUR)
+		free_blur_filter((struct s_blur_filter *)filter);
+	else if (filter->type == FILTER_DEPTH_CONTRAST)
+		free_depth_contrast_filter((struct s_depth_contrast_filter *)filter);
 }

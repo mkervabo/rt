@@ -147,3 +147,9 @@ struct s_box	*read_box(t_toml_table *toml)
 	box->super.type = SHAPE_BOX;
 	return (box);
 }
+
+void			free_box(struct s_box *box)
+{
+	free_shape_super(&box->super);
+	free(box);
+}

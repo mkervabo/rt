@@ -47,9 +47,22 @@ struct s_checkerboard_material	*read_checkerboard_material(t_toml_table *toml)
 	else if (!(material->black = read_material(value->value.table_v)))
 		return (rt_error(material, "Invalid black in checkerboard material"));
 	if (read_toml_type(toml, &value, "white", TOML_Table) == false)
+	{
+		free_material(material->black);
 		return (rt_error(material, "Missing white in checkerboard material"));
+	}
 	else if (!(material->white = read_material(value->value.table_v)))
+	{
+		free_material(material->black);
 		return (rt_error(material, "Invalid white in checkerboard material"));
+	}
 	material->super.type = MATERIAL_CHECKERBOARD;
 	return (material);
+}
+
+void				free_checkerboard_material(struct s_checkerboard_material *material)
+{
+	free_material(material->black);
+	free_material(material->white);
+	free(material);
 }

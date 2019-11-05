@@ -5,6 +5,7 @@ rt.srcs += src/cameras/perspective.c
 rt.srcs += src/cameras/utils.c
 rt.srcs += src/color.c
 rt.srcs += src/config/config.c
+rt.srcs += src/config/free.c
 rt.srcs += src/config/utils.c
 rt.srcs += src/filters/anti_aliasing.c
 rt.srcs += src/filters/black_and_white.c

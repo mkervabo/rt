@@ -11,9 +11,15 @@ bool	read_object(t_object *obj, t_toml_table *toml)
 	if (obj->shape->type != SHAPE_GROUP)
 	{
 		if (!read_toml_type(toml, &value, "material", TOML_Table))
+		{
+			free_shape(obj->shape);
 			return (false);
+		}
 		if (!(obj->material = read_material(value->value.table_v)))
+		{
+			free_shape(obj->shape);
 			return (false);
+		}
 	}
 	return (true);
 }

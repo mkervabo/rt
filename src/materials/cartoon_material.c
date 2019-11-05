@@ -1,6 +1,7 @@
 #include "cartoon_material.h"
 #include "material_types.h"
 #include "config_utils.h"
+#include "material.h"
 
 #include <stdlib.h>
 #include <math.h>
@@ -71,4 +72,10 @@ struct s_cartoon_material	*read_cartoon_material(t_toml_table *toml)
 		return (rt_error(material, "Invalid material in cartoon material"));
 	material->super.type = MATERIAL_CARTOON;
 	return (material);
+}
+
+void						free_cartoon_material(struct s_cartoon_material *material)
+{
+	free_material(material->material);
+	free(material);
 }

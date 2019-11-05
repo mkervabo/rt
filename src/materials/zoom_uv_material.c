@@ -35,3 +35,9 @@ struct s_zoom_uv_material	*read_zoom_uv_material(t_toml_table *toml)
 	material->super.type = MATERIAL_ZOOM_UV;
 	return (material);
 }
+
+void				free_zoom_uv_material(struct s_zoom_uv_material *material)
+{
+	free_material(material->material);
+	free(material);
+}

@@ -40,3 +40,9 @@ struct s_texture	*read_texture(t_toml_table *toml)
 	material->super.type = MATERIAL_TEXTURE;
 	return (material);
 }
+
+void				free_texture(struct s_texture *material)
+{
+	free_image(&material->image);
+	free(material);
+}

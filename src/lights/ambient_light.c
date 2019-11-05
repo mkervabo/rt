@@ -22,3 +22,9 @@ struct s_ambient_light	*read_ambient_light(t_toml_table *toml)
 	light->super.type = LIGHT_AMBIENT;
 	return (light);
 }
+
+void					free_ambient_light(struct s_ambient_light *light)
+{
+	free_light_super(&light->super);
+	free(light);
+}

@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 12:34:54 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/10 17:55:36 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/11 13:36:38 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void 
 	if (!(pixels = malloc(sizeof(uint32_t) * window.width * window.height)))
 		return (NULL);
 	if (!(hits = malloc(sizeof(*hits) * window.width * window.height)))
+	{
+		free(pixels);
 		return (NULL);
+	}
 	ft_memset(pixels, 0, sizeof(uint32_t) * window.width * window.height);
 
 	done = 0;
@@ -125,6 +128,7 @@ uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void 
 			i = 0;
 			while (i < NUM_THREADS)
 				pthread_join(threads[i++], NULL);
+			free(hits);
 			return (pixels);
 		}
 	}
@@ -132,6 +136,7 @@ uint32_t	*render(t_scene *scene, struct s_size window, t_update_fn update, void 
 	i = 0;
 	while (i < scene->filters_size)
 		apply_filter(scene->filters[i++], pixels, hits, window);
+	free(hits);
 	update(pixels, user);
 	return (pixels);
 }

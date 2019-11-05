@@ -49,3 +49,9 @@ struct s_spot_light		*read_spot_light(t_toml_table *toml)
 	light->super.type = LIGHT_SPOT;
 	return (light);
 }
+
+void					free_spot_light(struct s_spot_light *light)
+{
+	free_light_super(&light->super);
+	free(light);
+}

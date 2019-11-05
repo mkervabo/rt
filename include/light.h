@@ -27,5 +27,6 @@ bool	get_light_ray(const t_light *light, t_vec3 point, struct s_ray *ray);
 
 double		receive_light(struct s_scene *scene, struct s_ray *light, t_vec3 p, t_color *color);
 double		light_decay(t_vec3 origin, t_vec3 point, double decay);
+void		free_light(t_light *light);
 
 #endif

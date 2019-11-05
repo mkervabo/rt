@@ -42,3 +42,9 @@ struct s_cylinder	*read_cylinder(t_toml_table *toml)
 	cylinder->super.type = SHAPE_CYLINDER;
 	return (cylinder);
 }
+
+void			free_cylinder(struct s_cylinder *cylinder)
+{
+	free_shape_super(&cylinder->super);
+	free(cylinder);
+}

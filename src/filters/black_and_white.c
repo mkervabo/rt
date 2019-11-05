@@ -34,3 +34,8 @@ struct s_black_and_white_filter	*read_black_and_white_filter(t_toml_table *toml)
 	black_and_white->super.type = FILTER_BLACK_AND_WHITE;
 	return (black_and_white);
 }
+
+void						free_black_and_white_filter(struct s_black_and_white_filter *filter)
+{
+	free(filter);
+}

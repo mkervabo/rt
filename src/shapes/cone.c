@@ -77,3 +77,9 @@ struct s_cone	*read_cone(t_toml_table *toml)
 	cone->super.type = SHAPE_CONE;
 	return (cone);
 }
+
+void			free_cone(struct s_cone *cone)
+{
+	free_shape_super(&cone->super);
+	free(cone);
+}

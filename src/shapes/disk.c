@@ -74,3 +74,9 @@ struct s_disk	*read_disk(t_toml_table *toml)
 	disk->super.type = SHAPE_DISK;
 	return (disk);
 }
+
+void			free_disk(struct s_disk	*disk)
+{
+	free_shape_super(&disk->super);
+	free(disk);
+}

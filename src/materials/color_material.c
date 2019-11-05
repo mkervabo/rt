@@ -31,3 +31,8 @@ struct s_color_material	*read_color_material(t_toml_table *toml)
 	material->super.type = MATERIAL_COLOR;
 	return (material);
 }
+
+void						free_color_material(struct s_color_material *material)
+{
+	free(material);
+}

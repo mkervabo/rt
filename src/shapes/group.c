@@ -5,6 +5,7 @@
 #include "config_utils.h"
 #include "object.h"
 #include "raytrace.h"
+#include "config.h"
 #include <stdlib.h>
 
 #include <math.h>
@@ -27,4 +28,11 @@ struct s_group	*read_group(t_toml_table *toml)
 		return (rt_error(group, "Invalid objects in group shape"));
 	group->super.type = SHAPE_GROUP;
 	return (group);
+}
+
+void			free_group(struct s_group *group)
+{
+	free_shape_super(&group->super);
+	free_object_array(group->objects, group->objects_size);
+	free(group);
 }

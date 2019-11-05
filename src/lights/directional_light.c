@@ -41,3 +41,9 @@ struct s_directional_light	*read_directional_light(t_toml_table *toml)
 	light->super.type = LIGHT_DIRECTIONAL;
 	return (light);
 }
+
+void					free_directional_light(struct s_directional_light *light)
+{
+	free_light_super(&light->super);
+	free(light);
+}

@@ -7,7 +7,8 @@ struct s_motion_blur_filter {
 	t_filter	super;
 };
 
-void				motion_blur_video_filter(struct s_motion_blur_filter *filter, uint32_t **pixels, size_t *nframes, struct s_size window);
+void							motion_blur_video_filter(struct s_motion_blur_filter *filter, uint32_t **pixels, size_t *nframes, struct s_size window);
 struct	s_motion_blur_filter	*read_motion_blur_filter(t_toml_table *toml);
+void							free_motion_blur_filter(struct s_motion_blur_filter *filter);
 
 #endif

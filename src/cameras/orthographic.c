@@ -29,3 +29,9 @@ struct s_orthographic_camera	*read_orthographic_camera(t_toml_table *toml)
 	camera->super.type = CAMERA_ORTHOGRAPHIC;
 	return (camera);
 }
+
+void			free_orthographic_camera(struct s_orthographic_camera *camera)
+{
+	free_camera_super(&camera->super);
+	free(camera);
+}

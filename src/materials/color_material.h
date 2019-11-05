@@ -11,5 +11,6 @@ struct s_color_material {
 t_color							color_material_color(struct s_color_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit);
 double							color_material_transparency(struct s_color_material *material);
 struct s_color_material			*read_color_material(t_toml_table *toml);
+void							free_color_material(struct s_color_material *material);
 
 #endif

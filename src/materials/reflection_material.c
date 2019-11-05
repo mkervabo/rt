@@ -129,3 +129,9 @@ struct s_reflection_material	*read_reflection_material(t_toml_table *toml)
 	material->super.type = MATERIAL_REFLECTION;
 	return (material);
 }
+
+void					free_reflection_material(struct s_reflection_material *material)
+{
+	free(material->color);
+	free(material);
+}

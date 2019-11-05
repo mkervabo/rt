@@ -5,37 +5,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-/*static t_color				hsv_to_rgb(double h, double s, double v)
-{
-	t_color RGB;
-    double H = h, S = s, V = v,
-            P, Q, T,
-            fract;
-
-    (H == 360.)?(H = 0.):(H /= 60.);
-    fract = H - floor(H);
-
-    P = V*(1. - S);
-    Q = V*(1. - S*fract);
-    T = V*(1. - S*(1. - fract));
-
-    if      (0. <= H && H < 1.)
-        RGB = (t_color){.r = V, .g = T, .b = P};
-    else if (1. <= H && H < 2.)
-        RGB = (t_color){.r = Q, .g = V, .b = P};
-    else if (2. <= H && H < 3.)
-        RGB = (t_color){.r = P, .g = V, .b = T};
-    else if (3. <= H && H < 4.)
-        RGB = (t_color){.r = P, .g = Q, .b = V};
-    else if (4. <= H && H < 5.)
-        RGB = (t_color){.r = T, .g = P, .b = V};
-    else if (5. <= H && H < 6.)
-        RGB = (t_color){.r = V, .g = P, .b = Q};
-    else
-        RGB = (t_color){.r = 0., .g = 0., .b = 0.};
-    return RGB;
-}*/
-
 t_color hsv_to_rgb(uint8_t h, uint8_t s, uint8_t v)
 {
     uint8_t region;
@@ -104,4 +73,9 @@ struct s_xor_material	*read_xor_material(t_toml_table *toml)
 		material->color = true;
 	material->super.type = MATERIAL_XOR;
 	return (material);
+}
+
+void						free_xor_material(struct s_xor_material *material)
+{
+	free(material);
 }

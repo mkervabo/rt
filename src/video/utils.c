@@ -56,7 +56,7 @@ bool					read_video_shape(t_toml_table *toml, struct s_video_shape *video)
 	while (i < video->video_len)
 	{
 		if (!read_frame(video->video + i, frame->value.array_v->inner[i].value.table_v))
-			return (false);//free tab 
+			return ((bool)rt_error(video->video, "Invalid video frame"));
 		i++;
 	}
 	return  (true);
@@ -81,9 +81,9 @@ bool					read_video_frame(t_toml_table *toml, struct s_video_shape *video)
 	while (i < video->frame_len)
 	{
 		if (!(second = table_get(video_frame->value.array_v->inner[i].value.table_v, "second")))
-			return (false);
+			return ((bool)rt_error(video->frame, "Missing second in video frame"));
 		else if (read_digit(second, &video->frame[i].second) == false)
-			return (false);
+			return ((bool)rt_error(video->frame, "Invalid second in video frame"));
 		if (!(video->frame[i].shape = read_shape(video_frame->value.array_v->inner[i].value.table_v)))
 			video->frame[i].shape = NULL;
 		else {
@@ -94,7 +94,7 @@ bool					read_video_frame(t_toml_table *toml, struct s_video_shape *video)
 		else if (!(video->frame[i].material = read_material(material->value.table_v)))
 			video->frame[i].material = NULL;
 		if (video->frame[i].shape == NULL && video->frame[i].material == NULL)
-			return (false);//free tab
+			return ((bool)rt_error(video->frame, "Invalid shape or material in video frame"));
 		i++;
 	}
 	return (true);
@@ -118,11 +118,11 @@ bool					read_video_light(t_toml_table *toml, struct s_video_light *video)
 	while (i < video->frame_len)
 	{
 		if (!(second = table_get(video_frame->value.array_v->inner[i].value.table_v, "second")))
-			return (false);
+			return ((bool)rt_error(video->frame, "Missing second in light video frame"));
 		else if (read_digit(second, &video->frame[i].second) == false)
-			return (false);
+			return ((bool)rt_error(video->frame, "Invalid second in light video frame"));
 		if (!(video->frame[i].light = read_light(video_frame->value.array_v->inner[i].value.table_v)))
-			return (false);
+			return ((bool)rt_error(video->frame, "Invalid light in light video frame"));
 		else
 			video->frame[i].light->video = *video;
 		i++;

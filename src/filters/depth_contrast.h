@@ -7,7 +7,8 @@ struct s_depth_contrast_filter {
 	t_filter	super;
 };
 
-void				depth_contrast_filter(struct s_depth_contrast_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
+void							depth_contrast_filter(struct s_depth_contrast_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window);
 struct s_depth_contrast_filter	*read_depth_contrast_filter(t_toml_table *toml);
+void							free_depth_contrast_filter(struct s_depth_contrast_filter *filter);
 
 #endif

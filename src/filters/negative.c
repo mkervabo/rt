@@ -39,3 +39,8 @@ struct s_negative_filter	*read_negative_filter(t_toml_table *toml)
 	negative->super.type = FILTER_NEGATIVE;
 	return (negative);
 }
+
+void						free_negative_filter(struct s_negative_filter *filter)
+{
+	free(filter);
+}
