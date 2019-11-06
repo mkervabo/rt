@@ -6,7 +6,7 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
-#    Updated: 2019/11/04 19:57:37 by dde-jesu         ###   ########.fr        #
+#    Updated: 2019/11/06 15:31:03 by mkervabo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ clean::
 fclean:: clean
 	$(RM) -r rt rt.sdl
 
-.PHNOY: re
+.PHONY: re
 re: fclean all
 
 ARFLAGS = rcs
