@@ -1,5 +1,6 @@
 #include "color.h"
 #include "debug/assert.h"
+#include "math/utils.h"
 
 uint32_t	color_to_rgb(t_color color)
 {
@@ -26,23 +27,14 @@ t_color		color_add(t_color a, t_color b)
 	return (res);
 }
 
-static uint8_t clamp(double v) {
-	if (v < 0)
-		return (0);
-	else if (v > 255)
-		return (255);
-	else
-		return (v);
-}
-
 t_color		color_multv(t_color c, double v)
 {
 	assertf(v >= 0 && v <= 1, "color_multv: v must be between 0 and 1 but got %f", v);
 
 	return ((t_color) {
-		.r = clamp((double)c.r * v),
-		.g = clamp((double)c.g * v),
-		.b = clamp((double)c.b * v)
+		.r = clamp((double)c.r * v, 0, 255),
+		.g = clamp((double)c.g * v, 0, 255),
+		.b = clamp((double)c.b * v, 0, 255)
 	});
 }
 
