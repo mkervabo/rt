@@ -4,6 +4,3 @@
 [submodule "lib/obj"]
 	path = lib/obj
 	url = ../../mkervabo/obj.git
-[submodule "lib/mtl"]
-	path = lib/mtl
-	url = ../../mkervabo/mtl.git
