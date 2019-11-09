@@ -7,31 +7,33 @@
 #include <stdlib.h>
 #include <math.h>
 
-static bool double_cmp(double a, double b)
+static bool double_cmp(double a, double b, double coef)
 {
-	return fabs(a - b) < 1e-6;
+	return fabs(a - b) < coef;
 }
 
 static t_vec3	box_normal(t_vec3 p, t_vec3 a, t_vec3 b)
 {
-	// TODO
-	if (double_cmp(p.x, a.x))
-		return (vec3(-1, 0, 0));
-	else if (double_cmp(p.x, b.x))
-		return (vec3(1, 0, 0));
-	else if (double_cmp(p.y, a.y))
-		return (vec3(0, -1, 0));
-	else if (double_cmp(p.y, b.y))
-		return (vec3(0, 1, 0));
-	else if (double_cmp(p.z, a.z))
-		return (vec3(0, 0, -1));
-	else if (double_cmp(p.z, b.z))
-		return (vec3(0, 0, 1));
-	else
-		assertf(false, "No normals ?");
-}
+	double	coef;
 
- #include "stdio.h"
+	coef = 1e-6;
+	while (true)
+	{
+		if (double_cmp(p.x, a.x, coef))
+			return (vec3(-1, 0, 0));
+		else if (double_cmp(p.x, b.x, coef))
+			return (vec3(1, 0, 0));
+		else if (double_cmp(p.y, a.y, coef))
+			return (vec3(0, -1, 0));
+		else if (double_cmp(p.y, b.y, coef))
+			return (vec3(0, 1, 0));
+		else if (double_cmp(p.z, a.z, coef))
+			return (vec3(0, 0, -1));
+		else if (double_cmp(p.z, b.z, coef))
+			return (vec3(0, 0, 1));
+		coef *= 10;
+	}
+}
 
 static void		box_uvs(double *u, double *v, t_vec3 normal, t_vec3 dir)
 {
