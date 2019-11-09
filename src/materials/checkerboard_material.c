@@ -11,7 +11,8 @@ static bool					checker(double u, double v, double size)
 
 	s = floor(u * size);
 	t = floor(v * size);
-    return (fmod(s + t, 2));
+
+    	return (fmod(s + t, 2) == 0);
 }
 
 t_color							checkerboard_material_color(struct s_checkerboard_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
@@ -36,7 +37,7 @@ struct s_checkerboard_material	*read_checkerboard_material(t_toml_table *toml)
 	if (read_toml_type(toml, &value, "black", TOML_Table) == false)
 		return (rt_error(material, "Missing black in checkerboard material"));
 	else if (!(material->black = read_material(value->value.table_v)))
-	return (rt_error(material, "Invalid black in checkerboard material"));
+		return (rt_error(material, "Invalid black in checkerboard material"));
 	if (read_toml_type(toml, &value, "white", TOML_Table) == false)
 		return (rt_error(material, "Missing white in checkerboard material"));
 	else if (!(material->white = read_material(value->value.table_v)))

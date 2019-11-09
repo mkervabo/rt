@@ -18,6 +18,20 @@
 #include "group.h"
 #include "obj_shape.h"
 
+static struct s_shape_record g_shapes[] = {
+	[SHAPE_SPHERE] = { "SPHERE", (void *)hit_sphere, (void *)read_sphere },
+	[SHAPE_CYLINDER] = { "CYLINDER", (void *)hit_cylinder, (void *)read_cylinder },
+	[SHAPE_CONE] = { "CONE", (void *)hit_cone, (void *)read_cone },
+	[SHAPE_PLANE] = { "PLANE", (void *)hit_plane, (void *)read_plane },
+	[SHAPE_BOX] = { "BOX", (void *)hit_box, (void *)read_box },
+	[SHAPE_TRIANGLE] = { "TRIANGLE", (void *)hit_triangle, (void *)read_triangle },
+	[SHAPE_DISK] = { "DISK", (void *)hit_disk, (void *)read_disk },
+	[SHAPE_PARABOLOID] = { "PARABOLOID", (void *)hit_paraboloid, (void *)read_paraboloid },
+	[SHAPE_CSG] = { NULL, (void *)hit_csg, NULL }, // Custom read
+	[SHAPE_GROUP] = { "GROUP", (void *)hit_group, (void *)read_group },
+	[SHAPE_OBJ] = { "OBJ", (void *)hit_obj_shape, (void *)read_obj_shape }
+};
+
 static int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t i;
@@ -39,31 +53,13 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 	ray.origin = vec3_sub(ray.origin, shape->position);
 	ray.origin = vec3_rotate(ray.origin, vec3_multv(shape->rotation, -1));
 	ray.direction = vec3_rotate(ray.direction, vec3_multv(shape->rotation, -1));
-	if (shape->type == SHAPE_SPHERE)
-		hit = hit_sphere(ray, (struct s_sphere *)shape, intersections);
-	else if (shape->type == SHAPE_CYLINDER)
-		hit = hit_cylinder(ray, (struct s_cylinder *)shape, intersections);
-	else if (shape->type == SHAPE_CONE)
-		hit = hit_cone(ray, (struct s_cone *)shape, intersections);
-	else if (shape->type == SHAPE_PLANE)
-		hit = hit_plane(ray, (struct s_plane *)shape, intersections);
-	else if (shape->type == SHAPE_BOX)
-		hit = hit_box(ray, (struct s_box *)shape, intersections);
-	else if (shape->type == SHAPE_TRIANGLE)
-		hit = hit_triangle(ray, (struct s_triangle *)shape, intersections);
-	else if (shape->type == SHAPE_DISK)
-		hit = hit_disk(ray, (struct s_disk *)shape, intersections);
-	else if (shape->type == SHAPE_PARABOLOID)
-		hit = hit_paraboloid(ray, (struct s_paraboloid *)shape, intersections);
-	else if (shape->type == SHAPE_CSG)
-		hit = hit_csg(ray, (struct s_csg *)shape, intersections);
-	else if (shape->type == SHAPE_GROUP)
-		hit = hit_group(ray, (struct s_group *)shape, intersections);
-	else if (shape->type == SHAPE_OBJ)
-		hit = hit_obj_shape(ray, (struct s_obj_shape *)shape, intersections);
+	if (shape->type <= (sizeof(g_shapes) / sizeof(*g_shapes)))
+		hit = g_shapes[shape->type].hit(ray, shape, intersections);
 	else
-		assertf(false, "Unimplemented type: %d", shape->type);
-
+	{
+		assertf(false, "Unimplemented shape type: %d", shape->type);
+		hit = (struct s_hit) { .t = -1 };
+	}
 	if (hit.t > 0)
 	{
 		// Since object is not rotated we need to rotate it's normal
@@ -72,41 +68,27 @@ struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_t
 	return (hit);
 }
 
-#include <unistd.h>
 t_shape			*read_shape(t_toml_table *toml)
 {
 	t_toml	*type;
+	size_t	i;
 
 	if (!(type = table_get(toml, "type")))
 		return (NULL);
 	if (type->type != TOML_String)
 		return (NULL);
-	if (ft_strcmp(type->value.string_v, "SPHERE") == 0)
-		return ((t_shape *)read_sphere(toml));
-	else if (ft_strcmp(type->value.string_v, "CYLINDER") == 0)
-		return ((t_shape *)read_cylinder(toml));
-	else if (ft_strcmp(type->value.string_v, "CONE") == 0)
-		return ((t_shape *)read_cone(toml));
-	else if (ft_strcmp(type->value.string_v, "PLANE") == 0)
-		return ((t_shape *)read_plane(toml));
-	else if (ft_strcmp(type->value.string_v, "BOX") == 0)
-		return ((t_shape *)read_box(toml));
-	else if (ft_strcmp(type->value.string_v, "TRIANGLE") == 0)
-		return ((t_shape *)read_triangle(toml));
-	else if (ft_strcmp(type->value.string_v, "DISK") == 0)
-		return ((t_shape *)read_disk(toml));
-	else if (ft_strcmp(type->value.string_v, "PARABOLOID") == 0)
-		return ((t_shape *)read_paraboloid(toml));
-	else if (ft_strcmp(type->value.string_v, "GROUP") == 0)
-		return ((t_shape *)read_group(toml));
-	else if (ft_strcmp(type->value.string_v, "UNION") == 0)
+	if (ft_strcmp(type->value.string_v, "UNION") == 0)
 		return ((t_shape *)read_csg(toml, CSG_UNION));
 	else if (ft_strcmp(type->value.string_v, "INTERSECTION") == 0)
 		return ((t_shape *)read_csg(toml, CSG_INTERSECTION));
 	else if (ft_strcmp(type->value.string_v, "DIFFERENCE") == 0)
 		return ((t_shape *)read_csg(toml, CSG_DIFFERENCE));
-	else if (ft_strcmp(type->value.string_v, "OBJ") == 0)
-		return ((t_shape *)read_obj_shape(toml));
-	else
-			return (rt_error(NULL, "Invalid shape type"));
+	i = 0;
+	while (i < (sizeof(g_shapes) / sizeof(*g_shapes)))
+	{
+		if (g_shapes[i].name && ft_strcmp(type->value.string_v, g_shapes[i].name) == 0)
+			return (g_shapes[i].read(toml));
+		i++;
+	}
+	return (rt_error(NULL, "Invalid shape type"));
 }

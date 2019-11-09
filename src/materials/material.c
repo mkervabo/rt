@@ -23,8 +23,29 @@
 
 #include <math.h>
 
-static double clamp_uv(double uv) {
-	if (uv > 1 || uv < 0) {
+static const struct s_material_record g_materials[] = {
+	[MATERIAL_NORMAL] = { "NORMAL", (void *)normal_material_color, (void *)read_normal_material },
+	[MATERIAL_UV] = { "UV", (void *)uv_material_color, (void *)read_uv_material },
+	[MATERIAL_MOVE_UV] = { "MOVE_UV", (void *)move_uv_material_color, (void *)read_move_uv_material },
+	[MATERIAL_ZOOM_UV] = { "ZOOM_UV", (void *)zoom_uv_material_color, (void *)read_zoom_uv_material },
+	[MATERIAL_TEXTURE] = { "TEXTURE", (void *)texture_color, (void *)read_texture },
+	[MATERIAL_COLOR] = { "COLOR", (void *)color_material_color, (void *)read_color_material },
+	[MATERIAL_CHECKERBOARD] = { "CHECKERBOARD", (void *)checkerboard_material_color, (void *)read_checkerboard_material },
+	[MATERIAL_VORONOI] = { "VORONOI", (void *)voronoi_material_color, (void *)read_voronoi_material },
+	[MATERIAL_DIFFUSE] = { "DIFFUSE", (void *)diffuse_material_color, (void *)read_diffuse_material },
+	[MATERIAL_HEIGHT_MAP] = { "HEIGHT_MAP", (void *)height_map_color, (void *)read_height_map },
+	[MATERIAL_CARTOON] = { "CARTOON", (void *)cartoon_material_color, (void *)read_cartoon_material },
+	[MATERIAL_REFLECTION] = { "REFLECTION", (void *)reflection_material_color, (void *)read_reflection_material },
+	[MATERIAL_PERLIN] = { "PERLIN", (void *)perlin_material_color, (void *)read_perlin_material },
+	[MATERIAL_MARBLE] = { "MARBLE", (void *)marble_material_color, (void *)read_marble_material },
+	[MATERIAL_CLOUD] = { "CLOUD", (void *)cloud_material_color, (void *)read_cloud_material },
+	[MATERIAL_SPECULAR] = { "SPECULAR", (void *)specular_material_color, (void *)read_specular_material }
+};
+
+static double	clamp_uv(double uv)
+{
+	if (uv > 1 || uv < 0)
+	{
 		uv = fmod(uv, 1);
 		return (uv < 0 ? 1 + uv : uv);
 	}
@@ -41,86 +62,34 @@ static int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-t_color			material_color(t_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
+t_color		material_color(t_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	hit->u = clamp_uv(hit->u);
 	hit->v = clamp_uv(hit->v);
-	if (material->type == MATERIAL_NORMAL)
-		return (normal_material_color((struct s_normal_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_UV)
-		return (uv_material_color((struct s_uv_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_MOVE_UV)
-		return (move_uv_material_color((struct s_move_uv_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_ZOOM_UV)
-		return (zoom_uv_material_color((struct s_zoom_uv_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_TEXTURE)
-		return (texture_color((struct s_texture *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_COLOR)
-		return (color_material_color((struct s_color_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_CHECKERBOARD)
-		return (checkerboard_material_color((struct s_checkerboard_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_VORONOI)
-		return (voronoi_material_color((struct s_voronoi_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_DIFFUSE)
-		return (diffuse_material_color((struct s_diffuse_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_HEIGHT_MAP)
-		return (height_map_color((struct s_height_map *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_CARTOON)
-		return (cartoon_material_color((struct s_cartoon_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_REFLECTION)
-		return (reflection_material_color((struct s_reflection_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_PERLIN)
-		return (perlin_material_color((struct s_perlin_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_MARBLE)
-		return (marble_material_color((struct s_marble_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_CLOUD)
-		return (cloud_material_color((struct s_cloud_material *)material, scene, ray, hit));
-	else if (material->type == MATERIAL_SPECULAR)
-		return (specular_material_color((struct s_specular_material *)material, scene, ray, hit));
+	if (material->type <= (sizeof(g_materials) / sizeof(*g_materials)))
+		return (g_materials[material->type].color(material, scene, ray, hit));
 	else
+	{
 		assertf(false, "Unimplemented material type: %d", material->type);
+		return ((t_color) { 0, 0, 0 });
+	}
 }
 
-t_material			*read_material(t_toml_table *toml)
+t_material	*read_material(t_toml_table *toml)
 {
 	t_toml	*type;
+	size_t	i;
 
 	if (!(type = table_get(toml, "type")))
 		return (NULL);
 	if (type->type != TOML_String)
 		return (NULL);
-	if (ft_strcmp(type->value.string_v, "NORMAL") == 0)
-		return ((t_material *)read_normal_material(toml));
-	else if (ft_strcmp(type->value.string_v, "UV") == 0)
-		return ((t_material *)read_uv_material(toml));
-	else if (ft_strcmp(type->value.string_v, "MOVE_UV") == 0)
-		return ((t_material *)read_move_uv_material(toml));
-	else if (ft_strcmp(type->value.string_v, "ZOOM_UV") == 0)
-		return ((t_material *)read_zoom_uv_material(toml));
-	else if (ft_strcmp(type->value.string_v, "TEXTURE") == 0)
-		return ((t_material *)read_texture(toml));
-	else if (ft_strcmp(type->value.string_v, "COLOR") == 0)
-		return ((t_material *)read_color_material(toml));
-	else if (ft_strcmp(type->value.string_v, "CHECKERBOARD") == 0)
-		return ((t_material *)read_checkerboard_material(toml));
-	else if (ft_strcmp(type->value.string_v, "VORONOI") == 0)
-		return ((t_material *)read_voronoi_material(toml));
-	else if (ft_strcmp(type->value.string_v, "DIFFUSE") == 0)
-		return ((t_material *)read_diffuse_material(toml));
-	else if (ft_strcmp(type->value.string_v, "HEIGHT_MAP") == 0)
-		return ((t_material *)read_height_map(toml));
-	else if (ft_strcmp(type->value.string_v, "CARTOON") == 0)
-		return ((t_material *)read_cartoon_material(toml));
-	else if (ft_strcmp(type->value.string_v, "REFLECTION") == 0)
-		return ((t_material *)read_reflection_material(toml));
-	else if (ft_strcmp(type->value.string_v, "PERLIN") == 0)
-		return ((t_material *)read_perlin_material(toml));
-	else if (ft_strcmp(type->value.string_v, "MARBLE") == 0)
-		return ((t_material *)read_marble_material(toml));
-	else if (ft_strcmp(type->value.string_v, "CLOUD") == 0)
-		return ((t_material *)read_cloud_material(toml));
-	else if (ft_strcmp(type->value.string_v, "SPECULAR") == 0)
-		return ((t_material *)read_specular_material(toml));
-	else
-		return (rt_error(NULL, "Invalid material type"));
+	i = 0;
+	while (i < (sizeof(g_materials) / sizeof(*g_materials)))
+	{
+		if (ft_strcmp(type->value.string_v, g_materials[i].name) == 0)
+			return (g_materials[i].read(toml));
+		i++;
+	}
+	return (rt_error(NULL, "Invalid material type"));
 }

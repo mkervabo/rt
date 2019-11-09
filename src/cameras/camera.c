@@ -29,10 +29,6 @@ struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 		ray = s_360_camera_create_ray((struct s_360_camera *)camera, x, y, window);
 	else if (camera->type == CAMERA_ORTHOGRAPHIC)
 		ray = orthographic_camera_create_ray((struct s_orthographic_camera *)camera, x, y, window);
-	/*if (camera->type == MATERIAL_UV)
-		return (uv_material_color((struct s_uv_material *)material, scene, ray, hit));
-	if (camera->type == MATERIAL_TEXTURE)
-		return (texture_color((struct s_texture *)material, scene, ray, hit));*/
 	else
 		assertf(false, "Unimplemented camera type: %d", camera->type);
 	ray.origin = vec3_add(ray.origin, camera->position);
