@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/09 15:36:05 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/09 16:03:39 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum	e_material_type {
 	MATERIAL_CLOUD,
 	MATERIAL_SPECULAR,
 	MATERIAL_RANDOM,
+	MATERIAL_XOR,
 };
 
 struct	s_material_record {

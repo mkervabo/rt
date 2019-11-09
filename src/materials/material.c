@@ -21,6 +21,7 @@
 #include "cloud_material.h"
 #include "specular_material.h"
 #include "random_material.h"
+#include "xor_material.h"
 
 #include <math.h>
 
@@ -41,7 +42,8 @@ static const struct s_material_record g_materials[] = {
 	[MATERIAL_MARBLE] = { "MARBLE", (void *)marble_material_color, (void *)read_marble_material },
 	[MATERIAL_CLOUD] = { "CLOUD", (void *)cloud_material_color, (void *)read_cloud_material },
 	[MATERIAL_SPECULAR] = { "SPECULAR", (void *)specular_material_color, (void *)read_specular_material },
-	[MATERIAL_RANDOM] = { "RANDOM", (void *)random_material_color, (void *)read_random_material }
+	[MATERIAL_RANDOM] = { "RANDOM", (void *)random_material_color, (void *)read_random_material },
+	[MATERIAL_XOR] = { "XOR", (void *)xor_material_color, (void *)read_xor_material }
 };
 
 static double	clamp_uv(double uv)

@@ -39,6 +39,7 @@ rt.srcs += src/materials/specular_material.c
 rt.srcs += src/materials/texture.c
 rt.srcs += src/materials/uv_material.c
 rt.srcs += src/materials/voronoi_material.c
+rt.srcs += src/materials/xor_material.c
 rt.srcs += src/materials/zoom_uv_material.c
 rt.srcs += src/math/quadratic.c
 rt.srcs += src/math/utils.c
