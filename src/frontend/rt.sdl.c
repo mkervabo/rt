@@ -6,11 +6,11 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/04 19:50:07 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/09 21:06:26 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
+#include "renderers/pthread.h"
 #include "video.h"
 #include "config.h"
 #include "image.h"
@@ -112,7 +112,7 @@ static bool	update_render(uint32_t *pixels, void *user)
 	return (window->quit);
 }
 
-void	sdl_frontend(struct s_config *config)
+void	sdl_frontend(struct s_config *config, t_pthread_renderer *renderer)
 {
 	struct s_sdl_window	window;
 	uint32_t	**pixels;
@@ -131,7 +131,7 @@ void	sdl_frontend(struct s_config *config)
 		while (i < nframes && !window.quit)
 		{
 			video_transform_scene(config, i);
-			pixels[i] = render(&config->scene, config->size, update_render, &window);
+			pixels[i] = pthread_render(renderer, update_render, &window);
 			mkdir("./video", 0700);
 			snprintf(name, sizeof name, "./video/frame_%05zu.png", i + 1);
 			IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), name);
@@ -162,7 +162,9 @@ void	sdl_frontend(struct s_config *config)
 
 int	main(int argc, char *argv[])
 {
-	struct s_config	config;
+	struct s_config		config;
+	t_pthread_renderer	renderer;
+	pthread_t			threads[4];
 
 	if (argc != 2)
 	{
@@ -175,7 +177,9 @@ int	main(int argc, char *argv[])
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	if (read_config(argv[1], &config))
 	{
-		sdl_frontend(&config);
+		renderer = create_pthread_renderer(&config.scene, config.size, false);
+		pthread_renderer_create_threads(&renderer, threads, sizeof(threads) / sizeof(*threads));
+		sdl_frontend(&config, &renderer);
 		free_config(&config);
 		return (0);
 	}

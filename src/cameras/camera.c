@@ -33,6 +33,7 @@ struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 		assertf(false, "Unimplemented camera type: %d", camera->type);
 	ray.origin = vec3_add(ray.origin, camera->position);
 	ray.direction = vec3_rotate(ray.direction, camera->rotation);
+	ray.n1 = 1.0;
 	return (ray);
 }
 
