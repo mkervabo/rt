@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material_types.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/09 14:48:15 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/09 15:36:05 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ enum	e_material_type {
 	MATERIAL_PERLIN,
 	MATERIAL_MARBLE,
 	MATERIAL_CLOUD,
-	MATERIAL_SPECULAR
+	MATERIAL_SPECULAR,
+	MATERIAL_RANDOM,
 };
 
 struct	s_material_record {

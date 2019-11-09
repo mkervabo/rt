@@ -20,6 +20,7 @@
 #include "marble_material.h"
 #include "cloud_material.h"
 #include "specular_material.h"
+#include "random_material.h"
 
 #include <math.h>
 
@@ -39,7 +40,8 @@ static const struct s_material_record g_materials[] = {
 	[MATERIAL_PERLIN] = { "PERLIN", (void *)perlin_material_color, (void *)read_perlin_material },
 	[MATERIAL_MARBLE] = { "MARBLE", (void *)marble_material_color, (void *)read_marble_material },
 	[MATERIAL_CLOUD] = { "CLOUD", (void *)cloud_material_color, (void *)read_cloud_material },
-	[MATERIAL_SPECULAR] = { "SPECULAR", (void *)specular_material_color, (void *)read_specular_material }
+	[MATERIAL_SPECULAR] = { "SPECULAR", (void *)specular_material_color, (void *)read_specular_material },
+	[MATERIAL_RANDOM] = { "RANDOM", (void *)random_material_color, (void *)read_random_material }
 };
 
 static double	clamp_uv(double uv)

@@ -33,6 +33,7 @@ rt.srcs += src/materials/material.c
 rt.srcs += src/materials/move_uv_material.c
 rt.srcs += src/materials/normal_material.c
 rt.srcs += src/materials/perlin_material.c
+rt.srcs += src/materials/random_material.c
 rt.srcs += src/materials/reflection_material.c
 rt.srcs += src/materials/specular_material.c
 rt.srcs += src/materials/texture.c
