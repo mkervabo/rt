@@ -41,7 +41,7 @@ rt.sdl.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
 rt.sdl.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
 rt.sdl.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
 
-rt: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image)
+rt.sdl: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image) -lm -lpthread
 
 .PHONY: all
 all: rt
