@@ -9,15 +9,15 @@ t_video			*read_video(t_toml_table *toml)
 	t_toml	     *value;
 
 	if (!(video = malloc(sizeof(*video))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate video"));
 	if (!(value = table_get(toml, "frame_sec")))
-		return (nfree(video));
+		return (rt_error(video, "Missing frame_sec in video"));
 	if (read_digit(value, &video->frame_sec) == false)
-		return (nfree(video));
+		return (rt_error(video, "Invalid frame_sec in video"));
 	if (!(value = table_get(toml, "secondes")))
-		return (nfree(video));
+		return (rt_error(video, "Missing secondes in video"));
 	if (read_digit(value, &video->frame) == false)
-		return (nfree(video));
+		return (rt_error(video, "Invalid secondes in video"));
 	video->frame *= video->frame_sec;
 	return (video);
 }

@@ -97,23 +97,23 @@ struct s_reflection_material	*read_reflection_material(t_toml_table *toml)
 	t_toml							*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate reflection material"));
 	if (!(value = table_get(toml, "reflection")))
 		material->reflection = 0;
 	else if (!read_digit(value, &material->reflection))
-		material->reflection = 0; // TODO: error
+		return (rt_error(material, "Invalid reflection in reflection material"));
 	if (!(value = table_get(toml, "transparency")))
 		material->transparency = 0;
 	else if (!read_digit(value, &material->transparency))
-		material->transparency = 0; // TODO: error
+		return (rt_error(material, "Invalid transparency in reflection material"));
 	if (!(value = table_get(toml, "refraction")))
 		material->refraction = 0;
 	else if (!read_digit(value, &material->refraction))
-		material->refraction = 0; // TODO: error
+		return (rt_error(material, "Invalid refraction in reflection material"));
 	if (read_toml_type(toml, &value, "color", TOML_Table) == false)
-		return (nfree(material)); // TODO: error
+		return (rt_error(material, "Mising color in reflection material"));
 	else if (!(material->color = read_material(value->value.table_v)))
-		return (nfree(material)); // TODO: error
+		return (rt_error(material, "Invalid color in reflection material"));
 	material->super.type = MATERIAL_REFLECTION;
 	return (material);
 }

@@ -29,15 +29,15 @@ struct s_marble_material	*read_marble_material(t_toml_table *toml)
 	t_toml						*value;
 
 	if (!(material = malloc(sizeof(*material))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate marble material"));
 	if (read_toml_type(toml, &value, "material", TOML_Table) == false)
-		return (nfree(material));
+		return (rt_error(material, "Missing material in marble material"));
 	else if (!(material->material = read_material(value->value.table_v)))
-		return (nfree(material));
+		return (rt_error(material, "Invalid material in marble material"));
 	if (!(value = table_get(toml, "size")))
 		material->size = 10;
 	else if (read_digit(value, &material->size) == false)
-		return (nfree(material));
+		return (rt_error(material, "Invalid size in marble material"));
 	material->super.type = MATERIAL_MARBLE;
 	return (material);
 }

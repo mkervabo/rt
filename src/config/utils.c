@@ -88,9 +88,3 @@ void	*rt_error(void *ptr, const char *msg)
 	return (NULL);	
 }
 
-void	*nfree(void	*ptr)
-{
-	free(ptr);
-	return (NULL);
-}
-

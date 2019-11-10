@@ -87,26 +87,26 @@ struct s_obj_shape	*read_obj_shape(t_toml_table *toml)
 	t_obj				obj_model;
 
 	if (!(obj = malloc(sizeof(*obj))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate obj shape"));
 	if (!read_shape_super(toml, &obj->super))
-		return (nfree(obj));
+		return (rt_error(obj, "Invalid shape super in obj shape"));
 	if (!read_toml_type(toml, &value, "path", TOML_String))
-		return (nfree(obj));
+		return (rt_error(obj, "Missing path in obj shape"));
 	if ((fd = open(value->value.string_v, O_RDONLY)) < 0)
 	{
 		perror("rt");
-		return (nfree(obj));
+		return (rt_error(obj, "Open error in obj shape"));
 	}
 	r = obj_create_reader(fd, buffer, sizeof(buffer));
 	if ((err = obj_read(&r, &obj_model)) != Obj_No_Error)
 	{
 		printf("Read Obj Error %d on %s:%zu:%zu\n", err, value->value.string_v, r.line, r.column);
 		close(fd);
-		return (nfree(obj)); // TODO(David): print error
+		return ((rt_error(obj, "To do David in obj shape"))); // TODO(David): print error
 	}
 	close(fd);
 	if (!read_obj_triangles(&obj_model, &obj->triangles, &obj->size))
-		return (nfree(obj));
+		return (rt_error(obj, "Invalid obj triangle in obj shape"));
 	obj->super.type = SHAPE_OBJ;
 	return (obj);
 }

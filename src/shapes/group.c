@@ -20,12 +20,11 @@ struct s_group	*read_group(t_toml_table *toml)
 	struct s_group	*group;
 
 	if (!(group = malloc(sizeof(*group))))
-		return (NULL);
+		return (rt_error(NULL, "Can not allocate group shape"));
 	if (!read_shape_super(toml, &group->super))
-		return (nfree(group));
+		return (rt_error(group, "Invalid super in group shape"));
 	if (!(group->objects = read_objects(toml, &group->objects_size)))
-		return (nfree(group));
+		return (rt_error(group, "Invalid objects in group shape"));
 	group->super.type = SHAPE_GROUP;
-
 	return (group);
 }
