@@ -1,6 +1,7 @@
 #include "debug/assert.h"
 #include "toml.h"
 #include "config_utils.h"
+#include "string_utils.h"
 
 #include "material_types.h"
 #include "normal_material.h"
@@ -54,16 +55,6 @@ static double	clamp_uv(double uv)
 		return (uv < 0 ? 1 + uv : uv);
 	}
 	return (uv);
-}
-
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 t_color		material_color(t_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)

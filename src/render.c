@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dde-jesu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 12:34:54 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/04 19:27:54 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/10 17:55:36 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,11 @@
 #include "object.h"
 #include "filter.h"
 #include "raytrace.h"
+#include "string_utils.h"
+
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdatomic.h>
-
-static void		*ft_memset(void *s, int c, size_t n)
-{
-	while (n--)
-		((unsigned char *)s)[n] = c;
-	return (s);
-}
 
 #define TILE_SIZE 96
 

@@ -3,6 +3,7 @@
 
 #include "toml.h"
 #include "config_utils.h"
+#include "string_utils.h"
 #include "debug/assert.h"
 #include <stdlib.h>
 
@@ -14,16 +15,6 @@
 #include "blur.h"
 #include "depth_contrast.h"
 #include "motion_blur.h"
-
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 void			apply_filter(t_filter *filter, uint32_t *pixels, struct s_pixel_hit *hits, struct s_size window)
 {

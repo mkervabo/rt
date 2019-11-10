@@ -67,6 +67,7 @@ rt.srcs += src/shapes/shape.c
 rt.srcs += src/shapes/sphere.c
 rt.srcs += src/shapes/triangle.c
 rt.srcs += src/shapes/utils.c
+rt.srcs += src/string_utils.c
 rt.srcs += src/video/transform.c
 rt.srcs += src/video/utils.c
 rt.srcs += src/video/video.c

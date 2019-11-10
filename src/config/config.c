@@ -6,18 +6,18 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/11/02 14:45:42 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/10 18:02:21 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "toml.h"
 #include "config_utils.h"
 #include "config.h"
+#include "string_utils.h"
 
 #include <stdlib.h>
 #include <fcntl.h>
 #include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 
 static bool		read_name_and_size(t_toml_table *toml, struct s_config *config)
@@ -115,14 +115,14 @@ static bool		print_toml_error(t_reader *r, t_toml_error err, const char *file)
 {
 	char	*msg;
 
-	write(STDERR_FILENO, file, strlen(file));
+	write(STDERR_FILENO, file, ft_strlen(file));
 	write(STDERR_FILENO, ":", 1);
 	putnbr_fd(STDERR_FILENO, r->line);
 	write(STDERR_FILENO, ":", 1);
 	putnbr_fd(STDERR_FILENO, r->column);
 	write(STDERR_FILENO, " ", 1);
 	msg = toml_error_msg(err);
-	write(STDERR_FILENO, msg, strlen(msg));
+	write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, "\n", 1);
 	return (false);
 }

@@ -3,20 +3,11 @@
 #include "camera_types.h"
 #include "toml.h"
 #include "config_utils.h"
+#include "string_utils.h"
 
 #include "perspective.h"
 #include "360.h"
 #include "orthographic.h"
-
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 struct s_ray	camera_create_ray(struct s_camera *camera, size_t x, size_t y,
 			struct s_size window)

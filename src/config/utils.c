@@ -1,6 +1,7 @@
+#include "string_utils.h"
+
 #include "config_utils.h"
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 bool	read_digit(t_toml *toml, double *digit)
@@ -81,7 +82,7 @@ bool	read_toml_type(t_toml_table *toml, t_toml **value, char *name,
 void	*rt_error(void *ptr, const char *msg)
 {
 	write(STDERR_FILENO, RT_ERROR, sizeof(RT_ERROR) - 1);
-	write(STDERR_FILENO, msg, strlen(msg));
+	write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, CSI_RESET "\n", sizeof(CSI_RESET));
 	free(ptr);
 	return (NULL);	

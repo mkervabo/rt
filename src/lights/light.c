@@ -2,22 +2,13 @@
 #include "debug/assert.h"
 #include "toml.h"
 #include "config_utils.h"
+#include "string_utils.h"
 
 #include "light_types.h"
 #include "point_light.h"
 #include "ambient_light.h"
 #include "directional_light.h"
 #include "spot_light.h"
-
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 bool	get_light_ray(const t_light *light, t_vec3 point, struct s_ray *ray)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sdl.c                                              :+:      :+:    :+:   */
+/*   rt.sdl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/04 19:50:07 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/10 17:45:49 by mkervabo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "config.h"
 #include "image.h"
 #include "filter.h"
+#include "string_utils.h"
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -32,16 +33,6 @@ struct s_sdl_window {
 	size_t			width;
 	bool			quit;
 };
-
-static size_t	ft_strlen(const char *str)
-{
-	size_t	size;
-
-	size = 0;
-	while (str[size])
-		size++;
-	return (size);
-}
 
 static bool	init_window(struct s_config *config, struct s_sdl_window *window)
 {

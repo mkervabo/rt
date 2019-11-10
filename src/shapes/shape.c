@@ -2,6 +2,7 @@
 #include "debug/assert.h"
 #include "toml.h"
 #include "config_utils.h"
+#include "string_utils.h"
 
 #include <math.h>
 
@@ -18,6 +19,7 @@
 #include "group.h"
 #include "obj_shape.h"
 
+
 static struct s_shape_record g_shapes[] = {
 	[SHAPE_SPHERE] = { "SPHERE", (void *)hit_sphere, (void *)read_sphere },
 	[SHAPE_CYLINDER] = { "CYLINDER", (void *)hit_cylinder, (void *)read_cylinder },
@@ -31,16 +33,6 @@ static struct s_shape_record g_shapes[] = {
 	[SHAPE_GROUP] = { "GROUP", (void *)hit_group, (void *)read_group },
 	[SHAPE_OBJ] = { "OBJ", (void *)hit_obj_shape, (void *)read_obj_shape }
 };
-
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 struct s_hit	hit_shape(struct s_ray ray, t_shape *shape, struct s_intersection_tab *intersections)
 {
