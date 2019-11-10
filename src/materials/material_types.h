@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   material_types.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/09 16:03:39 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/10 16:38:13 by gfranco          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ struct	s_material_record {
 	const char	*name;
 	t_color		(*color)(t_material *, t_scene *, struct s_ray, struct s_hit *);
 	t_material	*(*read)(t_toml_table *toml);
+	double		(*transparency)(t_material *material, struct s_hit *hit, t_material **color);
 };
 
 #endif

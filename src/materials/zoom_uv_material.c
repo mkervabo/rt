@@ -10,6 +10,11 @@ t_color						zoom_uv_material_color(struct s_zoom_uv_material *material, t_scene
 	return(material_color(material->material, scene, ray, hit));
 }
 
+double	zoom_uv_material_transparency(struct s_zoom_uv_material *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
+}
+
 struct s_zoom_uv_material	*read_zoom_uv_material(t_toml_table *toml)
 {
 	struct s_zoom_uv_material	*material;

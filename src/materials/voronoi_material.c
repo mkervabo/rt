@@ -10,8 +10,8 @@
 static t_vec3 hash3(t_vec2 p)
 {
 	t_vec3 q = vec3(
-		vec2_dot(p, vec2(127.1, 311.7)), 
-		vec2_dot(p, vec2(269.5, 183.3)), 
+		vec2_dot(p, vec2(127.1, 311.7)),
+		vec2_dot(p, vec2(269.5, 183.3)),
 		vec2_dot(p, vec2(419.2, 371.9))
 	);
 
@@ -22,8 +22,13 @@ static t_vec3 hash3(t_vec2 p)
 
 static double smoothstep(double edge0, double edge1, double x)
 {
-    x = clamp((x - edge0) / (edge1 - edge0), 0 , 1);
-    return (x * x * (3 - 2 * x));
+	x = clamp((x - edge0) / (edge1 - edge0), 0 , 1);
+	return (x * x * (3 - 2 * x));
+}
+
+double	voronoi_material_transparency(struct s_voronoi_material *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
 }
 
 double voronoi(t_vec2 x, double u, double v)

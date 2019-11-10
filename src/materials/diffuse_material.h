@@ -10,6 +10,7 @@ struct s_diffuse_material {
 };
 
 t_color							diffuse_material_color(struct s_diffuse_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit);
+double							diffuse_material_transparency(struct s_diffuse_material *material, struct s_hit *hit, t_material **color);
 struct s_diffuse_material			*read_diffuse_material(t_toml_table *toml);
 
 #endif

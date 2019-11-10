@@ -11,6 +11,12 @@ t_color		color_material_color(struct s_color_material *material, t_scene *scene,
 	return (material->color);
 }
 
+double	color_material_transparency(struct s_color_material *material)
+{
+	(void)material;
+	return (0.0);
+}
+
 struct s_color_material	*read_color_material(t_toml_table *toml)
 {
 	struct s_color_material	*material;

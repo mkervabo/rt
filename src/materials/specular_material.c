@@ -17,17 +17,18 @@ t_color			specular_material_color(struct s_specular_material *material, t_scene 
 	double				intensity;
 	t_vec3				point;
 	double				value;
+	t_color				color;
 
-	value = 1.0;
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
 	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
 	while (i < scene->lights_size) {
-		if (!get_light_ray(scene->lights[i], ray_point_at(&ray, hit->t), &lray))
+		color = (t_color) { 255, 255, 255 };
+		if (!get_light_ray(scene->lights[i], point, &lray))
 			intensity = 0;
 		else if (vec3_is_zero(lray.direction))
 			intensity = 0;
-		else if (receive_light(scene, &lray, point, &value))
+		else if ((value = receive_light(scene, &lray, point, &color)) != 0)
 		{
 			t_vec3 r = vec3_sub(vec3_multv(hit->normal, 2 * vec3_dot(hit->normal, lray.direction)), lray.direction);
 			intensity = clamp(scene->lights[i]->intensity * pow(vec3_dot(vec3_multv(ray.direction, -1), r), material->n), 0, 1) * value;
@@ -35,7 +36,7 @@ t_color			specular_material_color(struct s_specular_material *material, t_scene 
 		else
 			intensity = 0;
 		light_color = color_add(light_color, color_multv(
-			scene->lights[i]->color,
+			color_ratio(scene->lights[i]->color, color),
 			intensity
 		));
 		i++;
@@ -44,6 +45,11 @@ t_color			specular_material_color(struct s_specular_material *material, t_scene 
 		material_color(material->material, scene, ray, hit),
 		color_multv(light_color, material->k)
 	));
+}
+
+double	specular_material_transparency(struct s_specular_material *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
 }
 
 struct s_specular_material	*read_specular_material(t_toml_table *toml)

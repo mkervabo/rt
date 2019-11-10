@@ -29,7 +29,7 @@ t_color						height_map_color(struct s_height_map *material, t_scene *scene, str
 	t_vec3		p_v;
 	double		x;
 	double		y;
-	
+
 	x = (hit->u > 0 ? hit->u : 1 - hit->u) / 2;
 	y = (1 + hit->v) / 2;
 	normal = vec3(hit->u, hit->v, (double)getpixel(&material->image, material->image.size.width * x, material->image.size.height * y) * ALTITUDE / 0xFFFFFF);
@@ -41,6 +41,10 @@ t_color						height_map_color(struct s_height_map *material, t_scene *scene, str
 	return (material_color(material->material, scene, ray, hit));
 }
 
+double	height_map_transparency(struct s_height_map *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
+}
 
 struct s_height_map	*read_height_map(t_toml_table *toml)
 {

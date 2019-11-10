@@ -16,5 +16,5 @@ typedef struct	s_material {
 
 t_color			material_color(t_material *material, struct s_scene *scene, struct s_ray ray, struct s_hit *hit);
 t_material		*read_material(t_toml_table *toml);
-
+double			material_transparency(struct s_material *material, struct s_hit *hit, t_material **color);
 #endif

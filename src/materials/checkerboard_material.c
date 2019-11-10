@@ -23,6 +23,14 @@ t_color							checkerboard_material_color(struct s_checkerboard_material *materi
 		return (material_color(material->black, scene, ray, hit));
 }
 
+double	checkerboard_material_transparency(struct s_checkerboard_material *material, struct s_hit *hit, t_material **color)
+{
+	if (checker(hit->u, hit->v, material->size))
+		return (material_transparency(material->white, hit, color));
+	else
+		return (material_transparency(material->black, hit, color));
+}
+
 struct s_checkerboard_material	*read_checkerboard_material(t_toml_table *toml)
 {
 	struct s_checkerboard_material	*material;

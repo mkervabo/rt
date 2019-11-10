@@ -28,19 +28,6 @@ bool		read_light_super(t_toml_table *toml, t_light *light)
 	return (true);
 }
 
-static bool	material_transparency(double *value, struct s_material *material)
-{
-	if (material->type == MATERIAL_REFLECTION
-		&& ((struct s_reflection_material *)material)->transparency > 0)
-	{
-		*value = ((struct s_reflection_material *)material)->transparency / 100;
-		return (true);
-	}
-	else if (material->type == MATERIAL_DIFFUSE)
-		return (material_transparency(value, ((struct s_diffuse_material *)material)->material));
-	return (false);
-}
-
 double	light_decay(t_vec3 origin, t_vec3 point, double decay)
 {
 	t_vec3		to_light;
@@ -53,28 +40,31 @@ double	light_decay(t_vec3 origin, t_vec3 point, double decay)
 	return (res);
 }
 
-bool		receive_light(t_scene *scene, struct s_ray *light, t_vec3 p, double *value) {
+double		receive_light(struct s_scene *scene, struct s_ray *light, t_vec3 p, t_color *color) {
 	struct s_ray	shadow;
 	t_vec3			to_light;
 	t_vec3			direction;
-	double			dist;
+	double			v;
 	struct s_hit	hit;
+	t_material		*mat;
 
 	to_light = vec3_sub(light->origin, p);
-	dist = vec3_length(to_light);
-	direction = vec3_divv(to_light, dist);
+	v = vec3_length(to_light);
+	direction = vec3_divv(to_light, v);
 	shadow = (struct s_ray) {
 		.origin = p,
 		.direction = direction
 	};
 	hit = hit_scene(scene->objects, scene->objects_size, shadow, NULL);
 
-	if (hit.t >= 0 && hit.t <= dist)
+	if (hit.t >= 0 && hit.t <= v)
 	{
-		if (material_transparency(value, hit.who->material))
-			return (true);
-		return (false);
+		if ((v = material_transparency(hit.who->material, &hit, &mat)) != 0.0) {
+			*color = material_color(mat, scene, shadow, &hit);
+			return (1.0 - v);
+		}
+		return (0.0);
 	}
-	return (true);
+	return (1.0);
 }
 

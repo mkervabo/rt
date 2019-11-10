@@ -8,6 +8,7 @@ struct s_normal_material {
 };
 
 t_color						normal_material_color(struct s_normal_material *material, t_scene *scene, struct s_ray ray, struct s_hit *hit);
+double						normal_material_transparency(struct s_normal_material *material, struct s_hit *hit);
 struct s_normal_material	*read_normal_material(t_toml_table *toml);
 
 #endif

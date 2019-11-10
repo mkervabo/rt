@@ -30,6 +30,10 @@ t_color						cloud_material_color(
 	return (color_multv(material_color(material->material, scene, ray, hit), res / div));
 }
 
+double	cloud_material_transparency(struct s_cloud_material *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
+}
 
 struct s_cloud_material	*read_cloud_material(t_toml_table *toml)
 {

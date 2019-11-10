@@ -19,6 +19,18 @@ static void		move_origin(struct s_ray *ray, t_vec3 tmp, t_vec3 nm)
 		ray->origin = vec3_add(ray->origin, nm);
 }
 
+double		reflection_material_transparency(struct s_reflection_material *material, struct s_hit *hit, t_material **color)
+{
+	double	value;
+	double	value_mat;
+
+	*color = material->color;
+	value = material->transparency / 100;
+	if ((value_mat = material_transparency(material->color, hit, color)) != 0)
+		value *= value_mat;
+	return (value);
+}
+
 t_color		reflection(t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	ray.origin = ray_point_at(&ray, hit->t - 0.01);
@@ -83,7 +95,7 @@ t_color		reflection_material_color(struct s_reflection_material *material,
 	color = color_multv(color, (100 - material->transparency - material->reflection) / 100.0);
 	if (material->reflection > 0 && ray.depth < MAX_DEPTH)
 		reflect_color = reflection(scene, ray, hit);
-	if (material->refraction > 1.0 && material->transparency > 0 && ray.depth < MAX_DEPTH)
+	if (material->refraction >= 1.0 && material->transparency > 0 && ray.depth < MAX_DEPTH)
 		refract_color = refraction(scene, ray, hit);
 	reflect_color = color_multv(reflect_color, material->reflection / 100);
 	refract_color = color_multv(refract_color, material->transparency / 100);
@@ -107,7 +119,7 @@ struct s_reflection_material	*read_reflection_material(t_toml_table *toml)
 	else if (!read_digit(value, &material->transparency))
 		return (rt_error(material, "Invalid transparency in reflection material"));
 	if (!(value = table_get(toml, "refraction")))
-		material->refraction = 0;
+		material->refraction = 1;
 	else if (!read_digit(value, &material->refraction))
 		return (rt_error(material, "Invalid refraction in reflection material"));
 	if (read_toml_type(toml, &value, "color", TOML_Table) == false)

@@ -7,7 +7,7 @@
 t_color						texture_color(struct s_texture *material, t_scene *scene, struct s_ray ray, struct s_hit *hit)
 {
 	uint32_t	pixel;
-	
+
 	(void)scene;
 	(void)ray;
 	pixel = getpixel(&material->image, material->image.size.width * hit->u, material->image.size.height * hit->v);
@@ -17,6 +17,13 @@ t_color						texture_color(struct s_texture *material, t_scene *scene, struct s_
 		.b = (pixel) & 0xFF,
 	});
 
+}
+
+double	texture_transparency(struct s_texture *material, struct s_hit *hit)
+{
+	(void)material;
+	(void)hit;
+	return (0.0);
 }
 
 struct s_texture	*read_texture(t_toml_table *toml)

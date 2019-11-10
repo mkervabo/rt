@@ -19,6 +19,13 @@ t_color						random_material_color(struct s_random_material *material, t_scene *
 
 }
 
+double	random_material_transparency(struct s_random_material *material, struct s_hit *hit)
+{
+	(void)material;
+	(void)hit;
+	return (0.0);
+}
+
 struct s_random_material	*read_random_material(t_toml_table *toml)
 {
 	struct s_random_material	*material;

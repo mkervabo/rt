@@ -16,6 +16,13 @@ t_color						normal_material_color(struct s_normal_material *material, t_scene *
 
 }
 
+double	normal_material_transparency(struct s_normal_material *material, struct s_hit *hit)
+{
+	(void)material;
+	(void)hit;
+	return (0.0);
+}
+
 struct s_normal_material	*read_normal_material(t_toml_table *toml)
 {
 	struct s_normal_material	*material;

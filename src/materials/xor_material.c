@@ -45,7 +45,7 @@ t_color hsv_to_rgb(uint8_t h, uint8_t s, uint8_t v)
 	uint8_t t;
 
     region = h / 43;
-    remainder = (h - (region * 43)) * 6; 
+    remainder = (h - (region * 43)) * 6;
     p = (v * (255 - s)) >> 8;
     q = (v * (255 - ((s * remainder) >> 8))) >> 8;
     t = (v * (255 - ((s * (255 - remainder)) >> 8))) >> 8;
@@ -63,9 +63,16 @@ t_color hsv_to_rgb(uint8_t h, uint8_t s, uint8_t v)
 		return((t_color){ v, p, q });
 }
 
+double	xor_material_transparency(struct s_xor_material *material, struct s_hit *hit)
+{
+	(void)material;
+	(void)hit;
+	return (0.0);
+}
+
 static t_color				xor_hsv(struct s_hit *hit)
 {
-    uint8_t c = (uint8_t)(hit->u * 255) ^ (uint8_t)(hit->v * 255);
+	uint8_t c = (uint8_t)(hit->u * 255) ^ (uint8_t)(hit->v * 255);
 	return (hsv_to_rgb(c, 255, 255));
 }
 

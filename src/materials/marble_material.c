@@ -22,6 +22,10 @@ t_color						marble_material_color(
 
 }
 
+double	marble_material_transparency(struct s_marble_material *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
+}
 
 struct s_marble_material	*read_marble_material(t_toml_table *toml)
 {

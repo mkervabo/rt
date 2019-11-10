@@ -16,6 +16,13 @@ t_color						uv_material_color(struct s_uv_material *material, t_scene *scene, s
 
 }
 
+double	uv_material_transparency(struct s_uv_material *material, struct s_hit *hit)
+{
+	(void)material;
+	(void)hit;
+	return (0.0);
+}
+
 struct s_uv_material	*read_uv_material(t_toml_table *toml)
 {
 	struct s_uv_material	*material;

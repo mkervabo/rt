@@ -21,6 +21,11 @@ t_color				perlin_material_color(
 	));
 }
 
+double	perlin_material_transparency(struct s_perlin_material *material, struct s_hit *hit, t_material **color)
+{
+	return (material_transparency(material->material, hit, color));
+}
+
 struct s_perlin_material	*read_perlin_material(t_toml_table *toml)
 {
 	struct s_perlin_material	*material;
