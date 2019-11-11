@@ -6,7 +6,7 @@
 /*   By: gfranco <gfranco@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 14:34:56 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/11/12 14:49:53 by gfranco          ###   ########.fr       */
+/*   Updated: 2019/11/14 09:13:19 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "scene.h"
 # include "camera.h"
 # include "video.h"
+# include "toml.h"
 
 struct	s_config
 {
@@ -28,7 +29,7 @@ struct	s_config
 };
 
 void	free_config(struct s_config *config);
-bool	read_config(const char *file, struct s_config *config);
+bool	read_config(t_reader *r, const char *file, struct s_config *config);
 void	free_config(struct s_config *config);
 void	*free_light_array(t_light **lights, size_t len);
 void	*free_object_array(t_object *objects, size_t len);

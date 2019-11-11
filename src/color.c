@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/02 15:35:18 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/11/09 21:00:24 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/14 09:18:37 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 uint32_t		color_to_rgb(t_color color)
 {
-	return (((uint32_t)color.r) << 16 | ((uint32_t)color.g) << 8 | color.b);
+	return (0xFF << 24
+		| ((uint32_t)color.b) << 16 | ((uint32_t)color.g) << 8 | color.r);
 }
 
 t_color			color_from_rgb(uint32_t color)
 {
 	return ((t_color) {
-		.r = (color >> 16) & 0xFF,
+		.b = (color >> 16) & 0xFF,
 		.g = (color >> 8) & 0xFF,
-		.b = color & 0xFF
+		.r = color & 0xFF
 	});
 }
 

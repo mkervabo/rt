@@ -6,12 +6,15 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
-#    Updated: 2019/11/14 08:22:12 by mkervabo         ###   ########.fr        #
+#    Updated: 2019/11/14 09:17:27 by dde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .DEFAULT_GOAL := all
 .SECONDARY:
+
+CC = gcc
+CFLAGS = -Wall -Wextra
 
 PKG_CONFIG ?= pkg-config
 INSTALL ?= install
@@ -35,12 +38,10 @@ rt.objects := $(rt.srcs:.c=.o)
 rt.objects := $(filter-out src/frontend/%, $(rt.objects))
 rt.objects := $(addprefix $(rt.rootdir), $(rt.objects))
 
-rt.sdl.o image.o update_render.o $(rt.objects): CC       = gcc
-rt.sdl.o image.o update_render.o $(rt.objects): CFLAGS   ?= -Wall -Wextra 
-rt.sdl.o image.o update_render.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
-rt.sdl.o image.o update_render.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
-rt.sdl.o image.o update_render.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
+rt.sdl.o image.o update_render.o rt.wasm.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
+rt.sdl.o image.o update_render.o rt.wasm.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include
 
+rt.sdl.o image.o update_render.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
 rt.sdl: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image) -lm -lpthread
 
 .PHONY: all
@@ -50,17 +51,23 @@ vpath %.c $(rt.rootdir)src/frontend
 
 rt.sdl: rt.sdl.o image.o update_render.o $(rt.objects) libtoml.a libobj.a
 
+rt.wasm: CC = ${HOME}/.brew/opt/llvm/bin/clang
+rt.wasm: CFLAGS += --target=wasm32 -ffunction-sections -fdata-sections -nostdlib -isystem $(realpath wasm/libc) -D__BSD_VISIBLE
+rt.wasm: CPPFLAGS += -isystem $(realpath wasm/libc) -D__BSD_VISIBLE
+rt.wasm: LDFLAGS = --target=wasm32 -ffunction-sections -fdata-sections -nostdlib -Wl,--no-entry -Wl,--allow-undefined -Wl,--export-dynamic -Wl,--import-memory -Wl,--stack-first
+rt.wasm: rt.wasm.o $(filter-out $(rt.rootdir)src/render.o, $(rt.objects)) $(libtoml.objects) $(libobj.objects)
+
 rt: rt.sdl
 	$(INSTALL) -m 777 $< $@
 
 .PHONY: clean
-clean:: rt.objects += rt.sdl.o image.o update_render.o
+clean:: rt.objects += rt.sdl.o image.o update_render.o rt.wasm
 clean::
 	$(RM) $(rt.objects:.o=.{o,d,gcno,gcna})
 
 .PHONY: fclean
 fclean:: clean
-	$(RM) -r rt rt.sdl
+	$(RM) -r rt rt.sdl rt.wasm
 
 .PHONY: re
 re: fclean all

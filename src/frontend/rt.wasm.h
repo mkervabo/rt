@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   rt.wasm.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dde-jesu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/20 14:29:32 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/05 14:37:58 by mkervabo         ###   ########.fr       */
+/*   Created: 2019/11/14 09:21:28 by dde-jesu          #+#    #+#             */
+/*   Updated: 2019/11/14 09:29:00 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef RT_WASM_H
+# define RT_WASM_H
 
-# include "math/vec3.h"
-# include <stdbool.h>
 # include <stdint.h>
+# include <stdbool.h>
+# include <stddef.h>
 
-struct	s_ray
-{
-	struct s_vec3	origin;
-	struct s_vec3	direction;
-	float			n1;
-	float			n2;
-	uint8_t			depth;
-};
-
-t_vec3	ray_point_at(const struct s_ray *ray, float t);
+bool		rt_render_update(uint32_t *pixels, size_t progress);
 
 #endif

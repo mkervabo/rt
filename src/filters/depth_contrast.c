@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 12:19:48 by gfranco           #+#    #+#             */
-/*   Updated: 2019/11/11 17:21:48 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/14 09:14:30 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 static void						get_min_max_depth(double *min, double *max,
 								struct s_size w, struct s_pixel_hit *hits)
 {
-	ssize_t		i;
+	size_t		i;
 
 	*min = INFINITY;
 	*max = -INFINITY;

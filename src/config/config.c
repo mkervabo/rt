@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/11/11 17:17:32 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/14 09:18:58 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,24 +103,15 @@ static bool		read_config_scene(struct s_config *config, t_toml_table *toml)
 	return (true);
 }
 
-bool			read_config(const char *file, struct s_config *config)
+bool			read_config(t_reader *r, const char *file,
+	struct s_config *config)
 {
-	int				fd;
-	t_reader		r;
 	t_toml_table	*toml;
 	t_toml_error	err;
-	char			buffer[4096];
 
 	*config = (struct s_config) { .name = NULL };
-	if ((fd = open(file, O_RDONLY)) < 0)
-	{
-		perror("rt");
-		return (false);
-	}
-	r = create_reader(fd, buffer, sizeof(buffer));
-	if ((err = read_toml(&r, &toml, true)) != No_Error)
-		return (print_toml_error(&r, err, file));
-	close(fd);
+	if ((err = read_toml(r, &toml, true)) != No_Error)
+		return (print_toml_error(r, err, file));
 	if (!read_config_scene(config, toml))
 		return (false);
 	return (true);
