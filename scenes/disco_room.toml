@@ -3,8 +3,8 @@ name = "Disco Room"
 width = 1280
 height = 800
 
-[[filters]]
-	type = "NEGATIVE"
+# [[filters]]
+# 	type = "NEGATIVE"
 
 [camera]
     type = "PERSPECTIVE"
@@ -41,26 +41,76 @@ height = 800
 				type = "TEXTURE"
 				texture = "./scenes/img/70_wallpaper.png"
 
-# MUR FOND
+# BACKGROUND
+
+[[objects]]
+	type = "PLANE"
+	position = { x = 0, y = 0, z = -5 }
+	rotation.x = 90
+	[objects.material]
+		type = "MOVE_UV"
+		v = 0.4
+		[objects.material.material]
+		type = "TEXTURE"
+		texture = "./scenes/img/snow_background.jpg"
+
+# VERRE FENETRE
+[[objects]]
+	type = "DIFFERENCE"
+	position = { x = -0.75, y = 0, z = -4.25 }
+    rotation = { x = 90, y = 0, z = 0 }
+	[objects.material]
+		type = "REFLECTION"
+		transparency = 40
+		reflection = 40
+		[objects.material.color]
+			type = "COLOR"
+			color = { r = 200, g = 200, b = 255 }
+	[objects.first]
+		type = "BOX"
+		position.y = 0.1
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.5 }
+	[objects.second]
+		type = "BOX"
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.5 }
+
+# CONTOUR FENETRE
+[[objects]]
+	type = "DIFFERENCE"
+	position = { x = -0.755, y = -0.25, z = -4 }
+	[objects.material]
+		type = "MARBLE"
+		size = 2
+		[objects.material.material]
+			type = "COLOR"
+			color = { r = 255, g = 255, b = 255 }
+	[objects.first]
+		type = "BOX"
+		min = { x = -0.29, y = -0.29, z = -0.00001 }
+		max = { x = 0.29, y = 0.54, z = 0.00001 }
+	[objects.second]
+		type = "BOX"
+		min = { x = -0.25, y = -0.25, z = -0.25 }
+		max = { x = 0.25, y = 0.5, z = 0.25 }
+
+# MUR FOND / FENETRE
 [[objects]]
     type = "DIFFERENCE"
-	material.type = "NORMAL"
-	# material.texture = "./scenes/img/70_wallpaper.png"
-	position = { x = 0, y = 0, z = -3 }
+	material.type = "DIFFUSE"
+	material.albedo = 0.8
+	material.material.type = "TEXTURE"
+	material.material.texture = "./scenes/img/70_wallpaper.png"
+	position = { x = 0, y = 0, z = -4 }
     rotation = { x = 90, y = 0, z = 0 }
-	# [objects.material]
-		# type = "DIFFUSE"
-		# albedo = 0.8
-		# [objects.material.material]
-		# 	type = "ZOOM_UV"
-		# 	zoom = 1.1
-		# 	[objects.material.material.material]
 	[objects.first]
 		type = "PLANE"
 	[objects.second]
 		type = "BOX"
+		position.x = -0.75
 		min = { x = -0.25, y = -0.25, z = -0.25 }
-		max = { x = 0.25, y = 0.25, z = 0.25 }
+		max = { x = 0.25, y = 0.25, z = 0.5 }
 
 # PLAFOND
 [[objects]]
@@ -84,7 +134,7 @@ height = 800
 		albedo = 0.8
 		[objects.material.material]
 			type = "CHECKERBOARD"
-			size = 7
+			size = 6
 			[objects.material.material.white]
 				type = "COLOR"
 				color = { r = 102, g = 40, b = 146 }
@@ -107,19 +157,6 @@ height = 800
 			type = "TEXTURE"
 			texture = "./scenes/img/mimie-mathy.png"
 
-# fenetre
-# [[objects]]
-#     type = "BOX"
-#     radius = 0.5
-#     position = { x = -0.35, y = 0, z = -5 }
-#     min = { x = -0.5, y = -0.5, z = -0.1 }
-#     max = { x = 0.20, y = 0.4, z = 0.1 }
-# 	[objects.material]
-# 		type = "DIFFUSE"
-# 		albedo = 0.8
-# 		[objects.material.material]
-# 			type = "NORMAL"
-
 # disco ball
 [[objects]]
     type = "SPHERE"
@@ -138,23 +175,23 @@ height = 800
     position = { x = 0, y = 0.9, z = -1.2 }
 	direction = { x = 0, y = -1, z = -1 }
 	angle = 15
-    intensity = 1.5
+    intensity = 3
 
 # light coin droit
 [[lights]]
     type = "SPOT"
     position = { x = 0, y = 0, z = -2.5 }
 	direction = { x = 1.0, y = 1, z = -2 }
-	angle = 15
-    intensity = 1.5
+	angle = 16
+    intensity = 3
 
 # light coin gauche
 [[lights]]
     type = "SPOT"
     position = { x = 0, y = 0, z = -2.5 }
 	direction = { x = -1.0, y = 1, z = -2 }
-	angle = 15
-    intensity = 1.5
+	angle = 14
+    intensity = 3
 
 # light disco ball
 
@@ -163,14 +200,14 @@ height = 800
     position = { x = 0.5, y = 0, z = -4 }
 	direction = { x = -1.0, y = 2, z = 0 }
 	angle = 15
-    intensity = 1.5
+    intensity = 3
 
 [[lights]]
     type = "SPOT"
     position = { x = -0.5, y = 0, z = -4 }
 	direction = { x = 1.0, y = 2, z = 0 }
 	angle = 15
-    intensity = 1.5
+    intensity = 3
 
 # light tableau
 [[lights]]
@@ -179,6 +216,12 @@ height = 800
 	direction = { x = 1.9, y = -2, z = 0 }
 	angle = 23
     intensity = 3
+
+[[lights]]
+	type = "DIRECTIONAL"
+	position.z = -4.5
+	direction.z = -1.0
+	intensity = 1.5
 
 [[lights]]
     type = "AMBIENT"
