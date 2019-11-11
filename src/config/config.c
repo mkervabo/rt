@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 15:39:51 by mkervabo          #+#    #+#             */
-/*   Updated: 2019/11/11 12:53:28 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/11 17:32:05 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,26 +125,16 @@ static bool		print_toml_error(t_reader *r, t_toml_error err, const char *file)
 	return (false);
 }
 
-bool	read_config(const char *file, struct s_config *config)
+bool	read_config(t_reader *r, const char *file, struct s_config *config)
 {
-	int				fd;
-	t_reader		r;
 	t_toml_table	*toml;
 	t_toml			*camera;
 	t_toml_error	err;
-	char			buffer[4096];
 	t_toml			*video;
 
 	*config = (struct s_config) { .name = NULL };
-	if ((fd = open(file, O_RDONLY)) < 0)
-	{
-		perror("rt");
-		return (false);
-	}
-	r = create_reader(fd, buffer, sizeof(buffer));
-	if ((err = read_toml(&r, &toml, true)) != No_Error)
-		return (print_toml_error(&r, err, file));
-	close(fd);
+	if ((err = read_toml(r, &toml, true)) != No_Error)
+		return (print_toml_error(r, err, file));
 	if (!read_name_and_size(toml, config))
 		return (config_error(toml, config, "Invalid name or size"));
 	if (!(config->scene.objects = read_objects(toml, &config->scene.objects_size)))

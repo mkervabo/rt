@@ -5,7 +5,7 @@
 # include "scene.h"
 # include "camera.h"
 # include "video.h"
-
+# include "toml.h"
 
 struct	s_config {
 	char			*name;
@@ -15,7 +15,7 @@ struct	s_config {
 
 };
 
-bool	read_config(const char *file, struct s_config *config);
+bool	read_config(t_reader *r, const char *file, struct s_config *config);
 void	free_config(struct s_config *config);
 void	*free_light_array(t_light **lights, size_t len);
 void	*free_object_array(t_object *objects, size_t len);

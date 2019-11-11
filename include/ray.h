@@ -15,14 +15,14 @@
 
 # include "math/vec3.h"
 # include <stdbool.h>
-# include <stddef.h>
+# include <stdint.h>
 
 struct s_ray {
 	struct s_vec3	origin;
 	struct s_vec3	direction;
-	double			n1;
-	double			n2;
-	size_t			depth;
+	float			n1;
+	float			n2;
+	uint8_t			depth;
 };
 
 t_vec3 ray_point_at(const struct s_ray *ray, float t);

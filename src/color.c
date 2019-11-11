@@ -4,16 +4,29 @@
 
 uint32_t	color_to_rgb(t_color color)
 {
+#ifdef __wasm__
+	return (0xFF << 24
+		| ((uint32_t)color.b) << 16 | ((uint32_t)color.g) << 8 | color.r);
+#else
 	return (((uint32_t)color.r) << 16 | ((uint32_t)color.g) << 8 | color.b);
+#endif
 }
 
 t_color color_from_rgb(uint32_t color)
 {
+#ifdef __wasm__
+	return ((t_color) {
+		.b = (color >> 16) & 0xFF,
+		.g = (color >> 8) & 0xFF,
+		.r = color & 0xFF
+	});
+#else
 	return ((t_color) {
 		.r = (color >> 16) & 0xFF,
 		.g = (color >> 8) & 0xFF,
 		.b = color & 0xFF
 	});
+#endif
 }
 
 

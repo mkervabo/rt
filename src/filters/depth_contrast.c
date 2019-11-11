@@ -13,7 +13,7 @@
 static void		get_min_max_depth(double *min, double *max, struct s_size w, struct s_pixel_hit *hits)
 {
 
-	ssize_t		i;
+	size_t		i;
 
 	*min = INFINITY;
 	*max = -INFINITY;
