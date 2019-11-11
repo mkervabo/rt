@@ -6,7 +6,7 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
-#    Updated: 2019/11/06 15:31:03 by mkervabo         ###   ########.fr        #
+#    Updated: 2019/11/10 13:42:58 by dde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,13 +35,13 @@ rt.objects := $(rt.srcs:.c=.o)
 rt.objects := $(filter-out src/frontend/%, $(rt.objects))
 rt.objects := $(addprefix $(rt.rootdir), $(rt.objects))
 
-rt.sdl.o $(rt.objects): CC       = gcc
-rt.sdl.o $(rt.objects): CFLAGS   ?= -Wall -Wextra
-rt.sdl.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
-rt.sdl.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
+rt.sdl.o rt.worker.o $(rt.objects): CC       = gcc
+rt.sdl.o rt.worker.o $(rt.objects): CFLAGS   ?= -Wall -Wextra
+rt.sdl.o rt.worker.o $(rt.objects): CPPFLAGS += -MMD -MP -I$(rt.rootdir)include
+rt.sdl.o rt.worker.o $(rt.objects): CPPFLAGS += -I$(libtoml.rootdir)include -I$(libobj.rootdir)include 
 rt.sdl.o: CPPFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image)
 
-rt: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image)
+rt.sdl: LDLIBS += $(shell $(PKG_CONFIG) --libs sdl2 SDL2_image)
 
 .PHONY: all
 all: rt
@@ -49,6 +49,7 @@ all: rt
 vpath %.c $(rt.rootdir)src/frontend
 
 rt.sdl: rt.sdl.o $(rt.objects) libtoml.a libobj.a
+rt.worker: rt.worker.o $(rt.objects) libtoml.a libobj.a
 
 rt: rt.sdl
 	$(INSTALL) -m 777 $< $@

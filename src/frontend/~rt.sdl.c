@@ -6,11 +6,11 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 17:44:21 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/10 13:51:44 by dde-jesu         ###   ########.fr       */
+/*   Updated: 2019/11/10 13:43:09 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "renderers/network.h"
+#include "renderers/pthread.h"
 #include "video.h"
 #include "config.h"
 #include "image.h"
@@ -102,10 +102,11 @@ static void	poll_events(struct s_sdl_window *window, bool wait)
 	SDL_RenderPresent(window->renderer);
 }
 
-static bool	update_render(uint32_t *pixels, void *user)
+static bool	update_render(uint32_t *pixels, size_t frame, void *user)
 {
 	struct s_sdl_window	*window;
 
+	(void)frame;
 	window = user;
 	SDL_UpdateTexture(window->screen, NULL, pixels,
 					window->width * sizeof(uint32_t));
@@ -113,7 +114,7 @@ static bool	update_render(uint32_t *pixels, void *user)
 	return (window->quit);
 }
 
-void	sdl_frontend(struct s_config *config)
+void	sdl_frontend(struct s_config *config, t_pthread_renderer *renderer)
 {
 	struct s_sdl_window	window;
 	uint32_t	**pixels;
@@ -132,7 +133,7 @@ void	sdl_frontend(struct s_config *config)
 		while (i < nframes && !window.quit)
 		{
 			video_transform_scene(config, i);
-			pixels[i] = network_render(config, update_render, &window);
+			pixels[i] = pthread_render(renderer, update_render, &window);
 			mkdir("./video", 0700);
 			snprintf(name, sizeof name, "./video/frame_%05zu.png", i + 1);
 			IMG_SavePNG(SDL_CreateRGBSurfaceFrom(pixels[i], config->size.width, config->size.height, 32, 4 * config->size.width, 0xff0000, 0xff00, 0xff, 0), name);
@@ -164,6 +165,8 @@ void	sdl_frontend(struct s_config *config)
 int	main(int argc, char *argv[])
 {
 	struct s_config		config;
+	t_pthread_renderer	renderer;
+	pthread_t			threads[4];
 	int					fd;
 	t_reader			r;
 	char				buffer[4096];
@@ -185,7 +188,9 @@ int	main(int argc, char *argv[])
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	if (read_config(&r, argv[1], &config))
 	{
-		sdl_frontend(&config);
+		renderer = create_pthread_renderer(&config.scene, config.size, true, false);
+		pthread_renderer_create_threads(&renderer, threads, sizeof(threads) / sizeof(*threads));
+		sdl_frontend(&config, &renderer);
 		free_config(&config);
 		return (0);
 	}
