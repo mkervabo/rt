@@ -49,7 +49,7 @@ static const struct s_material_record g_materials[] = {
 
 static double	clamp_uv(double uv)
 {
-	if (uv > 1 || uv < 0)
+	if (uv >= 1 || uv < 0)
 	{
 		uv = fmod(uv, 1);
 		return (uv < 0 ? 1 + uv : uv);
