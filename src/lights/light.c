@@ -12,16 +12,22 @@
 
 bool	get_light_ray(const t_light *light, t_vec3 point, struct s_ray *ray)
 {
+	bool	res;
+	size_t	depth;
+
+	depth = ray->depth;
 	if (light->type == LIGHT_POINT)
-		return (point_get_light_ray((const struct s_point_light *)light, point, ray));
+		res = point_get_light_ray((const struct s_point_light *)light, point, ray);
 	else if (light->type == LIGHT_AMBIENT)
-		return (ambient_get_light_ray((const struct s_ambient_light *)light, point, ray));
+		res = ambient_get_light_ray((const struct s_ambient_light *)light, point, ray);
 	else if (light->type == LIGHT_DIRECTIONAL)
-		return (directional_get_light_ray((const struct s_directional_light *)light, point, ray));
+		res = directional_get_light_ray((const struct s_directional_light *)light, point, ray);
 	else if (light->type == LIGHT_SPOT)
-		return (spot_get_light_ray((const struct s_spot_light *)light, point, ray));
+		res = spot_get_light_ray((const struct s_spot_light *)light, point, ray);
 	else
 		assertf(false, "Unimplemented light type: %d", light->type);
+	ray->depth = depth;
+	return (res);
 }
 
 t_light			*read_light(t_toml_table *toml)

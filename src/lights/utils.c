@@ -1,12 +1,11 @@
 #include "utils.h"
 #include "config_utils.h"
 #include "raytrace.h"
-#include "../materials/reflection_material.h"
-#include "../materials/diffuse_material.h"
-#include "../materials/material_types.h"
 #include <stdlib.h>
 
 #include <math.h>
+
+#define MAX_DEPTH 5
 
 bool		read_light_super(t_toml_table *toml, t_light *light)
 {
@@ -54,14 +53,15 @@ double		receive_light(struct s_scene *scene, struct s_ray *light, t_vec3 p, t_co
 	direction = vec3_divv(to_light, v);
 	shadow = (struct s_ray) {
 		.origin = p,
-		.direction = direction
+		.direction = direction,
+		.depth = light->depth + 1
 	};
 	hit = hit_scene(scene->objects, scene->objects_size, shadow, NULL);
-
 	if (hit.t >= 0 && hit.t <= v)
 	{
 		if ((v = material_transparency(hit.who->material, &hit, &mat)) != 0.0) {
-			*color = material_color(mat, scene, shadow, &hit);
+			if (shadow.depth < MAX_DEPTH)
+				*color = material_color(mat, scene, shadow, &hit);
 			return (1.0 - v);
 		}
 		return (0.0);

@@ -19,6 +19,7 @@ t_color						cartoon_material_color(struct s_cartoon_material *material, t_scene
 	point = vec3_add(ray_point_at(&ray, hit->t), vec3_multv(hit->normal, SHADOW_BIAS));
 	light_color = (t_color){ 0, 0, 0 };
 	i = 0;
+	lray.depth = ray.depth;
 	while (i < scene->lights_size) {
 		color = (t_color) { 255, 255, 255 };
 		if (get_light_ray(scene->lights[i], point, &lray) == false)

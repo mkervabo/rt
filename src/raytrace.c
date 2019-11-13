@@ -28,6 +28,7 @@ t_color	raytrace(t_scene *scene, struct s_ray ray, struct s_pixel_hit *pixel_hit
 {
 	struct s_hit	hit;
 
+	ray.depth++;
 	hit = hit_scene(scene->objects, scene->objects_size, ray, NULL);
 	if (pixel_hit)
 	{

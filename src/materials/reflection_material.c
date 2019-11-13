@@ -88,7 +88,6 @@ t_color		reflection_material_color(struct s_reflection_material *material,
 	refract_color = (t_color) { 0, 0, 0 };
 	reflect_color = (t_color) { 0, 0, 0 };
 
-	ray.depth++;
 	color = material_color(material->color, scene, ray, hit);
 	if (material->reflection + material->transparency > 100)
 		scale(&material->reflection, &material->transparency, 100);
