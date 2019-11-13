@@ -35,13 +35,13 @@ static t_vec3 vertex_to_vec3(t_obj_vertex *vertex)
 	return (vec3(vertex->x, vertex->y, vertex->z));
 }
 
-static struct s_triangle read_obj_triangle(t_obj_triangle *triangle)
+static struct s_triangle read_obj_triangle(t_obj *obj, t_obj_triangle *triangle)
 {
 	struct s_triangle object;
 
-	object.v0 = vertex_to_vec3(triangle->a.v);
-	object.v1 = vertex_to_vec3(triangle->b.v);
-	object.v2 = vertex_to_vec3(triangle->c.v);
+	object.v0 = vertex_to_vec3(obj->v.inner + triangle->a.v_index);
+	object.v1 = vertex_to_vec3(obj->v.inner + triangle->b.v_index);
+	object.v2 = vertex_to_vec3(obj->v.inner + triangle->c.v_index);
 	//same for uv and normal
 	return (object);
 }
@@ -71,7 +71,7 @@ static bool read_obj_triangles(t_obj *obj, struct s_triangle **objects, size_t *
 		j = 0;
 		while (j < obj->inner[i].faces.len)
 		{
-			(*objects)[k++] = read_obj_triangle(&obj->inner[i].faces.inner[j]);
+			(*objects)[k++] = read_obj_triangle(obj, &obj->inner[i].faces.inner[j]);
 			j++;
 		}
 		i++;
