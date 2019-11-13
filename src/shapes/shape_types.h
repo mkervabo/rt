@@ -6,7 +6,7 @@
 /*   By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/20 16:21:45 by dde-jesu          #+#    #+#             */
-/*   Updated: 2019/11/11 11:39:58 by mkervabo         ###   ########.fr       */
+/*   Updated: 2019/11/13 18:50:17 by dde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ struct	s_shape_record {
 	const char	*name;
 	struct s_hit	(*hit)(struct s_ray, t_shape *, struct s_intersection_tab *);
 	t_shape		*(*read)(t_toml_table *toml);
-	void		*(*free)(t_shape *shape);
+	void		(*free)(t_shape *shape);
 };
 
 #endif
