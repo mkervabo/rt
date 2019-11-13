@@ -6,7 +6,7 @@
 #    By: mkervabo <mkervabo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/12 13:29:47 by mkervabo          #+#    #+#              #
-#    Updated: 2019/11/06 15:31:03 by mkervabo         ###   ########.fr        #
+#    Updated: 2019/11/13 18:36:53 by dde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ re: fclean all
 
 ARFLAGS = rcs
 
--include $(wildcard $(rt.rootdir)src/*.d $(rt.rootdir)src/*/*.d)
+-include $(wildcard $(rt.rootdir)*.d $(rt.rootdir)src/*.d $(rt.rootdir)src/*/*.d)
 
 ifndef V
   $(eval COMPILE.c = @echo "  CC      $$(@F)"; $(value COMPILE.c))
